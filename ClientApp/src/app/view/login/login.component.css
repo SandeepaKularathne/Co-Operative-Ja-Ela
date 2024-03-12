@@ -1,0 +1,76 @@
+mat-grid-list {
+  background: #FEC946; /* Amber color */
+}
+
+mat-card-header{
+  width: 26.5rem;
+  height: 100%;
+  text-align: center;
+}
+
+mat-card-title{
+  height: 17.5rem;
+  text-align: center;
+  align-content: center;
+  border-radius: 10px;
+  margin-left: 20px;
+}
+
+mat-card{
+  background-color: #EFE1BA;
+  border-radius: 10px;
+}
+
+mat-card-title img {
+  width: 15.5rem;
+  height: 15.5rem;
+  margin-top: -150px;
+  margin-left: 5px;
+  border: 10px solid #FEC946;
+  border-radius: 1500px;
+  background-color: #FEC946;
+
+}
+
+mat-card-title hr{
+  border-color: black;
+}
+
+mat-card-title h1{
+  font-weight: bold;
+}
+
+mat-card-title p {
+  color: #000000;
+  text-align: center;
+}
+
+mat-card-content {
+  padding: 10%;
+  border-radius: 10px;
+  margin-left: 5px;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card-actions button:not(:last-child) {
+  margin-right: 10px;
+}
+
+button {
+  color: black !important;
+  width: 200px;
+  font-weight: bold;
+}
+
+button[color="primary"] {
+  background: #FEC946 !important;
+}
+
+::ng-deep .mat-mdc-form-field-has-icon-prefix .mat-mdc-text-field-wrapper {
+  background-color: white;
+  border-radius: 5px;
+}
