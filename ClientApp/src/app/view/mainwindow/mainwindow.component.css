@@ -1,25 +1,99 @@
-/* Tool Bar */
+mat-toolbar{
+  background-color: #FEC946;
+}
+
+mat-sidenav-container{
+  background: rgb(254,201,70);
+  background: linear-gradient(180deg, rgba(254,201,70,1) 0%, rgba(245,245,245,1) 64%);
+  width: 100%;
+}
+
+.enlarged-width-header{
+  margin-top: 18px;
+  position: fixed;
+  display: inline;
+  bottom: inherit;
+  left: -100px;
+  right: 0;
+  transition: left 2s ease;
+}
+
+.enlarged-width-header h2 {
+  margin: 0 50px 0 50px !important;
+}
+
+.mat-toolbar-multiple-rows{
+  height: 100px;
+}
 
 mat-toolbar-row {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 100px;
   align-items: center;
 }
 
-.toolbar-left {
+mat-toolbar-row label{
+  display: flex;
+  color: black;
+  font-size: 15px;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-content {
+  text-align: center;
+}
+
+.toolbar {
+  padding-left: 250px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
 
-
-.toolbar-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+.toolbar button{
+  background-color: rgba(255, 255, 255, 0);
+  border-color: rgba(255, 255, 255, 0);
 }
 
+mat-toolbar-row mat-icon{
+  width: 100%;
+  height: 100%;
+  color: #000000;
+}
+
+.weather h2 {
+  padding: 0 300px 0 250px;
+  display: inline;
+  margin: 0;
+  color: #000000;
+}
+
+.weather mat-icon {
+  display: inline;
+}
+
+.left-container{
+  display: inline;
+  margin: 0;
+  color: #000000;
+  font-size: 15px
+}
+
+.left-container mat-icon {
+  display: inline;
+  font-size: 15px
+}
+
+.left-container p, .left-container h1 {
+  margin: 0;
+}
 
 .img-logo {
   height: 50px;
@@ -28,21 +102,10 @@ mat-toolbar-row {
   vertical-align: middle;
 }
 
-
-.btn-nav.mat-mdc-icon-button {
-  background-color: #2b3815;
-  color: #ffffff;
-  vertical-align: middle;
-  box-shadow: 1px 1px 6px #333333;
-  border: #c0d9c3 solid 2px;
-  padding: 10px;
-  --mat-mdc-button-ripple-color: rgba(255, 255, 255, 0.2);
-}
-
 .lbl-user {
   font-size: 14px;
   color: white;
-  margin: 0px 5px 0px 0px;
+  margin: 0 5px 0 0;
 }
 
 .img-user {
@@ -53,19 +116,65 @@ mat-toolbar-row {
 
 .btn-logout {
   color: white;
-  border-radius: 0px;
-  margin: 0px 0px 0px -5px;
+  border-radius: 0;
+  margin: 0 0 0 -5px;
 }
 
 
 /* Side Navigation */
+.small-width {
+  width: 8%;
+  position: fixed;
+  margin: 10px 20px 5px 5px;
+  border-radius: 25px;
+  border: #000000 5px !important;
+  transition: width 0.5s ease;
+}
+
+.small-width img {
+  padding: 10px 0 0 30px;
+  display: flex;
+}
+
+.small-width mat-icon {
+  font-size: 25px;
+  margin: 0 0 -10px 30px;
+}
+
+.enlarged-width-content{
+  position: absolute;
+  margin: 0 20px 5px 5px;
+  left: -100px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transition: absolute 2s ease;
+}
 
 mat-sidenav-container {
   height: 100%;
 }
 
 mat-sidenav {
-  width: 15%;
+  width: 16%;
+  position: fixed;
+  margin: 10px 20px 5px 5px;
+  border-radius: 25px;
+  border: #000000 5px !important;
+  transition: width 0.5s ease;
+}
+
+mat-nav-list img {
+  padding: 10px 0 0 90px;
+  display: flex;
+}
+
+mat-nav-list p {
+  font-weight: bold !important;
+  color: black;
+  font-size: 11px;
+  text-align: center;
+  padding: 5px;
 }
 
 mat-sidenav a {
@@ -76,18 +185,20 @@ mat-sidenav a {
 
 mat-sidenav mat-icon {
   font-size: 16px;
-  margin: 0px 0px -10px 0px;
+  margin: 0 0 -10px 0;
 }
 
-mat-nav-list mat-list-item {
-  height: 35px;
+mat-nav-list > mat-list-item {
+  height: 50px;
   font-size: 14px;
-  padding: 0px 5px 0px 10px;
-  border-bottom: #8aa88a 2px solid;
+  padding: 0 5px 0 15px;
 }
 
-mat-nav-list mat-list-item:hover {
-  background: #b5d3b5;
+
+mat-nav-list>mat-list-item:hover {
+  background: rgba(254, 201, 70, 0.8);
+  border-radius: 20px;
+  padding: 30px;
 }
 
 mat-nav-list mat-expansion-panel {
@@ -96,12 +207,38 @@ mat-nav-list mat-expansion-panel {
 }
 
 mat-nav-list mat-expansion-panel-header {
-  height: 35px;
+  height: 50px;
   padding: 0 20px 0 0;
 }
 
 mat-nav-list mat-expansion-panel-header:hover {
-  background: #b5d3b5 !important;
+  background: rgba(254, 201, 70, 0.8)!important;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+mat-list-item:hover {
+  background: rgba(254, 201, 70, 0.8)!important;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+.custom-list-item {
+  opacity: 1;
+  color: rgb(254, 201, 70);
+  align-items: center;
+  background: rgba(254, 201, 70, 0.4)!important;
+  padding: 5px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  box-shadow: none;
+}
+
+.active-panel {
+  background: rgba(254, 201, 70, 0.2)!important;
+  border-radius: 20px;
+  padding: 5px;
 }
 
 mat-nav-list mat-expansion-panel mat-list-item {

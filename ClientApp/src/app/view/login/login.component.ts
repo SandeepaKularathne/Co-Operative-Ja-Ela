@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit{
       .then((response: any) => {
         let token = response.headers.get('Authorization');
         localStorage.setItem('Authorization', token);
-        this.router.navigateByUrl("main/home");
+        this.router.navigateByUrl("main/dashboard");
         this.ut.getAuth(username);
 
       })

@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class HomeComponent {
+export class DashboardComponent {
 
   userspecmessages: any[] = [
     {name: 'ashan.d@earth.lk', updated: new Date('5/30/23')},

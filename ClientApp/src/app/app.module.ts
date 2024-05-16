@@ -4,7 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HomeComponent} from './view/home/home.component';
+import {DashboardComponent} from './view/dashboard/dashboard.component';
 import {LoginComponent} from './view/login/login.component';
 import {MainwindowComponent} from './view/mainwindow/mainwindow.component';
 import {EmployeeComponent} from './view/modules/employee/employee.component';
@@ -45,12 +45,15 @@ import { StudentComponent } from './view/modules/student/student.component';
 import { BatchregistrationComponent } from './view/modules/batchregistration/batchregistration.component';
 import { ClassComponent } from './view/modules/class/class.component';
 import { BookdistributionComponent } from './view/modules/bookdistribution/bookdistribution.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {VehicleComponent} from "./view/modules/vehicle/vehicle.component";
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    DashboardComponent,
     LoginComponent,
     MainwindowComponent,
     EmployeeComponent,
@@ -66,35 +69,37 @@ import { BookdistributionComponent } from './view/modules/bookdistribution/bookd
     StudentComponent,
     BatchregistrationComponent,
     ClassComponent,
-    BookdistributionComponent
+    BookdistributionComponent,
+    VehicleComponent
 
   ],
-  imports: [
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatTableModule,
-    MatPaginatorModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatGridListModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatDialogModule,
-    HttpClientModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatSlideToggleModule,
-    NgOptimizedImage,
-  ],
+    imports: [
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSelectModule,
+        MatTableModule,
+        MatPaginatorModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatGridListModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatInputModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatExpansionModule,
+        MatIconModule,
+        MatDialogModule,
+        HttpClientModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatSlideToggleModule,
+        NgOptimizedImage,
+        MatMenuModule,
+    ],
   providers: [
     OperationComponent,
     EmployeeService,
