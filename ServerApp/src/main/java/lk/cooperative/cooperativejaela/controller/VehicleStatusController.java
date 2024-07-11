@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/vehiclestatus")
+@RequestMapping(value = "/vehiclestatuses")
 public class VehicleStatusController {
 
     @Autowired
@@ -25,10 +25,10 @@ public class VehicleStatusController {
         List<Vehiclestatus> vehiclestatuses = this.vehiclestatusdao.findAll();
 
         vehiclestatuses = vehiclestatuses.stream().map(
-                vehiclestatus -> { Vehiclestatus d = new Vehiclestatus();
-                    d.setId(vehiclestatus.getId());
-                    d.setName(vehiclestatus.getName());
-                    return d; }
+                vehiclestatus -> { Vehiclestatus s = new Vehiclestatus();
+                    s.setId(vehiclestatus.getId());
+                    s.setName(vehiclestatus.getName());
+                    return s; }
         ).collect(Collectors.toList());
 
         return vehiclestatuses;

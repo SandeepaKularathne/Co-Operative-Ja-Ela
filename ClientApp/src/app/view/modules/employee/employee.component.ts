@@ -52,9 +52,9 @@ export class EmployeeComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   imageempurl: string = 'assets/default.png'
 
-  // enaadd:boolean = false;
-  // enaupd:boolean = false;
-  // enadel:boolean = false;
+  enaadd:boolean = false;
+  enaupd:boolean = false;
+  enadel:boolean = false;
 
   genders: Array<Gender> = [];
   designations: Array<Designation> = [];
@@ -156,7 +156,6 @@ export class EmployeeComponent {
     this.loadTable("");
   }
 
-
   createForm() {
 
     this.form.controls['number'].setValidators([Validators.required, Validators.pattern(this.regexes['number']['regex'])]);
@@ -200,17 +199,15 @@ export class EmployeeComponent {
 
       }
 
-    // this.enableButtons(true,false,false);
+    this.enableButtons(true,false,false);
 
   }
 
-
-  // enableButtons(add:boolean, upd:boolean, del:boolean){
-  //   this.enaadd=add;
-  //   this.enaupd=upd;
-  //   this.enadel=del;
-  // }
-
+  enableButtons(add:boolean, upd:boolean, del:boolean){
+    this.enaadd=add;
+    this.enaupd=upd;
+    this.enadel=del;
+  }
 
   loadTable(query: string) {
 
@@ -230,11 +227,9 @@ export class EmployeeComponent {
 
   }
 
-
   getModi(element: Employee) {
     return element.number + '(' + element.callingname + ')';
   }
-
 
   filterTable(): void {
 
@@ -277,7 +272,6 @@ export class EmployeeComponent {
 
   }
 
-
   btnSearchClearMc(): void {
 
     const confirm = this.dg.open(ConfirmComponent, {
@@ -309,7 +303,6 @@ export class EmployeeComponent {
     this.imageempurl = 'assets/default.png';
     this.form.controls['photo'].setErrors({'required': true});
   }
-
 
   add() {
 
@@ -398,7 +391,6 @@ export class EmployeeComponent {
     }
   }
 
-
   getErrors(): string {
 
     let errors: string = "";
@@ -420,7 +412,7 @@ export class EmployeeComponent {
 
   fillForm(employee: Employee) {
 
-    // this.enableButtons(false,true,true);
+    this.enableButtons(false,true,true);
 
     this.selectedrow=employee;
 
@@ -449,7 +441,6 @@ export class EmployeeComponent {
 
   }
 
-
   getUpdates(): string {
 
     let updates: string = "";
@@ -461,7 +452,6 @@ export class EmployeeComponent {
     }
     return updates;
   }
-
 
   update() {
 
@@ -548,8 +538,6 @@ export class EmployeeComponent {
 
   }
 
-
-
   delete() {
 
         const confirm = this.dg.open(ConfirmComponent, {
@@ -596,31 +584,20 @@ export class EmployeeComponent {
         });
       }
 
-      clear():void{
-        const confirm = this.dg.open(ConfirmComponent, {
-          width: '500px',
-          data: {
-            heading: "Confirmation - Employee Clear",
-            message: "Are you sure to Clear following Details ? <br> <br>"
-          }
-        });
-
-        confirm.afterClosed().subscribe(async result => {
-          if (result) {
-             this.form.reset()
-          }
-        });
+  clear():void{
+    const confirm = this.dg.open(ConfirmComponent, {
+      width: '500px',
+      data: {
+        heading: "Confirmation - Employee Clear",
+        message: "Are you sure to Clear following Details ? <br> <br>"
       }
+    });
 
+    confirm.afterClosed().subscribe(async result => {
+      if (result) {
+        this.form.reset()
+      }
+    });
+  }
 
 }
-
-
-
-
-
-
-
-
-
-

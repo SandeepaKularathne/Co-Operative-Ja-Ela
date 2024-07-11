@@ -25,10 +25,10 @@ public class VehicleBrandController {
         List<Vehiclebrand> vehiclebrands = this.vehiclebranddao.findAll();
 
         vehiclebrands = vehiclebrands.stream().map(
-                vehiclebrand -> { Vehiclebrand d = new Vehiclebrand();
-                    d.setId(vehiclebrand.getId());
-                    d.setName(vehiclebrand.getName());
-                    return d; }
+                vehiclebrand -> { Vehiclebrand b = new Vehiclebrand();
+                    b.setId(vehiclebrand.getId());
+                    b.setName(vehiclebrand.getName());
+                    return b; }
         ).collect(Collectors.toList());
 
         return vehiclebrands;

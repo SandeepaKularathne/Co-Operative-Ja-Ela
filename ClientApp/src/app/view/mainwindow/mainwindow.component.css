@@ -4,7 +4,7 @@ mat-toolbar{
 
 mat-sidenav-container{
   background: rgb(254,201,70);
-  background: linear-gradient(180deg, rgba(254,201,70,1) 0%, rgba(245,245,245,1) 64%);
+  background: linear-gradient(180deg, rgba(254,201,70,1) 0%, rgba(254,201,70,1) 26%, rgba(245,245,245,1) 26%);
   width: 100%;
 }
 
@@ -125,7 +125,7 @@ mat-toolbar-row mat-icon{
 .small-width {
   width: 8%;
   position: fixed;
-  margin: 10px 20px 5px 5px;
+  margin: 10px -10px 5px 5px;
   border-radius: 25px;
   border: #000000 5px !important;
   transition: width 0.5s ease;
@@ -155,12 +155,15 @@ mat-sidenav-container {
   height: 100%;
 }
 
+mat-sidenav-content{
+  padding-left: 10px;
+}
+
 mat-sidenav {
   width: 16%;
   position: fixed;
-  margin: 10px 20px 5px 5px;
+  margin: 10px 10px 5px 5px !important;
   border-radius: 25px;
-  border: #000000 5px !important;
   transition: width 0.5s ease;
 }
 
@@ -228,7 +231,7 @@ mat-list-item:hover {
   color: rgb(254, 201, 70);
   align-items: center;
   background: rgba(254, 201, 70, 0.4)!important;
-  padding: 5px;
+  padding:5px 0 5px 0;
   cursor: pointer;
   user-select: none;
   white-space: nowrap;

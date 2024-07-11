@@ -7,9 +7,10 @@ export class AuthorizationManager {
   private readonly localStorageUsreName = 'username';
   private readonly localStorageButtonKey = 'buttonState';
   private readonly localStorageAdmMenus = 'admMenuState';
-  private readonly localStorageAcdMenus = 'acdMenuState';
-  private readonly localStorageRegMenus = 'regMenuState';
-  private readonly localStorageClsMenus = 'clsMenuState';
+  private readonly localStoragePurMenus = 'purMenuState';
+  private readonly localStorageSaleMenus = 'saleMenuState';
+  private readonly localStorageDisMenus = 'disMenuState';
+  private readonly localStorageInvMenus = 'invMenuState';
 
   public enaadd = false;
   public enaupd = false;
@@ -22,25 +23,20 @@ export class AuthorizationManager {
     { name: 'Operations', accessFlag: true, routerLink: 'operation' }
   ];
 
-  acdMenuItems = [
-    { name: 'Program', accessFlag: true, routerLink: 'program' },
-    { name: 'Course', accessFlag: true, routerLink: 'course' },
-    { name: 'Batch', accessFlag: true, routerLink: 'batch' },
-    { name: 'Payment Schedule', accessFlag: true, routerLink: 'pymtschedule' },
-    { name: 'Course Material', accessFlag: true, routerLink: 'crsmaterial' }
+  purMenuItems = [
+    { name: 'Program', accessFlag: true, routerLink: 'program' }
   ];
 
-  regMenuItems = [
-    { name: 'Student', accessFlag: true, routerLink: 'students' },
-    { name: 'Batch Registration', accessFlag: true, routerLink: 'batchregistration' },
-    { name: 'Payments', accessFlag: true, routerLink: 'payments' },
-    { name: 'Mat. Distribution', accessFlag: true, routerLink: 'matdistribution' }
+  saleMenuItems = [
+    { name: 'Student', accessFlag: true, routerLink: 'students' }
   ];
 
-  clsMenuItems = [
-    { name: 'Attendance', accessFlag: true, routerLink: 'attendance' },
-    { name: 'Class Schedule', accessFlag: true, routerLink: 'clsschedule' },
-    { name: 'Progress Review', accessFlag: true, routerLink: 'prgreview' }
+  disMenuItems = [
+    { name: 'Vehicle', accessFlag: true, routerLink: 'vehicle' }
+  ];
+
+  invMenuItems = [
+    { name: 'Attendance', accessFlag: true, routerLink: 'attendance' }
   ];
 
 
@@ -60,23 +56,28 @@ export class AuthorizationManager {
       menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
     });
 
-    this.acdMenuItems.forEach(menuItem => {
+    this.purMenuItems.forEach(menuItem => {
       menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
     });
 
-    this.regMenuItems.forEach(menuItem => {
+    this.saleMenuItems.forEach(menuItem => {
       menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
     });
 
-    this.clsMenuItems.forEach(menuItem => {
+    this.disMenuItems.forEach(menuItem => {
+      menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
+    });
+
+    this.invMenuItems.forEach(menuItem => {
       menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
     });
 
     // Save menu state in localStorage
     localStorage.setItem(this.localStorageAdmMenus, JSON.stringify(this.admMenuItems));
-    localStorage.setItem(this.localStorageAcdMenus, JSON.stringify(this.acdMenuItems));
-    localStorage.setItem(this.localStorageRegMenus, JSON.stringify(this.regMenuItems));
-    localStorage.setItem(this.localStorageClsMenus, JSON.stringify(this.clsMenuItems));
+    localStorage.setItem(this.localStoragePurMenus, JSON.stringify(this.purMenuItems));
+    localStorage.setItem(this.localStorageSaleMenus, JSON.stringify(this.saleMenuItems));
+    localStorage.setItem(this.localStorageDisMenus, JSON.stringify(this.disMenuItems));
+    localStorage.setItem(this.localStorageInvMenus, JSON.stringify(this.invMenuItems));
 
   }
 
@@ -141,19 +142,24 @@ export class AuthorizationManager {
       this.admMenuItems = JSON.parse(admMenuState);
     }
 
-    const acdMenuState = localStorage.getItem(this.localStorageAcdMenus);
-    if (acdMenuState) {
-      this.acdMenuItems = JSON.parse(acdMenuState);
+    const purMenuState = localStorage.getItem(this.localStoragePurMenus);
+    if (purMenuState) {
+      this.purMenuItems = JSON.parse(purMenuState);
     }
 
-    const regMenuState = localStorage.getItem(this.localStorageRegMenus);
-    if (regMenuState) {
-      this.regMenuItems = JSON.parse(regMenuState);
+    const saleMenuState = localStorage.getItem(this.localStorageSaleMenus);
+    if (saleMenuState) {
+      this.saleMenuItems = JSON.parse(saleMenuState);
     }
 
-    const clsMenuState = localStorage.getItem(this.localStorageClsMenus);
-    if (clsMenuState) {
-      this.clsMenuItems = JSON.parse(clsMenuState);
+    const disMenuState = localStorage.getItem(this.localStorageDisMenus);
+    if (disMenuState) {
+      this.disMenuItems = JSON.parse(disMenuState);
+    }
+
+    const invMenuState = localStorage.getItem(this.localStorageInvMenus);
+    if (invMenuState) {
+      this.invMenuItems = JSON.parse(invMenuState);
     }
   }
 
@@ -167,9 +173,10 @@ export class AuthorizationManager {
 
   clearMenuState(): void {
     localStorage.removeItem(this.localStorageAdmMenus);
-    localStorage.removeItem(this.localStorageAcdMenus);
-    localStorage.removeItem(this.localStorageRegMenus);
-    localStorage.removeItem(this.localStorageClsMenus);
+    localStorage.removeItem(this.localStoragePurMenus);
+    localStorage.removeItem(this.localStorageSaleMenus);
+    localStorage.removeItem(this.localStorageDisMenus);
+    localStorage.removeItem(this.localStorageInvMenus);
   }
 
   isMenuItemDisabled(menuItem: { accessFlag: boolean }): boolean {

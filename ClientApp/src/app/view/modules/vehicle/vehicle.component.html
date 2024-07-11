@@ -1,12 +1,12 @@
-<mat-grid-list [cols]="12" rowHeight="4rem">
+<mat-grid-list [cols]="12" rowHeight="5rem">
 
   <mat-grid-tile [colspan]="4" [rowspan]="10">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Employee Detail</mat-card-title>
+        <mat-card-title>Vehicle Detail</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content id="employeeform">
+      <mat-card-content id="vehicleform">
 
         <mat-form  [formGroup]="form" >
 
@@ -15,106 +15,83 @@
             <input matInput formControlName="number">
           </mat-form-field>
 
-
           <mat-form-field appearance="outline">
-            <mat-label>Full Name</mat-label>
-            <input matInput formControlName="fullname">
-          </mat-form-field>
-
-
-         <mat-form-field appearance="outline">
-            <mat-label>Calling Name</mat-label>
-            <input matInput formControlName="callingname">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Gender</mat-label>
-            <mat-select formControlName="gender">
+            <mat-label>Vehicle Status</mat-label>
+            <mat-select formControlName="vehiclestatus">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let gender of genders" [value]="gender">{{gender.name}}</mat-option>
+              <mat-option *ngFor="let vehiclestatus of vehiclestatuses" [value]="vehiclestatus">{{vehiclestatus.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>NIC</mat-label>
-            <input matInput formControlName="nic">
+            <mat-label>Vehicle Type</mat-label>
+            <mat-select formControlName="vehicletype">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let vehicletype of vehicletypes" [value]="vehicletype">{{vehicletype.name}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Birth Date</mat-label>
-            <input matInput [matDatepicker]="dob" formControlName="dobirth">
-            <mat-datepicker-toggle matIconSuffix [for]="dob"></mat-datepicker-toggle>
-            <mat-datepicker #dob></mat-datepicker>
+            <mat-label>Vehicle Model</mat-label>
+            <mat-select formControlName="vehiclemodel">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let vehiclemodel of vehiclemodels" [value]="vehiclemodel">{{vehiclemodel.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Date Of Attach</mat-label>
+            <input matInput [matDatepicker]="doattach" formControlName="doattach">
+            <mat-datepicker-toggle matIconSuffix [for]="doattach"></mat-datepicker-toggle>
+            <mat-datepicker #doattach></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Year OF Made</mat-label>
+            <input matInput formControlName="yom">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Capacity</mat-label>
+            <input matInput formControlName="capacity">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description">
           </mat-form-field>
 
           <div id="imgpanel">
             <img [src]="imageempurl">
-            <input id="userImage" hidden="hidden" (change)="selectImage($event)" Select type="file" formControlName="photo">
+            <input id="userImage" hidden="hidden" (change)="selectImage($event)" Select type="file" formControlName="poto">
             <label for="userImage" id="selectbutton">Select</label>
             <label id="clearbutton" (click)="clearImage()">Clear</label>
           </div>
 
           <mat-form-field appearance="outline">
-            <mat-label>Address</mat-label>
-            <input matInput formControlName="address">
-          </mat-form-field>
-
-         <mat-form-field appearance="outline">
-            <mat-label>Mobile</mat-label>
-            <input matInput formControlName="mobile">
+            <mat-label>Curent Meter Reading</mat-label>
+            <input matInput formControlName="curentmeterreading">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Land</mat-label>
-            <input matInput formControlName="land">
+            <mat-label>Last Register Date</mat-label>
+            <input matInput [matDatepicker]="lastregdate" formControlName="lastregdate">
+            <mat-datepicker-toggle matIconSuffix [for]="lastregdate"></mat-datepicker-toggle>
+            <mat-datepicker #lastregdate></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email">
-          </mat-form-field>
-
-         <mat-form-field appearance="outline">
-            <mat-label>Designation</mat-label>
-            <mat-select formControlName="designation">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let designation of designations" [value]="designation">{{designation.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-         <mat-form-field appearance="outline">
-            <mat-label>Assignment Date</mat-label>
-            <input matInput [matDatepicker]="assdate" formControlName="doassignment">
-            <mat-datepicker-toggle matIconSuffix [for]="assdate"></mat-datepicker-toggle>
-            <mat-datepicker #assdate></mat-datepicker>
-          </mat-form-field>
-
-         <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Employee Type</mat-label>
-            <mat-select formControlName="emptype">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let employeetype of employeetypes" [value]="employeetype">{{employeetype.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Employee Status</mat-label>
-            <mat-select formControlName="empstatus">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let employeestatus of employeestatuses" [value]="employeestatus">{{employeestatus.name}}</mat-option>
-            </mat-select>
+            <mat-label>Last Service Date</mat-label>
+            <input matInput [matDatepicker]="lastservicedate" formControlName="lastservicedate">
+            <mat-datepicker-toggle matIconSuffix [for]="lastservicedate"></mat-datepicker-toggle>
+            <mat-datepicker #lastservicedate></mat-datepicker>
           </mat-form-field>
 
           <div id="butpanel">
-          <button mat-raised-button (click)="add()" [disabled]="!authService.getEnaAdd()">Add</button>
-          <button mat-raised-button (click)="clear()">Clear</button>
-          <button mat-raised-button (click)="update()" [disabled]="!authService.getEnaUpd()">Update</button>
-          <button mat-raised-button (click)="delete()" [disabled]="!authService.getEnaDel()">Delete</button>
+            <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
+            <button mat-raised-button (click)="clear()">Clear</button>
+            <button mat-raised-button (click)="update()" [disabled]="!enaupd">Update</button>
+            <button mat-raised-button (click)="delete()" [disabled]="!enadel">Delete</button>
           </div>
 
         </mat-form>
@@ -128,7 +105,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="4">
     <mat-card id="ssearch">
       <mat-card-header>
-        <mat-card-title>Employee Search</mat-card-title>
+        <mat-card-title>Vehicle Search</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
@@ -141,28 +118,34 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Search by Fullname</mat-label>
-            <input matInput formControlName="ssfullname">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Search by NIC</mat-label>
-            <input matInput formControlName="ssnic">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Gender</mat-label>
-            <mat-select formControlName="ssgender">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="ssvehiclestatus">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let gender of genders" [value]="gender.id">{{gender.name}}</mat-option>
+              <mat-option *ngFor="let vehiclestatus of vehiclestatuses" [value]="vehiclestatus.id">{{vehiclestatus.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Designation</mat-label>
-            <mat-select formControlName="ssdesignation">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="ssvehicletype">
               <mat-option [value]="null" selected >Not Selected</mat-option>
-              <mat-option *ngFor="let designation of designations" [value]="designation.id">{{designation.name}}</mat-option>
+              <mat-option *ngFor="let vehicletype of vehicletypes" [value]="vehicletype.id">{{vehicletype.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Model</mat-label>
+            <mat-select formControlName="ssvehiclemodel">
+              <mat-option [value]="null" selected >Not Selected</mat-option>
+              <mat-option *ngFor="let vehiclemodel of vehiclemodels" [value]="vehiclemodel.id">{{vehiclemodel.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Brand</mat-label>
+            <mat-select formControlName="ssvehiclebrand">
+              <mat-option [value]="null" selected >Not Selected</mat-option>
+              <mat-option *ngFor="let vehiclebrand of vehiclebrands" [value]="vehiclebrand.id">{{vehiclebrand.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -182,7 +165,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Employee Table</mat-card-title>
+        <mat-card-title>Vehicle Table</mat-card-title>
         <div id="loading">
           <img [src]="imageurl">
         </div>
@@ -202,8 +185,7 @@
               <mat-form [formGroup]="csearch" class="csearch">
                 <mat-form-field appearance="outline">
                   <mat-label>{{csprompts[i]}}</mat-label>
-                  <input matInput [formControlName]="cscolumn"
-                         (keyup)="filterTable()">
+                  <input matInput [formControlName]="cscolumn" (keyup)="filterTable()">
                 </mat-form-field>
               </mat-form>
             </mat-header-cell>

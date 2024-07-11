@@ -24,12 +24,13 @@ export class MainwindowComponent {
   itemClickedState: any = {
     dashboard: true,
     admin: false,
-    academic: false,
-    registration: false,
-    classes: false,
-    report: false,
-    vehicle: false
+    purchase: false,
+    sale: false,
+    distribution: false,
+    inventory: false,
+    report: false
   };
+
 
   constructor(private activeRoute :ActivatedRoute,private router: Router,public authService: AuthorizationManager,private weatherService: WeatherService, private elementRef: ElementRef) {
     this.router.events.subscribe(
@@ -111,20 +112,23 @@ export class MainwindowComponent {
   }
 
   admMenuItems = this.authService.admMenuItems;
-  acdMenuItems = this.authService.acdMenuItems;
-  regMenuItems = this.authService.regMenuItems;
-  clsMenuItems = this.authService.clsMenuItems;
+  purMenuItems = this.authService.purMenuItems;
+  saleMenuItems = this.authService.saleMenuItems;
+  disMenuItems = this.authService.disMenuItems;
+  invMenuItems = this.authService.invMenuItems;
 
   isMenuVisible(category: string): boolean {
     switch (category) {
       case 'Admin':
         return this.admMenuItems.some(menuItem => menuItem.accessFlag);
-      case 'Academic':
-        return this.acdMenuItems.some(menuItem => menuItem.accessFlag);
-      case 'Registration':
-        return this.regMenuItems.some(menuItem => menuItem.accessFlag);
-      case 'Class':
-        return this.clsMenuItems.some(menuItem => menuItem.accessFlag);
+      case 'Purchase':
+        return this.purMenuItems.some(menuItem => menuItem.accessFlag);
+      case 'Sale':
+        return this.saleMenuItems.some(menuItem => menuItem.accessFlag);
+      case 'Distribution':
+        return this.disMenuItems.some(menuItem => menuItem.accessFlag);
+      case 'Inventory':
+        return this.invMenuItems.some(menuItem => menuItem.accessFlag);
       default:
         return false;
     }

@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.entity.User;
+import lk.cooperative.cooperativejaela.entity.Vehicle;
 import lk.cooperative.cooperativejaela.util.RegexProvider;
 import lk.cooperative.cooperativejaela.entity.Employee;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,6 +27,8 @@ public class RegexController {
         return RegexProvider.get(new User());
     }
 
+    @GetMapping(path ="/vehicle", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> vehicle() {return RegexProvider.get(new Vehicle());}
 
 }
 

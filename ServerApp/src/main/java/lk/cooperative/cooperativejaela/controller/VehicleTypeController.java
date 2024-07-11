@@ -25,10 +25,10 @@ public class VehicleTypeController {
         List<Vehicletype> vehicletypes = this.vehicletypedao.findAll();
 
         vehicletypes = vehicletypes.stream().map(
-                vehicletype -> { Vehicletype d = new Vehicletype();
-                    d.setId(vehicletype.getId());
-                    d.setName(vehicletype.getName());
-                    return d; }
+                vehicletype -> { Vehicletype t = new Vehicletype();
+                    t.setId(vehicletype.getId());
+                    t.setName(vehicletype.getName());
+                    return t; }
         ).collect(Collectors.toList());
 
         return vehicletypes;

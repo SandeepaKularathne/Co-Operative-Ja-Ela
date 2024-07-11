@@ -1,6 +1,9 @@
 package lk.cooperative.cooperativejaela.entity;
 
+import lk.cooperative.cooperativejaela.util.RegexPattern;
+
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.util.Arrays;
 
@@ -12,30 +15,38 @@ public class Vehicle {
     private int id;
     @Basic
     @Column(name = "number")
+    @Pattern(regexp = "^([A-Z\\s]{1,3}|\\d{1,3})\\d{4}$", message = "Invalid Number")
     private String number;
     @Basic
     @Column(name = "doattach")
+    @RegexPattern(reg = "^\\d{2}-\\d{2}-\\d{2}$", msg = "Invalid Date Format")
     private Date doattach;
     @Basic
     @Column(name = "yom")
+    @RegexPattern(reg = "^\\d{4}$", msg = "Invalid Year")
     private Integer yom;
     @Basic
     @Column(name = "capacity")
+    @RegexPattern(reg = "^\\d{4}$", msg = "Invalid Capacity")
     private int capacity;
     @Basic
     @Column(name = "description")
+    @Pattern(regexp = "^.*$", message = "Invalid Description")
     private String description;
     @Basic
     @Column(name = "poto")
     private byte[] poto;
     @Basic
     @Column(name = "curentmeterreading")
+    @RegexPattern(reg = "^\\d{6}$", msg = "Invalid Meter Reading")
     private int curentmeterreading;
     @Basic
     @Column(name = "lastregdate")
+    @RegexPattern(reg = "^\\d{2}-\\d{2}-\\d{2}$", msg = "Invalid Date Format")
     private Date lastregdate;
     @Basic
     @Column(name = "lastservicedate")
+    @RegexPattern(reg = "^\\d{2}-\\d{2}-\\d{2}$", msg = "Invalid Date Format")
     private Date lastservicedate;
     @ManyToOne
     @JoinColumn(name = "vehiclestatus_id", referencedColumnName = "id", nullable = false)

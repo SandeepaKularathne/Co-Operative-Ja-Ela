@@ -77,48 +77,57 @@
         </ng-container>
       </mat-expansion-panel>
 
-      <mat-expansion-panel #academic [class.custom-list-item]="itemClickedState.academic" (mouseenter)="academic.open()" (mouseleave)="academic.close()" *ngIf="isMenuVisible('Academic')" [ngClass]="{ 'active-panel': academic.expanded }" [hideToggle]="true" >
+      <mat-expansion-panel #purchase [class.custom-list-item]="itemClickedState.purchase" (mouseenter)="purchase.open()" (mouseleave)="purchase.close()" *ngIf="isMenuVisible('Purchase')" [ngClass]="{ 'active-panel': purchase.expanded }" [hideToggle]="true" >
         <mat-expansion-panel-header>
           <mat-list-item><a>
-            <mat-icon>event_note</mat-icon>{{ showNames ? 'Academic' : '' }}</a></mat-list-item>
+            <mat-icon>monetization_on</mat-icon>{{ showNames ? 'Purchase' : '' }}</a></mat-list-item>
         </mat-expansion-panel-header>
-        <ng-container *ngFor="let menuItem of acdMenuItems">
+        <ng-container *ngFor="let menuItem of purMenuItems">
           <mat-list-item *ngIf="menuItem.accessFlag">
-            <mat-list-item class="item" (click)="logItemId('academic')" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null"><a>{{ menuItem.name }}</a></mat-list-item>
+            <mat-list-item class="item" (click)="logItemId('purchase')" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null"><a>{{ menuItem.name }}</a></mat-list-item>
           </mat-list-item>
         </ng-container>
       </mat-expansion-panel>
 
-      <mat-expansion-panel #registration [class.custom-list-item]="itemClickedState.registration" (mouseenter)="registration.open()" (mouseleave)="registration.close()" *ngIf="isMenuVisible('Registration')" [ngClass]="{ 'active-panel': registration.expanded }" [hideToggle]="true" >
+      <mat-expansion-panel #sale [class.custom-list-item]="itemClickedState.sale" (mouseenter)="sale.open()" (mouseleave)="sale.close()" *ngIf="isMenuVisible('Sale')" [ngClass]="{ 'active-panel': sale.expanded }" [hideToggle]="true" >
         <mat-expansion-panel-header>
           <mat-list-item><a>
-            <mat-icon>person_add</mat-icon>{{ showNames ? 'Registration' : '' }}</a></mat-list-item>
+            <mat-icon>percent</mat-icon>{{ showNames ? 'Sale' : '' }}</a></mat-list-item>
         </mat-expansion-panel-header>
-        <ng-container *ngFor="let menuItem of regMenuItems">
+        <ng-container *ngFor="let menuItem of saleMenuItems">
           <mat-list-item *ngIf="menuItem.accessFlag">
-            <mat-list-item class="item" (click)="logItemId('registration')" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null"><a>{{ menuItem.name }}</a></mat-list-item>
+            <mat-list-item class="item" (click)="logItemId('sale')" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null"><a>{{ menuItem.name }}</a></mat-list-item>
           </mat-list-item>
         </ng-container>
       </mat-expansion-panel>
 
-      <mat-expansion-panel #classes [class.custom-list-item]="itemClickedState.classes" (mouseenter)="classes.open()" (mouseleave)="classes.close()" *ngIf="isMenuVisible('Class')" [ngClass]="{ 'active-panel': classes.expanded }" [hideToggle]="true" >
+      <mat-expansion-panel #distribution [class.custom-list-item]="itemClickedState.distribution" (mouseenter)="distribution.open()" (mouseleave)="distribution.close()" *ngIf="isMenuVisible('Distribution')" [ngClass]="{ 'active-panel': distribution.expanded }" [hideToggle]="true" >
         <mat-expansion-panel-header>
           <mat-list-item><a>
-            <mat-icon>class</mat-icon>{{ showNames ? 'Class' : '' }}</a></mat-list-item>
+            <mat-icon>commute</mat-icon>{{ showNames ? 'Distribution' : '' }}</a></mat-list-item>
         </mat-expansion-panel-header>
-        <ng-container *ngFor="let menuItem of clsMenuItems">
+        <ng-container *ngFor="let menuItem of disMenuItems">
           <mat-list-item *ngIf="menuItem.accessFlag">
-            <mat-list-item class="item" (click)="logItemId('classes')" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null"><a>{{ menuItem.name }}</a></mat-list-item>
+            <mat-list-item class="item" (click)="logItemId('distribution')" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null"><a>{{ menuItem.name }}</a></mat-list-item>
           </mat-list-item>
         </ng-container>
       </mat-expansion-panel>
+
+      <mat-expansion-panel #inventory [class.custom-list-item]="itemClickedState.inventory" (mouseenter)="inventory.open()" (mouseleave)="inventory.close()" *ngIf="isMenuVisible('Inventory')" [ngClass]="{ 'active-panel': inventory.expanded }" [hideToggle]="true" >
+        <mat-expansion-panel-header>
+          <mat-list-item><a>
+            <mat-icon>assignment</mat-icon>{{ showNames ? 'Inventory' : '' }}</a></mat-list-item>
+        </mat-expansion-panel-header>
+        <ng-container *ngFor="let menuItem of invMenuItems">
+          <mat-list-item *ngIf="menuItem.accessFlag">
+            <mat-list-item class="item" (click)="logItemId('inventory')" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null"><a>{{ menuItem.name }}</a></mat-list-item>
+          </mat-list-item>
+        </ng-container>
+      </mat-expansion-panel>
+
 
       <mat-list-item #report [class.custom-list-item]="itemClickedState.report" (click)="logItemId('report')">
         <a routerLink="reports"><mat-icon>poll</mat-icon>{{ showNames ? 'Report' : '' }}</a>
-      </mat-list-item>
-
-      <mat-list-item #vehicle [class.custom-list-item]="itemClickedState.vehicle" (click)="logItemId('vehicle')">
-        <a routerLink="vehicles"><mat-icon>commute</mat-icon>{{ showNames ? 'Vehicle' : '' }}</a>
       </mat-list-item>
 
     </mat-nav-list>
