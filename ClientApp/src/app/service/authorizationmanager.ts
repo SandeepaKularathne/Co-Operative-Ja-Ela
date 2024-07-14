@@ -24,19 +24,34 @@ export class AuthorizationManager {
   ];
 
   purMenuItems = [
-    { name: 'Program', accessFlag: true, routerLink: 'program' }
+    { name: 'Purchase Order', accessFlag: true, routerLink: 'purchaseorder' },
+    { name: 'Supplier Payment', accessFlag: true, routerLink: 'supplierpayment' },
+    { name: 'Supplier Return', accessFlag: true, routerLink: 'supplierreturn' },
+    { name: 'Supplier', accessFlag: true, routerLink: 'supplier' }
   ];
 
   saleMenuItems = [
-    { name: 'Student', accessFlag: true, routerLink: 'students' }
+    { name: 'Customer Registrationr', accessFlag: true, routerLink: 'customer' },
+    { name: 'Customer Payment', accessFlag: true, routerLink: 'customerpayment' },
+    { name: 'Customer Return', accessFlag: true, routerLink: 'customerreturn' },
+    { name: 'Invoice', accessFlag: true, routerLink: 'invoice' },
+    { name: 'Income Deposits', accessFlag: true, routerLink: 'incomedeposits' }
   ];
 
   disMenuItems = [
-    { name: 'Vehicle', accessFlag: true, routerLink: 'vehicle' }
+    { name: 'Vehicle', accessFlag: true, routerLink: 'vehicle' },
+    { name: 'Shop', accessFlag: true, routerLink: 'shop' },
+    { name: 'Root', accessFlag: true, routerLink: 'root' },
+    { name: 'Distribution Order', accessFlag: true, routerLink: 'distributionorder' },
+    { name: 'Distribution Receives', accessFlag: true, routerLink: 'distributionreceives' },
+    { name: 'Distribution Request', accessFlag: true, routerLink: 'distributionrequest' }
   ];
 
   invMenuItems = [
-    { name: 'Attendance', accessFlag: true, routerLink: 'attendance' }
+    { name: 'Item', accessFlag: true, routerLink: 'item' },
+    { name: 'Goods Received Note', accessFlag: true, routerLink: 'grn' },
+    { name: 'Store', accessFlag: true, routerLink: 'store' },
+    { name: 'Store Return', accessFlag: true, routerLink: 'storereturn' }
   ];
 
 
@@ -93,7 +108,7 @@ export class AuthorizationManager {
           const [module, operation] = authority.split('-');
           return { module, operation };
         });
-        console.log(authorities);
+        //console.log(authorities);
 
         this.enableButtons(authorities);
         this.enableMenues(authorities);

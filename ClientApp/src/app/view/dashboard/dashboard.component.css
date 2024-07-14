@@ -1,61 +1,105 @@
-mat-grid-list {
-  /*padding: 10% 20% 10% 20% !important;*/
-  margin: 8px;
-}
-
-mat-grid-tile:nth-child(1) mat-card{
-  padding-top: 20px;
+.card-content {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  background-color: darkslategray;
+  width: 250px;
 }
 
-mat-card {
-  height: 99% !important;
-  width: 100%;
-  margin: 5px;
-  overflow: auto;
-  border-radius: 12px;
+.content-left {
+  display: flex;
+  flex-direction: column;
+  padding-right: 30px;
 }
 
-mat-card-title{
+.icon-right {
+  padding-bottom: 20px;
+}
+
+.icon-right mat-icon{
+  font-size: 30px;
+  width: auto;
+  height: auto;
+  background-color: #005710;
   color: white;
-  margin-left: 5px;
-  margin-top: 5px;
-  /*background-color: #8aa88a;*/
-  border-radius: 6px;
-  padding-left: 10px;
+  padding: 10px;
+  border-radius: 50px;
 }
 
-mat-card #headImg{
-  height: 80%;
+.content-left h3{
+  margin: 0;
+  padding: 0;
+  color: #515154;
 }
 
-#quicklinks mat-card img{
-  scale: 210%;
-  width: 50%;
-  height: 80%;
-  padding-left: 18px;
-  padding-top: 15px;
+.content-left h1 {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
 }
 
-#quicklinks mat-card{
-  height: unset!important;
-  padding-top: 4px;
-  width: 150px;
-  margin: 0 20px 0 20px;
-  border: solid gold;
+mat-card{
+  border-radius: 20px;
 }
 
-mat-card-footer{
-  font-size: 18px;
-  margin-top: 55px;
-  text-align: center;
-  background-color: gold;
-  padding-top: 10px;
-  padding-bottom: 10px;
+.card-footer{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 0 0 20px 20px;
 }
 
-mat-card-footer a{
+.card-footer a{
   text-decoration: none;
-  color: black;
+  font-size: 14px;
+  background: #005710;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 20px;
+  transition: background-color 200ms;
+}
+
+.card-footer a:hover {
+  background: rgba(0, 87, 16, 0.86);
+}
+
+#quicklinks{
+  margin-top: -65px;
+}
+
+#quicklinks mat-card {
+  margin: 0 7px;
+  box-shadow: rgba(103, 116, 142, 0.075) 0rem 0rem 1rem 0rem;
+  background: radial-gradient(circle 60px at calc(100% - 40px) 45px, gold, rgb(252, 255, 252));
+}
+
+#quicklinks mat-card:first-child {
+  margin-left: 0;
+}
+
+#quicklinks mat-card:last-child {
+  margin-right: 0;
+}
+
+#detail-cart{
+  margin-top: -125px;
+  margin-left: -265px;
+  border-radius:20px;
+}
+
+#detail-cart mat-card-title{
+  padding: 10px;
+  margin-left: 20px;
+  color: #515154;
+}
+
+#detail-cart mat-list-item{
+  padding-bottom: 15px;
+}
+
+#detail-cart mat-list-item:last-child{
+  padding-bottom: 5px;
+}
+
+#detail-cart mat-icon,#detail-cart b{
+  color: rgba(0, 87, 16, 0.86);
 }

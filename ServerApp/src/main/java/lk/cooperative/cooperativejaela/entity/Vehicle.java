@@ -27,7 +27,7 @@ public class Vehicle {
     private Integer yom;
     @Basic
     @Column(name = "capacity")
-    @RegexPattern(reg = "^\\d{4}$", msg = "Invalid Capacity")
+    @RegexPattern(reg = "^\\d{2-4}$", msg = "Invalid Capacity")
     private int capacity;
     @Basic
     @Column(name = "description")
@@ -38,7 +38,7 @@ public class Vehicle {
     private byte[] poto;
     @Basic
     @Column(name = "curentmeterreading")
-    @RegexPattern(reg = "^\\d{6}$", msg = "Invalid Meter Reading")
+    @RegexPattern(reg = "^\\d{1-6}$", msg = "Invalid Meter Reading")
     private int curentmeterreading;
     @Basic
     @Column(name = "lastregdate")

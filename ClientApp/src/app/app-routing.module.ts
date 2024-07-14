@@ -11,6 +11,7 @@ import {PrivilageComponent} from "./view/modules/privilage/privilage.component";
 import {OperationComponent} from "./view/modules/operation/operation.component";
 import {PaymentComponent} from "./view/modules/payment/payment.component";
 import {VehicleComponent} from "./view/modules/vehicle/vehicle.component";
+import {SupplierComponent} from './view/modules/supplier/supplier.component';
 
 
 const routes: Routes = [
@@ -30,8 +31,8 @@ const routes: Routes = [
       {path: "dashboard/students", redirectTo: 'students', pathMatch: 'full'},
       {path: "dashboard/class", redirectTo: 'class', pathMatch: 'full'},
       {path: "dashboard/books", redirectTo: 'books', pathMatch: 'full'},
-      {path: "dashboard/attendance", redirectTo: 'attendance', pathMatch: 'full'},
       {path: "vehicle", component: VehicleComponent},
+      {path: "supplier", component: SupplierComponent},
 
     ]
   }];

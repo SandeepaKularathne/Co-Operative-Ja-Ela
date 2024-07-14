@@ -20,7 +20,6 @@ import { Vehiclestatus } from 'src/app/entity/vehiclestatus';
 import { Vehicletype } from 'src/app/entity/vehicletype';
 import { Vehiclemodel } from 'src/app/entity/vehiclemodel';
 
-
 @Component({
   selector: 'app-vehicle',
   templateUrl: './vehicle.component.html',
@@ -265,7 +264,7 @@ export class VehicleComponent {
   }
 
   btnSearchClearMc(): void {
-    
+
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {heading: "Search Clear", message: "Are you sure to Clear the Search?"}
@@ -577,6 +576,8 @@ export class VehicleComponent {
       }
     });
   }
+
+
 
 }
 

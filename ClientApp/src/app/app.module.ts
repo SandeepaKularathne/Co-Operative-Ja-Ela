@@ -42,6 +42,7 @@ import { OperationComponent } from './view/modules/operation/operation.component
 import { PaymentComponent } from './view/modules/payment/payment.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {VehicleComponent} from "./view/modules/vehicle/vehicle.component";
+import {SupplierComponent} from "./view/modules/supplier/supplier.component";
 
 
 
@@ -60,7 +61,8 @@ import {VehicleComponent} from "./view/modules/vehicle/vehicle.component";
     PrivilageComponent,
     OperationComponent,
     PaymentComponent,
-    VehicleComponent
+    VehicleComponent,
+    SupplierComponent
 
   ],
     imports: [

@@ -43,22 +43,28 @@ public class UserAuthorityController {
                     "employee-select","employee-delete","employee-update","employee-insert",
                     "operations-select","operations-delete","operations-update","operations-insert",
 
-                    "program-select","program-delete","program-update","program-insert",
-                    "course-select","course-delete","course-update","course-insert",
-                    "Batch-select","Batch-delete","Batch-update","Batch-insert",
-                    "Payment Schedule-select","Payment Schedule-delete","Payment Schedule-update","Payment Schedule-insert",
-                    "Course Materiale-select","Course Material-delete","Course Material-update","Course Material-insert",
+                    "purchaseorder-select","purchaseorder-delete","purchaseorder-update","purchaseorder-insert",
+                    "supplierpayment-select","supplierpayment-delete","supplierpayment-update","supplierpayment-insert",
+                    "supplierreturn-select","supplierreturn-delete","supplierreturn-update","supplierreturn-insert",
+                    "supplier-select","supplier-delete","supplier-update","supplier-insert",
 
-                    "Mat. Distribution-select","Mat. Distribution-delete","Mat. Distribution-update","Mat. Distribution-insert",
-                    "Payments-select","Payments-delete","Payments-update","Payments-insert",
-                    "student-select","student-delete","student-update","student-insert",
-                    "Batch Registration-select","Batch Registration-delete","Batch Registration-update","Batch Registration-insert",
+                    "customer-select","customer-delete","customer-update","customer-insert",
+                    "customerpayment-select","customerpayment-delete","customerpayment-update","customerpayment-insert",
+                    "customerreturn-select","customerreturn-delete","customerreturn-update","customerreturn-insert",
+                    "invoice-select","invoice-delete","invoice-update","invoice-insert",
+                    "incomedeposits-select","incomedeposits-delete","incomedeposits-update","incomedeposits-insert",
 
-                    "Class Schedule-select","Class Schedule-delete","Class Schedule-update","Class Schedule-insert",
-                    "Attendance-select","Attendance-delete","Attendance-update","Attendance-insert",
-                    "Progress Review-select","Progress Review-delete","Progress Review-update","Progress Review-insert",
+                    "vehicle-select","vehicle-delete","vehicle-update","vehicle-insert",
+                    "shop-select","shop-delete","shop-update","shop-insert",
+                    "root-select","root-delete","root-update","root-insert",
+                    "distributionorder-select","distributionorder-delete","distributionorder-update","distributionorder-insert",
+                    "distributionreceives-select","distributionreceives-delete","distributionreceives-update","distributionreceives-insert",
+                    "distributionrequest-select","distributionrequest-delete","distributionrequest-update","distributionrequest-insert",
 
-                    "vehicle-select","vehicle-delete","vehicle-update","vehicle-insert"
+                    "item-select","item-delete","item-update","item-insert",
+                    "grn-select","grn-delete","grn-update","grn-insert",
+                    "store-select","store-delete","store-update","store-insert",
+                    "storereturn-select","storereturn-delete","storereturn-update","storereturn-insert"
             );
         }
 

@@ -1,71 +1,87 @@
 <mat-grid-list gutterSize="7" [cols]="4" rowHeight="4rem">
 
-  <mat-grid-tile [colspan]="4" [rowspan]="2" >
-    <mat-card style="background-image: url('assets/header2img.png')"><img id="headImg" src="assets/logo_.png"></mat-card>
-  </mat-grid-tile>
-
-
   <mat-grid-tile [colspan]="4" [rowspan]="4" id="quicklinks">
-    <mat-card>
-      <mat-card-content><img  src="assets/payment.png"></mat-card-content>
-      <mat-card-footer ><a routerLink="payments">Payments</a></mat-card-footer>
-    </mat-card>
 
     <mat-card>
-      <mat-card-content><img  src="assets/register.png"></mat-card-content>
-      <mat-card-footer ><a routerLink="batchregistration" >Register</a></mat-card-footer>
-    </mat-card>
-
-    <mat-card>
-      <mat-card-content><img  src="assets/studnet.png"></mat-card-content>
-      <mat-card-footer ><a routerLink="students">Student</a></mat-card-footer>
-    </mat-card>
-
-    <mat-card>
-      <mat-card-content><img  src="assets/classshedule.png"></mat-card-content>
-      <mat-card-footer ><a routerLink="classes">Classes</a></mat-card-footer>
-    </mat-card>
-
-    <mat-card>
-      <mat-card-content><img  src="assets/tutes.png"></mat-card-content>
-      <mat-card-footer ><a routerLink="books">Books</a></mat-card-footer>
-    </mat-card>
-
-    <mat-card>
-      <mat-card-content><img  src="assets/attendence.png"></mat-card-content>
-      <mat-card-footer ><a routerLink="attendance">Attendance</a></mat-card-footer>
-    </mat-card>
-  </mat-grid-tile>
-
-  <mat-grid-tile [colspan]="2" [rowspan]="4" >
-    <mat-card>
-      <mat-card-title style="background-image: url('assets/header2img.png')">User Specific Messages</mat-card-title>
-      <mat-card-content >
-        <mat-list>
-          <mat-list-item *ngFor="let message of userspecmessages">
-            <mat-icon matListItemIcon> email</mat-icon>
-            <div matListItemTitle >{{message.name}}</div>
-            <div matListItemLine>{{message.updated | date}}</div>
-          </mat-list-item>
-        </mat-list>
+      <mat-card-content class="card-content">
+        <div class="content-left">
+          <h3>AVAILABLE VEHICLES</h3>
+          <h1>{{ vCount }}</h1>
+        </div>
+        <div class="icon-right">
+          <mat-icon>local_shipping</mat-icon>
+        </div>
       </mat-card-content>
+      <mat-card-footer class="card-footer">
+        <a routerLink="vehicle">Assign Vehicle</a>
+      </mat-card-footer>
     </mat-card>
+
+    <mat-card>
+      <mat-card-content class="card-content">
+        <div class="content-left">
+          <h3>TOTAL SUPPLIERS</h3>
+          <h1>{{ supCount }}</h1>
+        </div>
+        <div class="icon-right">
+          <mat-icon>storefront</mat-icon>
+        </div>
+      </mat-card-content>
+      <mat-card-footer class="card-footer">
+        <a routerLink="supplier">View Suppliers</a>
+      </mat-card-footer>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-content class="card-content">
+        <div class="content-left">
+          <h3>TOTAL EMPLOYEES</h3>
+          <h1>{{ empCount }}</h1>
+        </div>
+        <div class="icon-right">
+          <mat-icon>work</mat-icon>
+        </div>
+      </mat-card-content>
+      <mat-card-footer class="card-footer">
+        <a routerLink="employeeS">View Employees</a>
+      </mat-card-footer>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-content class="card-content">
+        <div class="content-left">
+          <h3>TOTAL STORE</h3>
+          <h1>25</h1>
+        </div>
+        <div class="icon-right">
+          <mat-icon>shopping_basket</mat-icon>
+        </div>
+      </mat-card-content>
+      <mat-card-footer class="card-footer">
+        <a routerLink="supplier">View Suppliers</a>
+      </mat-card-footer>
+    </mat-card>
+
+
   </mat-grid-tile>
 
 
-  <mat-grid-tile [colspan]="2" [rowspan]="4" >
+  <mat-grid-tile [colspan]="4" [rowspan]="8"  id="detail-cart">
       <mat-card>
-        <mat-card-title style="background-image: url('assets/header2img.png')">General Messages</mat-card-title>
+        <mat-card-title>Contact Details</mat-card-title>
         <mat-card-content >
           <mat-list>
             <mat-list-item *ngFor="let message of generalmessages">
-              <mat-icon matListItemIcon> email</mat-icon>
-              <div matListItemTitle >{{message.name}}</div>
-              <div matListItemLine>{{message.updated | date}}</div>
+              <mat-icon matListItemIcon>{{message.icon}}</mat-icon>
+              <div matListItemTitle ><b>{{message.name}}</b></div>
+              <div matListItemTitle >{{message.to}}</div>
+              <div matListItemTitle >{{message.for}}</div>
+              <div matListItemTitle >{{message.tel}}</div>
             </mat-list-item>
           </mat-list>
         </mat-card-content>
       </mat-card>
   </mat-grid-tile>
+
 
 </mat-grid-list>
