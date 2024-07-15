@@ -1,5 +1,6 @@
 package lk.cooperative.cooperativejaela.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lk.cooperative.cooperativejaela.util.RegexPattern;
 
 import javax.persistence.*;
@@ -63,6 +64,9 @@ public class Supplier {
 
     @OneToMany(mappedBy = "supplier")
     private Collection<Supply> supplies;
+    @JsonIgnore
+    @OneToMany(mappedBy = "supplier")
+    private Collection<Item> items;
 
     public int getId() {
         return id;
@@ -187,5 +191,13 @@ public class Supplier {
 
     public void setSupplies(Collection<Supply> supplies) {
         this.supplies = supplies;
+    }
+
+    public Collection<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Collection<Item> items) {
+        this.items = items;
     }
 }

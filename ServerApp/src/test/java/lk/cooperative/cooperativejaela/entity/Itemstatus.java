@@ -1,13 +1,11 @@
 package lk.cooperative.cooperativejaela.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Category {
+public class Itemstatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -15,11 +13,8 @@ public class Category {
     @Basic
     @Column(name = "name")
     private String name;
-    @JsonIgnore
-    @OneToMany(mappedBy = "category")
-    private Collection<Supply> supplies;
-    @OneToMany(mappedBy = "category")
-    private Collection<Subcategory> subcategories;
+    @OneToMany(mappedBy = "itemstatus")
+    private Collection<Item> items;
 
     public int getId() {
         return id;
@@ -41,8 +36,8 @@ public class Category {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return id == category.id && Objects.equals(name, category.name);
+        Itemstatus that = (Itemstatus) o;
+        return id == that.id && Objects.equals(name, that.name);
     }
 
     @Override
@@ -50,19 +45,11 @@ public class Category {
         return Objects.hash(id, name);
     }
 
-    public Collection<Supply> getSupplies() {
-        return supplies;
+    public Collection<Item> getItems() {
+        return items;
     }
 
-    public void setSupplies(Collection<Supply> supplies) {
-        this.supplies = supplies;
-    }
-
-    public Collection<Subcategory> getSubcategories() {
-        return subcategories;
-    }
-
-    public void setSubcategories(Collection<Subcategory> subcategories) {
-        this.subcategories = subcategories;
+    public void setItems(Collection<Item> items) {
+        this.items = items;
     }
 }

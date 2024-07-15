@@ -7,7 +7,7 @@ import {AuthorizationManager} from "./service/authorizationmanager";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'earth';
+  title = 'cooperativejaela';
 
   constructor(private authService: AuthorizationManager) {
     this.authService.initializeButtonState();
