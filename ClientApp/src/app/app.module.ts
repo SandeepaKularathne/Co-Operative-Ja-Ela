@@ -35,7 +35,6 @@ import { ArrearsByProgramComponent } from './report/view/arrearsbyprogram/arrear
 import {CountByDesignationComponent} from "./report/view/countbydesignation/countbydesignation.component";
 import {MatChipsModule} from "@angular/material/chips";
 import { PrivilageComponent } from './view/modules/privilage/privilage.component';
-import {JwtInterceptor} from "./service/JwtInterceptor";
 import {AuthorizationManager} from "./service/authorizationmanager";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import { OperationComponent } from './view/modules/operation/operation.component';
@@ -44,6 +43,8 @@ import {MatMenuModule} from "@angular/material/menu";
 import {VehicleComponent} from "./view/modules/vehicle/vehicle.component";
 import {SupplierComponent} from "./view/modules/supplier/supplier.component";
 import {ItemComponent} from './view/modules/item/item.component';
+import {PurorderComponent} from './view/modules/purorder/purorder.component';
+import { JwtInterceptor } from './service/jwtInterceptor';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import {ItemComponent} from './view/modules/item/item.component';
     PaymentComponent,
     VehicleComponent,
     SupplierComponent,
-    ItemComponent
+    ItemComponent,
+    PurorderComponent
 
   ],
     imports: [

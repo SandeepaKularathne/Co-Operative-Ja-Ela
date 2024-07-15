@@ -1,0 +1,211 @@
+<mat-grid-list [cols]="12" rowHeight="5rem">
+
+  <mat-grid-tile [colspan]="4" [rowspan]="10">
+<!--    <mat-card>-->
+<!--      <mat-card-header>-->
+<!--        <mat-card-title>Purorder Detail</mat-card-title>-->
+<!--      </mat-card-header>-->
+
+<!--      <mat-card-content id="purorderform">-->
+
+<!--        <mat-form  [formGroup]="form" >-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Number</mat-label>-->
+<!--            <input matInput formControlName="number">-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Purorder Status</mat-label>-->
+<!--            <mat-select formControlName="purorderstatus">-->
+<!--              <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let purorderstatus of purorderstatuses" [value]="purorderstatus">{{purorderstatus.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Purorder Type</mat-label>-->
+<!--            <mat-select formControlName="purordertype">-->
+<!--              <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let purordertype of purordertypes" [value]="purordertype">{{purordertype.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Purorder Model</mat-label>-->
+<!--            <mat-select formControlName="purordermodel">-->
+<!--              <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let purordermodel of purordermodels" [value]="purordermodel">{{purordermodel.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Date Of Attach</mat-label>-->
+<!--            <input matInput [matDatepicker]="doattach" formControlName="doattach">-->
+<!--            <mat-datepicker-toggle matIconSuffix [for]="doattach"></mat-datepicker-toggle>-->
+<!--            <mat-datepicker #doattach></mat-datepicker>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Year OF Made</mat-label>-->
+<!--            <input matInput formControlName="yom">-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Capacity</mat-label>-->
+<!--            <input matInput formControlName="capacity">-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Description</mat-label>-->
+<!--            <input matInput formControlName="description">-->
+<!--          </mat-form-field>-->
+
+<!--          <div id="imgpanel">-->
+<!--            <img [src]="imageempurl">-->
+<!--            <input id="userImage" hidden="hidden" (change)="selectImage($event)" Select type="file" formControlName="poto">-->
+<!--            <label for="userImage" id="selectbutton">Select</label>-->
+<!--            <label id="clearbutton" (click)="clearImage()">Clear</label>-->
+<!--          </div>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Curent Meter Reading</mat-label>-->
+<!--            <input matInput formControlName="curentmeterreading">-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Last Register Date</mat-label>-->
+<!--            <input matInput [matDatepicker]="lastregdate" formControlName="lastregdate">-->
+<!--            <mat-datepicker-toggle matIconSuffix [for]="lastregdate"></mat-datepicker-toggle>-->
+<!--            <mat-datepicker #lastregdate></mat-datepicker>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Last Service Date</mat-label>-->
+<!--            <input matInput [matDatepicker]="lastservicedate" formControlName="lastservicedate">-->
+<!--            <mat-datepicker-toggle matIconSuffix [for]="lastservicedate"></mat-datepicker-toggle>-->
+<!--            <mat-datepicker #lastservicedate></mat-datepicker>-->
+<!--          </mat-form-field>-->
+
+<!--          <div id="butpanel">-->
+<!--            <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>-->
+<!--            <button mat-raised-button (click)="clear()">Clear</button>-->
+<!--            <button mat-raised-button (click)="update()" [disabled]="!enaupd">Update</button>-->
+<!--            <button mat-raised-button (click)="delete()" [disabled]="!enadel">Delete</button>-->
+<!--          </div>-->
+
+<!--        </mat-form>-->
+<!--      </mat-card-content>-->
+
+
+<!--    </mat-card>-->
+  </mat-grid-tile>
+
+
+  <mat-grid-tile [colspan]="8" [rowspan]="4">
+<!--    <mat-card id="ssearch">-->
+<!--      <mat-card-header>-->
+<!--        <mat-card-title>Purorder Search</mat-card-title>-->
+<!--      </mat-card-header>-->
+
+<!--      <mat-card-content>-->
+
+<!--        <mat-form [formGroup]="ssearch">-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Search by Number</mat-label>-->
+<!--            <input matInput formControlName="ssnumber">-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Status</mat-label>-->
+<!--            <mat-select formControlName="sspurorderstatus">-->
+<!--              <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let purorderstatus of purorderstatuses" [value]="purorderstatus.id">{{purorderstatus.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Type</mat-label>-->
+<!--            <mat-select formControlName="sspurordertype">-->
+<!--              <mat-option [value]="null" selected >Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let purordertype of purordertypes" [value]="purordertype.id">{{purordertype.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Model</mat-label>-->
+<!--            <mat-select formControlName="sspurordermodel">-->
+<!--              <mat-option [value]="null" selected >Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let purordermodel of purordermodels" [value]="purordermodel.id">{{purordermodel.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Brand</mat-label>-->
+<!--            <mat-select formControlName="sspurorderbrand">-->
+<!--              <mat-option [value]="null" selected >Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let purorderbrand of purorderbrands" [value]="purorderbrand.id">{{purorderbrand.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+
+<!--          <div>-->
+<!--            <button mat-raised-button color="primary" (click)="btnSearchMc()"><mat-icon>search</mat-icon> Search </button>-->
+<!--            <button mat-raised-button color="primary" (click)="btnSearchClearMc()"><mat-icon>reorder</mat-icon> Clear Search </button>-->
+<!--          </div>-->
+
+<!--        </mat-form>-->
+
+<!--      </mat-card-content>-->
+
+<!--    </mat-card>-->
+  </mat-grid-tile>
+
+
+  <mat-grid-tile [colspan]="8" [rowspan]="6">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Purorder Table</mat-card-title>
+        <div id="loading">
+          <img [src]="imageurl">
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <mat-table [dataSource]="data">
+
+          <ng-container *ngFor="let column of columns;let i = index;" [matColumnDef]="column">
+            <mat-header-cell *matHeaderCellDef> {{headers[i]}} </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ uiassist.getProperty(element, binders[i]) }} </mat-cell>
+          </ng-container>
+
+          <ng-container *ngFor="let cscolumn of cscolumns;let i = index;" [matColumnDef]="cscolumn">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-form [formGroup]="csearch" class="csearch">
+                <mat-form-field appearance="outline">
+                  <mat-label>{{csprompts[i]}}</mat-label>
+                  <input matInput [formControlName]="cscolumn" (keyup)="filterTable()">
+                </mat-form-field>
+              </mat-form>
+            </mat-header-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+          <mat-header-row *matHeaderRowDef="cscolumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columns;" (click)="fillForm(row)" [ngClass]="{'selected-row': row === selectedrow}"></mat-row>
+
+        </mat-table>
+
+        <mat-paginator [length]="20" [pageSize]="3" [pageSizeOptions]="[3,5,10,20]"></mat-paginator>
+
+      </mat-card-content>
+
+    </mat-card>
+  </mat-grid-tile>
+
+</mat-grid-list>
+
+
+
+

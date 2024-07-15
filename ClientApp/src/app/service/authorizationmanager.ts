@@ -24,7 +24,7 @@ export class AuthorizationManager {
   ];
 
   purMenuItems = [
-    { name: 'Purchase Order', accessFlag: true, routerLink: 'purchaseorder' },
+    { name: 'Purchase Order', accessFlag: true, routerLink: 'purorder' },
     { name: 'Supplier Payment', accessFlag: true, routerLink: 'supplierpayment' },
     { name: 'Supplier Return', accessFlag: true, routerLink: 'supplierreturn' },
     { name: 'Supplier', accessFlag: true, routerLink: 'supplier' }

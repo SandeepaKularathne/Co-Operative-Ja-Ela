@@ -13,6 +13,7 @@ import {PaymentComponent} from "./view/modules/payment/payment.component";
 import {VehicleComponent} from "./view/modules/vehicle/vehicle.component";
 import {SupplierComponent} from './view/modules/supplier/supplier.component';
 import {ItemComponent} from './view/modules/item/item.component';
+import { PurorderComponent } from './view/modules/purorder/purorder.component';
 
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
       {path: "vehicle", component: VehicleComponent},
       {path: "supplier", component: SupplierComponent},
       {path: "item", component: ItemComponent},
+      {path: "purorder", component: PurorderComponent},
 
     ]
   }];

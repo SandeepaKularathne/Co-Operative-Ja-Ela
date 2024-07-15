@@ -1,9 +1,12 @@
 package lk.cooperative.cooperativejaela.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -48,6 +51,9 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false)
     private Supplier supplier;
+    @JsonIgnore
+    @OneToMany(mappedBy = "item")
+    private Collection<Poitem> poitems;
 
     public int getId() {
         return id;
@@ -166,5 +172,13 @@ public class Item {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public Collection<Poitem> getPoitems() {
+        return poitems;
+    }
+
+    public void setPoitems(Collection<Poitem> poitems) {
+        this.poitems = poitems;
     }
 }

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Vehiclestatus} from "../entity/vehiclestatus";
+import {Category} from "../entity/category";
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +10,13 @@ export class Categoryservice {
 
   constructor(private http: HttpClient) {  }
 
-  async getAllList(): Promise<Array<Vehiclestatus>> {
+  async getAllList(): Promise<Array<Category>> {
 
-    const vehiclestatuses = await this.http.get<Array<Vehiclestatus>>('http://localhost:8080/categorys/list').toPromise();
-    if(vehiclestatuses == undefined){
+    const categoryes = await this.http.get<Array<Category>>('http://localhost:8080/categorys/list').toPromise();
+    if(categoryes == undefined){
       return [];
     }
-    return vehiclestatuses;
+    return categoryes;
   }
 
 }
