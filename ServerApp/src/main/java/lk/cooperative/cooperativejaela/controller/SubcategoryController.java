@@ -3,10 +3,7 @@ package lk.cooperative.cooperativejaela.controller;
 import lk.cooperative.cooperativejaela.dao.SubcategoryDao;
 import lk.cooperative.cooperativejaela.entity.Subcategory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +26,22 @@ public class SubcategoryController {
                             g.setId(subcategory.getId());
                             g.setName(subcategory.getName());
                             return g; }
+        ).collect(Collectors.toList());
+
+        return subcategorys;
+
+    }
+
+    @GetMapping(path ="/filter/{id}",produces = "application/json")
+    public List<Subcategory> filterSubcategory(@PathVariable Integer id) {
+
+        List<Subcategory> subcategorys = this.subcategorydao.findSubcategoryByCategory(id);
+
+        subcategorys = subcategorys.stream().map(
+                subcategory -> { Subcategory g = new Subcategory();
+                    g.setId(subcategory.getId());
+                    g.setName(subcategory.getName());
+                    return g; }
         ).collect(Collectors.toList());
 
         return subcategorys;

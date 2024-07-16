@@ -1,9 +1,7 @@
 package lk.cooperative.cooperativejaela.controller;
 
-import lk.cooperative.cooperativejaela.entity.User;
-import lk.cooperative.cooperativejaela.entity.Vehicle;
+import lk.cooperative.cooperativejaela.entity.*;
 import lk.cooperative.cooperativejaela.util.RegexProvider;
-import lk.cooperative.cooperativejaela.entity.Employee;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +27,16 @@ public class RegexController {
 
     @GetMapping(path ="/vehicle", produces = "application/json")
     public HashMap<String, HashMap<String, String>> vehicle() {return RegexProvider.get(new Vehicle());}
+
+    @GetMapping(path ="/item", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> item() {return RegexProvider.get(new Item());}
+
+    @GetMapping(path ="/supplier", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> supplier() {return RegexProvider.get(new Supplier());}
+
+    @GetMapping(path ="/purorder", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> purorder() {return RegexProvider.get(new Purorder());}
+
 
 }
 

@@ -18,6 +18,7 @@ public class Category {
     @JsonIgnore
     @OneToMany(mappedBy = "category")
     private Collection<Supply> supplies;
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private Collection<Subcategory> subcategories;
 

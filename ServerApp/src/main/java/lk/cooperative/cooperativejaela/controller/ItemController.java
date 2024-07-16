@@ -52,9 +52,6 @@ public class ItemController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
-        if(itemdao.findById(item.getId())!=null)
-            errors = errors+"<br> Existing Number";
-
         if(errors=="")
             itemdao.save(item);
         else errors = "Server Validation Errors : <br> "+errors;
@@ -102,7 +99,7 @@ public class ItemController {
         Item itm1 = itemdao.findByMyId(id);
 
         if(itm1==null)
-            errors = errors+"<br> Employee Does Not Existed";
+            errors = errors+"<br> Item Does Not Existed";
 
         if(errors=="") itemdao.delete(itm1);
         else errors = "Server Validation Errors : <br> "+errors;

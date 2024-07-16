@@ -19,7 +19,7 @@ public class Subcategory {
     @JsonIgnore
     @OneToMany(mappedBy = "subcategory")
     private Collection<Item> items;
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private Category category;

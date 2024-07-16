@@ -43,28 +43,28 @@ public class UserAuthorityController {
                     "employee-select","employee-delete","employee-update","employee-insert",
                     "operations-select","operations-delete","operations-update","operations-insert",
 
-                    "purchaseorder-select","purchaseorder-delete","purchaseorder-update","purchaseorder-insert",
-                    "supplierpayment-select","supplierpayment-delete","supplierpayment-update","supplierpayment-insert",
-                    "supplierreturn-select","supplierreturn-delete","supplierreturn-update","supplierreturn-insert",
+                    "purchase order-select","purchase order-delete","purchase order-update","purchase order-insert",
+                    "supplier payment-select","supplier payment-delete","supplier payment-update","supplier payment-insert",
+                    "supplier return-select","supplier return-delete","supplier return-update","supplier return-insert",
                     "supplier-select","supplier-delete","supplier-update","supplier-insert",
 
                     "customer-select","customer-delete","customer-update","customer-insert",
-                    "customerpayment-select","customerpayment-delete","customerpayment-update","customerpayment-insert",
-                    "customerreturn-select","customerreturn-delete","customerreturn-update","customerreturn-insert",
+                    "customer payment-select","customer payment-delete","customer payment-update","customer payment-insert",
+                    "customer return-select","customer return-delete","customer return-update","customer return-insert",
                     "invoice-select","invoice-delete","invoice-update","invoice-insert",
-                    "incomedeposits-select","incomedeposits-delete","incomedeposits-update","incomedeposits-insert",
+                    "income deposits-select","income deposits-delete","income deposits-update","income deposits-insert",
 
                     "vehicle-select","vehicle-delete","vehicle-update","vehicle-insert",
                     "shop-select","shop-delete","shop-update","shop-insert",
                     "root-select","root-delete","root-update","root-insert",
-                    "distributionorder-select","distributionorder-delete","distributionorder-update","distributionorder-insert",
-                    "distributionreceives-select","distributionreceives-delete","distributionreceives-update","distributionreceives-insert",
-                    "distributionrequest-select","distributionrequest-delete","distributionrequest-update","distributionrequest-insert",
+                    "distribution order-select","distribution order-delete","distribution order-update","distribution order-insert",
+                    "distribution receives-select","distribution receives-delete","distribution receives-update","distribution receives-insert",
+                    "distribution request-select","distribution request-delete","distribution request-update","distribution request-insert",
 
                     "item-select","item-delete","item-update","item-insert",
-                    "grn-select","grn-delete","grn-update","grn-insert",
+                    "Goods Received Note-select","Goods Received Note-delete","Goods Received Note-update","Goods Received Note-insert",
                     "store-select","store-delete","store-update","store-insert",
-                    "storereturn-select","storereturn-delete","storereturn-update","storereturn-insert"
+                    "store return-select","store return-delete","store return-update","store return-insert"
             );
         }
 

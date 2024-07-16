@@ -34,11 +34,11 @@ public class Item {
     private byte[] poto;
     @Basic
     @Column(name = "quantity")
-    @RegexPattern(reg = "^\\d{1-6}$", msg = "Invalid Quantity")
+    @RegexPattern(reg = "^\\d+(,\\d+)*$", msg = "Invalid Quantity")
     private Integer quantity;
     @Basic
     @Column(name = "rop")
-    @RegexPattern(reg = "^\\d{1-6}$", msg = "Invalid Rop")
+    @RegexPattern(reg = "^\\d+(,\\d+)*$", msg = "Invalid Rop")
     private Integer rop;
     @Basic
     @Column(name = "dointroduced")

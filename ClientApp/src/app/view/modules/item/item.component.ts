@@ -105,7 +105,7 @@ export class ItemComponent {
       "name": new FormControl('', [Validators.required]),
       "sprice": new FormControl('', [Validators.required]),
       "pprice": new FormControl('', [Validators.required]),
-      "poto": new FormControl('', [Validators.required]),
+      "poto": new FormControl(''),
       "quantity": new FormControl('', [Validators.required]),
       "rop": new FormControl('', [Validators.required]),
       "dointroduced": new FormControl('', [Validators.required]),
@@ -114,6 +114,7 @@ export class ItemComponent {
       "itemstatus": new FormControl('', [Validators.required]),
       "unittype": new FormControl('', [Validators.required]),
       "supplier": new FormControl('', [Validators.required]),
+      "category": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
 
   }
@@ -163,18 +164,18 @@ export class ItemComponent {
 
   createForm() {
 
-    this.form.controls['number'].setValidators([Validators.required, Validators.pattern(this.regexes['number']['regex'])]);
+    this.form.controls['name'].setValidators([Validators.required, Validators.pattern(this.regexes['name']['regex'])]);
+    this.form.controls['sprice'].setValidators([Validators.required, Validators.pattern(this.regexes['sprice']['regex'])]);
+    this.form.controls['pprice'].setValidators([Validators.required, Validators.pattern(this.regexes['pprice']['regex'])]);
+    this.form.controls['quantity'].setValidators([Validators.required, Validators.pattern(this.regexes['quantity']['regex'])]);
+    this.form.controls['rop'].setValidators([Validators.required, Validators.pattern(this.regexes['rop']['regex'])]);
+    this.form.controls['dointroduced'].setValidators([Validators.required]);
+    this.form.controls['unittype'].setValidators([Validators.required]);
+    this.form.controls['subcategory'].setValidators([Validators.required]);
+    this.form.controls['itembrand'].setValidators([Validators.required]);
     this.form.controls['itemstatus'].setValidators([Validators.required]);
     this.form.controls['unittype'].setValidators([Validators.required]);
-    this.form.controls['itemmodel'].setValidators([Validators.required]);
-    this.form.controls['doattach'].setValidators([Validators.required]);
-    this.form.controls['yom'].setValidators([Validators.required, Validators.pattern(this.regexes['yom']['regex'])]);
-    this.form.controls['capacity'].setValidators([Validators.required, Validators.pattern(this.regexes['capacity']['regex'])]);
-    this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
-    this.form.controls['poto'].setValidators([Validators.required]);
-    this.form.controls['curentmeterreading'].setValidators([Validators.required, Validators.pattern(this.regexes['curentmeterreading']['regex'])]);
-    this.form.controls['lastregdate'].setValidators([Validators.required]);
-    this.form.controls['lastservicedate'].setValidators([Validators.required]);
+    this.form.controls['category'].setValidators([Validators.required]);
 
     Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
 
@@ -339,12 +340,13 @@ export class ItemComponent {
     this.item.poto = "";
 
 
+
     //@ts-ignore
     this.item.itemstatus = this.itemstatuses.find(s => s.id === this.item.itemstatus.id);
     //@ts-ignore
     this.item.unittype = this.unittypes.find(t => t.id === this.item.unittype.id);
     //@ts-ignore
-    //this.item.category = this.categorys.find(m => m.id === this.item.subcategory.category.id);
+    this.item.category = this.categorys.find(m => m.id === this.item.subcategory.category.id);
     //@ts-ignore
     this.item.subcategory = this.subcategorys.find(m => m.id === this.item.subcategory.id);
     //@ts-ignore
@@ -360,6 +362,8 @@ export class ItemComponent {
   }
 
   add() {
+
+
 
     let errors = this.getErrors();
 
@@ -377,16 +381,17 @@ export class ItemComponent {
 
       this.item = this.form.getRawValue();
       this.item.poto = btoa(this.imageempurl);
+      delete this.form.controls['category'];
 
-      let vehdata: string = "";
+      let itmdata: string = "";
 
-      vehdata = vehdata + "<br>Number is : " + this.item.name;
+      itmdata = itmdata + "<br>Name is : " + this.item.name;
 
       const confirm = this.dg.open(ConfirmComponent, {
         width: '500px',
         data: {
           heading: "Confirmation - item Add",
-          message: "Are you sure to Add the following item? <br> <br>" + vehdata
+          message: "Are you sure to Add the following item? <br> <br>" + itmdata
         }
       });
 
@@ -396,7 +401,7 @@ export class ItemComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           // @ts-ignore
-          this.vs.add(this.item).then((responce: [] | undefined) => {
+          this.is.add(this.item).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";
@@ -540,7 +545,7 @@ export class ItemComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.vs.delete(this.item.id).then((responce: [] | undefined) => {
+        this.is.delete(this.item.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -583,12 +588,20 @@ export class ItemComponent {
     confirm.afterClosed().subscribe(async result => {
       if (result) {
         this.form.reset()
+        this.enableButtons(true,false,false);
+        this.loadTable('');
       }
     });
 
-    this.enableButtons(true,false,false);
+
   }
 
+  filtersubcategory(){
+    let category = this.form.controls['category'].value.id;
+    this.ms.getSubcategoryByCategory(category).then((msys: Subcategory[]) => {
+      this.subcategorys = msys;
+    });
+  }
 
 
 }
