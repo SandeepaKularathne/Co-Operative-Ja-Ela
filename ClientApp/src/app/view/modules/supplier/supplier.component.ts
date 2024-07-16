@@ -13,10 +13,13 @@ import { Supplier } from 'src/app/entity/supplier';
 import { SupplierService } from 'src/app/service/supplierservice';
 import { Supplierstatus } from 'src/app/entity/supplierstatus';
 import {Supplierstype } from 'src/app/entity/supplierstype';
-import { Supplierstypeservice } from 'src/app/service/Supplierstypeservice';
-import { Supplierstatusservice } from 'src/app/service/Supplierstatusservice';
 import { Category } from 'src/app/entity/category';
+import { Supplierstatusservice } from 'src/app/service/supplierstatusservice';
+import { Supplierstypeservice } from 'src/app/service/supplierstypeservice';
+// @ts-ignore
 import { Categoryservice } from 'src/app/service/Categoryservice';
+
+
 
 
 
@@ -529,6 +532,7 @@ export class SupplierComponent {
         this.loadTable("");
       }
     });
+    this.enableButtons(true,false,false);
   }
 
 }

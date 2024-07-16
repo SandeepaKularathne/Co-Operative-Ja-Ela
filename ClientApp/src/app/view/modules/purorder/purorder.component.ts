@@ -495,6 +495,7 @@ export class PurorderComponent {
         this.form.reset()
       }
     });
+    this.enableButtons(true,false,false);
   }
 
 

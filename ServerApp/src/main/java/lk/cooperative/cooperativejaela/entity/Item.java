@@ -1,8 +1,10 @@
 package lk.cooperative.cooperativejaela.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lk.cooperative.cooperativejaela.util.RegexPattern;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Arrays;
@@ -16,22 +18,27 @@ public class Item {
     @Column(name = "id")
     private int id;
     @Basic
+    @Pattern(regexp = "^.*$", message = "Invalid Name")
     @Column(name = "name")
     private String name;
     @Basic
     @Column(name = "sprice")
+    @RegexPattern(reg = "^[0-9]+(\\.[0-9]{1,2})?$", msg = "Invalid price format.")
     private BigDecimal sprice;
     @Basic
     @Column(name = "pprice")
+    @RegexPattern(reg = "^[0-9]+(\\.[0-9]{1,2})?$", msg = "Invalid price format.")
     private BigDecimal pprice;
     @Basic
     @Column(name = "poto")
     private byte[] poto;
     @Basic
     @Column(name = "quantity")
+    @RegexPattern(reg = "^\\d{1-6}$", msg = "Invalid Quantity")
     private Integer quantity;
     @Basic
     @Column(name = "rop")
+    @RegexPattern(reg = "^\\d{1-6}$", msg = "Invalid Rop")
     private Integer rop;
     @Basic
     @Column(name = "dointroduced")

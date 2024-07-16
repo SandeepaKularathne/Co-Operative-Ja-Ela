@@ -575,6 +575,7 @@ export class VehicleComponent {
         this.form.reset()
       }
     });
+    this.enableButtons(true,false,false);
   }
 
 

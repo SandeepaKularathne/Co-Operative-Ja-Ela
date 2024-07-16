@@ -34,8 +34,8 @@ export class ItemComponent {
 
 
   columns: string[] = ['name', 'subcategory', 'itemstatus', 'unittype','itembrand', 'supplier'];
-  headers: string[] = ['Name', 'LR Date', 'Status', 'Type', 'Brand','Supplier'];
-  binders: string[] = ['name', 'subcategory', 'itemstatus.name', 'unittype.name','itembrand.name', 'supplier.name'];
+  headers: string[] = ['Name', 'Subcategory', 'Status', 'Type', 'Brand','Supplier'];
+  binders: string[] = ['name', 'subcategory.name', 'itemstatus.name', 'unittype.name','itembrand.name', 'supplier.name'];
 
   cscolumns: string[] = ['csname', 'cssubcategory', 'csitemstatus', 'csunittype', 'csitembrand', 'cssupplier'];
   csprompts: string[] = ['Search by Name', 'Search by Subcategory', 'Search by Status', 'Search by Type', 'Search by Brand', 'Search by Supplier'];
@@ -64,7 +64,7 @@ export class ItemComponent {
   categorys: Array<Category> = [];
   subcategorys: Array<Subcategory> = [];
 
-  enaadd:boolean = false;
+  enaadd:boolean = true;
   enaupd:boolean = false;
   enadel:boolean = false;
 
@@ -102,18 +102,18 @@ export class ItemComponent {
     });
 
     this.form =this.fb.group({
-      "number": new FormControl('', [Validators.required]),
-      "doattach": new FormControl('', [Validators.required]),
-      "yom": new FormControl('', [Validators.required]),
-      "capacity": new FormControl('', [Validators.required]),
-      "description": new FormControl('', [Validators.required]),
+      "name": new FormControl('', [Validators.required]),
+      "sprice": new FormControl('', [Validators.required]),
+      "pprice": new FormControl('', [Validators.required]),
       "poto": new FormControl('', [Validators.required]),
-      "curentmeterreading": new FormControl('', [Validators.required]),
-      "lastregdate": new FormControl('', [Validators.required]),
-      "lastservicedate": new FormControl('', [Validators.required]),
+      "quantity": new FormControl('', [Validators.required]),
+      "rop": new FormControl('', [Validators.required]),
+      "dointroduced": new FormControl('', [Validators.required]),
+      "subcategory": new FormControl('', [Validators.required]),
+      "itembrand": new FormControl('', [Validators.required]),
       "itemstatus": new FormControl('', [Validators.required]),
       "unittype": new FormControl('', [Validators.required]),
-      "itemmodel": new FormControl('', [Validators.required]),
+      "supplier": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
 
   }
@@ -231,12 +231,12 @@ export class ItemComponent {
     const cserchdata = this.csearch.getRawValue();
 
     this.data.filterPredicate = (item: Item, filter: string) => {
-      return (cserchdata.csname == null || item.name.toLowerCase().includes(cserchdata.csname.toLowerCase()));
-        //(cserchdata.cslastregdate == null || item.lastregdate.toLowerCase().includes(cserchdata.cslastregdate.toLowerCase())) &&
-        //(cserchdata.csitemstatus == null || item.itemstatus.name.toLowerCase().includes(cserchdata.csitemstatus.toLowerCase())) &&
-        //(cserchdata.csunittype == null || item.unittype.name.toLowerCase().includes(cserchdata.csunittype.toLowerCase())) &&
-        //(cserchdata.csitembrand == null || item.itemmodel.itembrand.name.toLowerCase().includes(cserchdata.csitembrand.toLowerCase())) &&
-        //(cserchdata.csmodi == null || this.getModi(item).toLowerCase().includes(cserchdata.csmodi.toLowerCase()));
+      return (cserchdata.csname == null || item.name.toLowerCase().includes(cserchdata.csname.toLowerCase())) &&
+        (cserchdata.cssubcategory == null || item.subcategory.name.toLowerCase().includes(cserchdata.cssubcategory.toLowerCase())) &&
+        (cserchdata.csitemstatus == null || item.itemstatus.name.toLowerCase().includes(cserchdata.csitemstatus.toLowerCase())) &&
+        (cserchdata.csunittype == null || item.unittype.name.toLowerCase().includes(cserchdata.csunittype.toLowerCase())) &&
+        (cserchdata.csitembrand == null || item.itembrand.name.toLowerCase().includes(cserchdata.csitembrand.toLowerCase())) &&
+        (cserchdata.cssupplier == null || item.supplier.name.toLowerCase().includes(cserchdata.cssupplier.toLowerCase()));
     };
 
     this.data.filter = 'xx';
@@ -248,18 +248,18 @@ export class ItemComponent {
     this.csearch.reset();
     const sserchdata = this.ssearch.getRawValue();
 
-    let number = sserchdata.ssnumber;
+    let name = sserchdata.ssname;
     let itemstatusid = sserchdata.ssitemstatus;
     let unittypeid = sserchdata.ssunittype;
-    let itemmodelid = sserchdata.ssitemmodel;
+    let categoryid = sserchdata.sscategory;
     let itembrandid = sserchdata.ssitembrand;
 
     let query = "";
 
-    if (number != null && number.trim() != "") query = query + "&number=" + number;
+    if (name != null && name.trim() != "") query = query + "&name=" + name;
     if (itemstatusid != null) query = query + "&itemstatusid=" + itemstatusid;
     if (unittypeid != null) query = query + "&itemstatusid=" + unittypeid;
-    if (itemmodelid != null) query = query + "&itemstatusid=" + itemmodelid;
+    if (categoryid != null) query = query + "&categoryid=" + categoryid;
     if (itembrandid != null) query = query + "&itembrandid=" + itembrandid;
 
     if (query != "") query = query.replace(/^./, "?")
@@ -344,7 +344,13 @@ export class ItemComponent {
     //@ts-ignore
     this.item.unittype = this.unittypes.find(t => t.id === this.item.unittype.id);
     //@ts-ignore
-    //this.item.itemmodel = this.itemmodels.find(m => m.id === this.item.itemmodel.id);
+    //this.item.category = this.categorys.find(m => m.id === this.item.subcategory.category.id);
+    //@ts-ignore
+    this.item.subcategory = this.subcategorys.find(m => m.id === this.item.subcategory.id);
+    //@ts-ignore
+    this.item.supplier = this.suppliers.find(m => m.id === this.item.supplier.id);
+    //@ts-ignore
+    this.item.itembrand = this.itembrands.find(m => m.id === this.item.itembrand.id);
 
 
 
@@ -387,44 +393,45 @@ export class ItemComponent {
       let addstatus: boolean = false;
       let addmessage: string = "Server Not Found";
 
-      // confirm.afterClosed().subscribe(async result => {
-      //   if (result) {
-      //     this.vs.add(this.item).then((responce: [] | undefined) => {
-      //       if (responce != undefined) { // @ts-ignore
-      //         // @ts-ignore
-      //         addstatus = responce['errors'] == "";
-      //         if (!addstatus) { // @ts-ignore
-      //           addmessage = responce['errors'];
-      //         }
-      //       } else {
-      //         addstatus = false;
-      //         addmessage = "Content Not Found"
-      //       }
-      //     }).finally(() => {
-      //
-      //       if (addstatus) {
-      //         addmessage = "Successfully Saved";
-      //         this.form.reset();
-      //         this.clearImage();
-      //         Object.values(this.form.controls).forEach(control => {
-      //           control.markAsTouched();
-      //         });
-      //         this.loadTable("");
-      //       }
-      //
-      //       const stsmsg = this.dg.open(MessageComponent, {
-      //         width: '500px',
-      //         data: {heading: "Status -item Add", message: addmessage}
-      //       });
-      //
-      //       stsmsg.afterClosed().subscribe(async result => {
-      //         if (!result) {
-      //           return;
-      //         }
-      //       });
-      //     });
-      //   }
-      // });
+      confirm.afterClosed().subscribe(async result => {
+        if (result) {
+          // @ts-ignore
+          this.vs.add(this.item).then((responce: [] | undefined) => {
+            if (responce != undefined) { // @ts-ignore
+              // @ts-ignore
+              addstatus = responce['errors'] == "";
+              if (!addstatus) { // @ts-ignore
+                addmessage = responce['errors'];
+              }
+            } else {
+              addstatus = false;
+              addmessage = "Content Not Found"
+            }
+          }).finally(() => {
+
+            if (addstatus) {
+              addmessage = "Successfully Saved";
+              this.form.reset();
+              this.clearImage();
+              Object.values(this.form.controls).forEach(control => {
+                control.markAsTouched();
+              });
+              this.loadTable("");
+            }
+
+            const stsmsg = this.dg.open(MessageComponent, {
+              width: '500px',
+              data: {heading: "Status -item Add", message: addmessage}
+            });
+
+            stsmsg.afterClosed().subscribe(async result => {
+              if (!result) {
+                return;
+              }
+            });
+          });
+        }
+      });
     }
   }
 
@@ -578,6 +585,8 @@ export class ItemComponent {
         this.form.reset()
       }
     });
+
+    this.enableButtons(true,false,false);
   }
 
 
