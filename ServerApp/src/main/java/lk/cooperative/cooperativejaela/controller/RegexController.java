@@ -37,6 +37,9 @@ public class RegexController {
     @GetMapping(path ="/purorder", produces = "application/json")
     public HashMap<String, HashMap<String, String>> purorder() {return RegexProvider.get(new Purorder());}
 
+    @GetMapping(path ="/grn", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> grn() {return RegexProvider.get(new Grn());}
+
 
 }
 

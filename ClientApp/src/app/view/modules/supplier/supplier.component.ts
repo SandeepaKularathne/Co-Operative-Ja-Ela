@@ -67,8 +67,8 @@ export class SupplierComponent {
 
 
   constructor(
-    private vs: SupplierService,
-    private ss: Supplierstatusservice,
+    private ss: SupplierService,
+    private sss: Supplierstatusservice,
     private ts: Supplierstypeservice,
     private cs: Categoryservice,
     private rs: RegexService,
@@ -92,8 +92,6 @@ export class SupplierComponent {
       ssname: new FormControl(),
       ssregisternumber: new FormControl(),
       sscategory: new FormControl(),
-      sssupplierstatus: new FormControl(),
-      sssupplierstype: new FormControl(),
     });
 
     this.form =this.fb.group({
@@ -122,7 +120,7 @@ export class SupplierComponent {
 
     this.createView();
 
-    this.ss.getAllList().then((vsts: Supplierstatus[]) => {
+    this.sss.getAllList().then((vsts: Supplierstatus[]) => {
       this.supplierstatuses = vsts;
     });
 
@@ -151,6 +149,7 @@ export class SupplierComponent {
     this.form.controls['supplierstatus'].setValidators([Validators.required]);
     this.form.controls['supplierstype'].setValidators([Validators.required]);
     this.form.controls['doregister'].setValidators([Validators.required]);
+    this.form.controls['category'].setValidators([Validators.required]);
     this.form.controls['registernumber'].setValidators([Validators.required, Validators.pattern(this.regexes['registernumber']['regex'])]);
     this.form.controls['address'].setValidators([Validators.required, Validators.pattern(this.regexes['address']['regex'])]);
     this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
@@ -195,7 +194,7 @@ export class SupplierComponent {
 
   loadTable(query: string) {
 
-    this.vs.getAll(query)
+    this.ss.getAll(query)
       .then((supp: Supplier[]) => {
         this.suppliers = supp;
         this.imageurl = 'assets/fullfilled.png';
@@ -236,16 +235,13 @@ export class SupplierComponent {
     let name = sserchdata.ssname;
     let registernumber = sserchdata.ssregisternumber;
     let categoryid = sserchdata.sscategory;
-    let supplierstatusid = sserchdata.sssupplierstatus;
-    let supplierstypeid = sserchdata.sssupplierstype;
+
 
     let query = "";
 
     if (name != null && name.trim() != "") query = query + "&name=" + name;
     if (registernumber != null) query = query + "&registernumber=" + registernumber;
     if (categoryid != null) query = query + "&categoryid=" + categoryid;
-    if (supplierstatusid != null) query = query + "&supplierstatusid=" + supplierstatusid;
-    if (supplierstypeid != null) query = query + "&supplierstypeid=" + supplierstypeid;
 
     if (query != "") query = query.replace(/^./, "?")
 
@@ -302,6 +298,8 @@ export class SupplierComponent {
     this.supplier.supplierstatus = this.supplierstatuses.find(s => s.id === this.supplier.supplierstatus.id);
     //@ts-ignore
     this.supplier.suppliertype = this.suppliertypes.find(t => t.id === this.supplier.suppliertype.id);
+    //@ts-ignore
+    this.supplier.supplies.category = this.categorys.find(t => t.id === this.supplier.supplies.categorys.id);
 
     this.form.patchValue(this.supplier);
     this.form.markAsPristine();
@@ -486,7 +484,7 @@ export class SupplierComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.vs.delete(this.supplier.id).then((responce: [] | undefined) => {
+        this.ss.delete(this.supplier.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -532,7 +530,6 @@ export class SupplierComponent {
         this.loadTable("");
       }
     });
-    this.enableButtons(true,false,false);
   }
 
 }

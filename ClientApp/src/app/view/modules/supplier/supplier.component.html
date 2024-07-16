@@ -3,7 +3,7 @@
   <mat-grid-tile [colspan]="4" [rowspan]="10">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Supplier Detail</mat-card-title>
+        <mat-card-title id="right">Supplier Detail</mat-card-title>
       </mat-card-header>
 
       <mat-card-content id="supplierform">
@@ -106,7 +106,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="4">
     <mat-card id="ssearch">
       <mat-card-header>
-        <mat-card-title>Supplier Search</mat-card-title>
+        <mat-card-title id="left">Supplier Search</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
@@ -131,22 +131,6 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="sssupplierstatus">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let supplierstatus of supplierstatuses" [value]="supplierstatus.id">{{supplierstatus.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Type</mat-label>
-            <mat-select formControlName="sssupplierstype">
-              <mat-option [value]="null" selected >Not Selected</mat-option>
-              <mat-option *ngFor="let suppliertype of suppliertypes" [value]="suppliertype.id">{{suppliertype.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
           <div>
             <button mat-raised-button color="primary" (click)="btnSearchMc()"><mat-icon>search</mat-icon> Search </button>
             <button mat-raised-button color="primary" (click)="btnSearchClearMc()"><mat-icon>reorder</mat-icon> Clear Search </button>
@@ -163,7 +147,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Supplier Table</mat-card-title>
+        <mat-card-title id="left">Supplier Table</mat-card-title>
         <div id="loading">
           <img [src]="imageurl">
         </div>

@@ -81,6 +81,10 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private Collection<Purorder> purorders;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private Collection<Grn> grns;
+
     public Employee(){}
 
     public Employee(Integer id, String callingname){
@@ -283,5 +287,13 @@ public class Employee {
 
     public void setPurorders(Collection<Purorder> purorders) {
         this.purorders = purorders;
+    }
+
+    public Collection<Grn> getGrns() {
+        return grns;
+    }
+
+    public void setGrns(Collection<Grn> grns) {
+        this.grns = grns;
     }
 }

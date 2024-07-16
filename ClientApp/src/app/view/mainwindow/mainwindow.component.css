@@ -4,7 +4,7 @@ mat-toolbar{
 
 mat-sidenav-container{
   background: rgb(254,201,70);
-  background: linear-gradient(180deg, rgba(254,201,70,1) 0%, rgba(254,201,70,1) 26%, rgba(245,245,245,1) 26%);
+  background: linear-gradient(180deg, rgba(254,201,70,1) 0%, rgba(254,201,70,1) 26%, rgb(197, 197, 197) 26%);
   width: 100%;
 }
 

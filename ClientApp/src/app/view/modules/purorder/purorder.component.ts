@@ -13,6 +13,8 @@ import { Purorder } from 'src/app/entity/purorder';
 import { Postatusservice } from 'src/app/service/postatusservice';
 import { Postatus } from 'src/app/entity/postatus';
 import { PurorderService } from 'src/app/service/Purorderservice';
+import { Employee } from 'src/app/entity/employee';
+import { Item } from 'src/app/entity/item';
 
 @Component({
   selector: 'app-purorder',
@@ -23,12 +25,12 @@ import { PurorderService } from 'src/app/service/Purorderservice';
 export class PurorderComponent {
 
 
-  columns: string[] = ['ponumber', 'employee', 'postatus', 'qty','item'];
-  headers: string[] = ['Ponumber', 'Employee', 'Status', 'QTY', 'Item'];
-  binders: string[] = ['ponumber', 'employee.name', 'postatus.name', 'purorder.poitem.qty','purorder.poitem.item.name'];
+  columns: string[] = ['ponumber', 'employee', 'postatus', 'date','qty','item'];
+  headers: string[] = ['Ponumber', 'Employee', 'Status', 'Date','QTY', 'Item'];
+  binders: string[] = ['ponumber', 'employee.fullname', 'postatus.name', 'date','poitems','poitems'];
 
-  cscolumns: string[] = ['csponumber', 'csemployee', 'cspostatus', 'csqty', 'csitem'];
-  csprompts: string[] = ['Search by Ponumber', 'Search by Employee', 'Search by Status', 'Search by qty', 'Search by Item'];
+  cscolumns: string[] = ['csponumber', 'csemployee', 'cspostatus', 'csdate','csqty', 'csitem'];
+  csprompts: string[] = ['Search by Ponumber', 'Search by Employee', 'Search by Status', 'Search by Date','Search by QTY', 'Search by Item'];
 
   public csearch!: FormGroup;
   public ssearch!: FormGroup;
@@ -48,10 +50,13 @@ export class PurorderComponent {
   selectedrow: any;
 
   postatuses: Array<Postatus> = [];
+  employees: Array<Employee> = [];
+  items: Array<Item> = [];
 
   enaadd:boolean = false;
   enaupd:boolean = false;
   enadel:boolean = false;
+  
 
   constructor(
     private vs: PurorderService,
@@ -68,6 +73,7 @@ export class PurorderComponent {
       csponumber: new FormControl(),
       csemployee: new FormControl(),
       cspostatus: new FormControl(),
+      csdate: new FormControl(),
       csqty: new FormControl(),
       csitem: new FormControl(),
     });
@@ -181,14 +187,15 @@ export class PurorderComponent {
 
     const cserchdata = this.csearch.getRawValue();
 
-    // this.data.filterPredicate = (purorder: Purorder, filter: string) => {
-    //   // @ts-ignore
-    //   return (cserchdata.csponumber == null || purorder.ponumber.toLowerCase().includes(cserchdata.csponumber.toLowerCase())) &&
-    //     (cserchdata.csemployee == null || purorder.employee.name.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
-    //     (cserchdata.cspostatus == null || purorder.postatus.name.toLowerCase().includes(cserchdata.cspostatus.toLowerCase())) &&
-    //     (cserchdata.csqty == null || purorder.poitem.qty.toLowerCase().includes(cserchdata.csqty.toLowerCase())) &&
-    //     (cserchdata.csitem== null || purorder.poitem.item.name.toLowerCase().includes(cserchdata.csitem.toLowerCase()));
-    // };
+    this.data.filterPredicate = (purorder: Purorder, filter: string) => {
+      // @ts-ignore
+      return (cserchdata.csponumber == null || purorder.ponumber.toLowerCase().includes(cserchdata.csponumber.toLowerCase())) &&
+        (cserchdata.csemployee == null || purorder.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
+        (cserchdata.cspostatus == null || purorder.postatus.name.toLowerCase().includes(cserchdata.cspostatus.toLowerCase())) &&
+        //(cserchdata.csqty == null || purorder.poitem.qty.toLowerCase().includes(cserchdata.csqty.toLowerCase())) &&
+        //(cserchdata.csitem== null || purorder.poitem.item.name.toLowerCase().includes(cserchdata.csitem.toLowerCase()))&&
+        (cserchdata.csdate== null || purorder.date.includes(cserchdata.csitem.toLowerCase()));
+    };
 
     this.data.filter = 'xx';
 
@@ -497,8 +504,6 @@ export class PurorderComponent {
     });
     this.enableButtons(true,false,false);
   }
-
-
 
 }
 
