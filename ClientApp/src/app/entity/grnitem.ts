@@ -8,18 +8,16 @@ export class Grnitem {
   public unitcost !: number;
   public qty !: number;
   public linecost !: number;
-  public grn !: Grn;
   public item !: Item;
   public store !: Store;
 
-  constructor(id: number, unitcost: number, qty: number, linecost: number, grn:Grn, item:Item, store:Store) {
+  constructor(id: number, item:Item, unitcost: number, qty: number, store:Store, linecost : number) {
     this.id = id;
     this.unitcost = unitcost;
     this.qty = qty;
     this.linecost = linecost;
-    this.grn = grn;
     this.item = item;
     this.store = store;
   }
-  
+
 }

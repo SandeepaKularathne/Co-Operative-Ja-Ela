@@ -12,7 +12,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Employee</mat-label>
-            <mat-select formControlName="subcategory">
+            <mat-select formControlName="employee">
               <mat-option [value]="null" selected>Not Selected</mat-option>
               <mat-option *ngFor="let employee of employees" [value]="employee">{{employee.fullname}}</mat-option>
             </mat-select>
@@ -37,6 +37,56 @@
             <mat-label>Description</mat-label>
             <input matInput formControlName="description">
           </mat-form-field>
+
+          <div id="innertable">
+
+            <mat-form [formGroup]="innerform">
+
+              <mat-form-field appearance="outline">
+                <mat-label>Item</mat-label>
+                <mat-select formControlName="item">
+                  <mat-option [value]="null" selected>Not Selected</mat-option>
+                  <mat-option *ngFor="let item of items" [value]="item">{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>unit Cost</mat-label>
+                <input matInput   formControlName="unitcost">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Qty</mat-label>
+                <input matInput   formControlName="qty">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Store</mat-label>
+                <mat-select formControlName="store">
+                  <mat-option [value]="null" selected>Not Selected</mat-option>
+                  <mat-option *ngFor="let store of stores" [value]="store">{{store.storenumber}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <button mat-raised-button id="btnAdd" (click)="btnaddMc()" >Add</button>
+            </mat-form>
+
+            <mat-table [dataSource]="indata">
+              <ng-container *ngFor="let column of incolumns;let i = index;" [matColumnDef]="column">
+                <mat-header-cell *matHeaderCellDef> {{inheaders[i]}} </mat-header-cell>
+                <mat-cell *matCellDef="let element" >
+                  <div *ngIf="i<inbinders.length-1" [innerHTML]="uiassist.getProperty(element, inbinders[i])"></div>
+                  <div *ngIf="i>=inbinders.length-1">
+                    <button mat-raised-button (click)="deleteRaw(element)">Remove</button>
+                  </div>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="incolumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: incolumns" ></mat-row>
+            </mat-table>
+
+          </div>
 
           <mat-form-field appearance="outline">
             <mat-label>Grandtotal</mat-label>

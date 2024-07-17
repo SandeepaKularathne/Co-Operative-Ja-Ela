@@ -3,24 +3,16 @@
   <mat-grid-tile [colspan]="4" [rowspan]="10">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="left">Purorder Detail</mat-card-title>
+        <mat-card-title id="left">Store Detail</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content id="purorderform">
+      <mat-card-content id="storeform">
 
         <mat-form  [formGroup]="form" >
 
           <mat-form-field appearance="outline">
-            <mat-label>Number</mat-label>
-            <input matInput formControlName="ponumber">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Purorder Status</mat-label>
-            <mat-select formControlName="postatus">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let postatuse of postatuses" [value]="postatuse">{{postatuse.name}}</mat-option>
-            </mat-select>
+            <mat-label>Store Number</mat-label>
+            <input matInput formControlName="storenumber">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -31,63 +23,27 @@
             </mat-select>
           </mat-form-field>
 
+
           <mat-form-field appearance="outline">
-            <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="date" formControlName="date">
-            <mat-datepicker-toggle matIconSuffix [for]="date"></mat-datepicker-toggle>
-            <mat-datepicker #date></mat-datepicker>
+            <mat-label>Establish Date</mat-label>
+            <input matInput [matDatepicker]="esdate" formControlName="esdate">
+            <mat-datepicker-toggle matIconSuffix [for]="esdate"></mat-datepicker-toggle>
+            <mat-datepicker #esdate></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description">
+            <mat-label>Contact Number</mat-label>
+            <input matInput formControlName="cnumber">
           </mat-form-field>
 
-          <div id="innertable">
-
-            <mat-form [formGroup]="innerform">
-
-              <mat-form-field appearance="outline">
-                <mat-label>Item</mat-label>
-                <mat-select formControlName="item">
-                  <mat-option [value]="null" selected>Not Selected</mat-option>
-                  <mat-option *ngFor="let item of items" [value]="item">{{item.name}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>QTY</mat-label>
-                <input matInput formControlName="qty">
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Explinetotal</mat-label>
-                <input matInput formControlName="explinetotal">
-              </mat-form-field>
-
-              <button mat-raised-button id="btnAdd" (click)="btnaddMc()" >Add</button>
-            </mat-form>
-
-            <mat-table [dataSource]="indata">
-              <ng-container *ngFor="let column of incolumns;let i = index;" [matColumnDef]="column">
-                <mat-header-cell *matHeaderCellDef> {{inheaders[i]}} </mat-header-cell>
-                <mat-cell *matCellDef="let element" >
-                  <div *ngIf="i<inbinders.length-1" [innerHTML]="uiassist.getProperty(element, inbinders[i])"></div>
-                  <div *ngIf="i>=inbinders.length-1">
-                    <button mat-raised-button (click)="deleteRaw(element)">Remove</button>
-                  </div>
-                </mat-cell>
-              </ng-container>
-
-              <mat-header-row *matHeaderRowDef="incolumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: incolumns" ></mat-row>
-            </mat-table>
-
-          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+          </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Expected Cost</mat-label>
-            <input matInput formControlName="expectedcost">
+            <mat-label>Location</mat-label>
+            <input matInput formControlName="location">
           </mat-form-field>
 
           <div id="butpanel">
@@ -105,10 +61,10 @@
   </mat-grid-tile>
 
 
-  <mat-grid-tile [colspan]="8" [rowspan]="4">
+  <mat-grid-tile [colspan]="8" [rowspan]="3">
     <mat-card id="ssearch">
       <mat-card-header>
-        <mat-card-title id="right">Purorder Search</mat-card-title>
+        <mat-card-title id="right">Store Search</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
@@ -117,14 +73,14 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Search by Number</mat-label>
-            <input matInput formControlName="ssponumber">
+            <input matInput formControlName="ssstorenumber">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="sspostatus">
+            <mat-label>Employee</mat-label>
+            <mat-select formControlName="ssemployee">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let postatus of postatuses" [value]="postatus.id">{{postatus.name}}</mat-option>
+              <mat-option *ngFor="let employee of employees" [value]="employee.id">{{employee.fullname}}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -145,7 +101,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="right">Purorder Table</mat-card-title>
+        <mat-card-title id="right">Store Table</mat-card-title>
         <div id="loading">
           <img [src]="imageurl">
         </div>

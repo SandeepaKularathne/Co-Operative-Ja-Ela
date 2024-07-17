@@ -41,7 +41,7 @@ public class Purorder {
     @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
     private Employee employee;
     @JsonIgnore
-    @OneToMany(mappedBy = "purorder")
+    @OneToMany(mappedBy = "purorder",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Grn> grns;
 
     public int getId() {

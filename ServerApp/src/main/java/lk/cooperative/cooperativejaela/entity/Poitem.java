@@ -14,7 +14,7 @@ public class Poitem {
     private int id;
     @Basic
     @Column(name = "qty")
-    private String qty;
+    private int qty;
     @Basic
     @Column(name = "explinetotal")
     private BigDecimal explinetotal;
@@ -35,11 +35,11 @@ public class Poitem {
         this.id = id;
     }
 
-    public String getQty() {
+    public int getQty() {
         return qty;
     }
 
-    public void setQty(String qty) {
+    public void setQty(int qty) {
         this.qty = qty;
     }
 

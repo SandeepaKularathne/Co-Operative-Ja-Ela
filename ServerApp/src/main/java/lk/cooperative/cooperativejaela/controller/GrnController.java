@@ -1,11 +1,17 @@
 package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.GrnDao;
+import lk.cooperative.cooperativejaela.dao.ItemDao;
+import lk.cooperative.cooperativejaela.dao.StoreDao;
 import lk.cooperative.cooperativejaela.entity.Grn;
+import lk.cooperative.cooperativejaela.entity.Grnitem;
+import lk.cooperative.cooperativejaela.entity.Item;
+import lk.cooperative.cooperativejaela.entity.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +24,12 @@ public class GrnController {
 
     @Autowired
     private GrnDao grndao;
+
+    @Autowired
+    private ItemDao itemdao;
+
+    @Autowired
+    private StoreDao storedao;
 
     @GetMapping(produces = "application/json")
 //    @PreAuthorize("hasAuthority('grn-select')")
@@ -51,8 +63,30 @@ public class GrnController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
-        if(grndao.findById(grn.getId())!=null)
-            errors = errors+"<br> Existing Number";
+        // Iterate through the Grnmaterials again to update Material unitprice and qty
+//        for (Grnitem grnitem : grn.getGrnitems()) {
+//            Item item = grnitem.getItem();
+//            Store store = grnitem.getStore();
+//            BigDecimal unitCost = grnitem.getUnitcost();
+//            BigDecimal qtyToIncrease = BigDecimal.valueOf(grnitem.getQty());
+//
+//            // Find the existing material or create a new one if not found
+//            Item existingItem = itemdao.findById(item.getId()).orElse(item);
+//            Store existingStore = storedao.findById(store.getId()).orElse(store);
+//
+//            // Calculate the updated qty for the material
+//            //BigDecimal increasedQty = existingItem.getQuantity().add(qtyToIncrease);
+//
+//            // Update the material's qty and unitprice
+//           // existingMaterial.setQty(increasedQty);
+//           // existingMaterial.setUnitprice(unitCost); // Set unitprice as unitcost for simplicity, you can customize the logic here.
+//
+//            // Save the material with the updated qty and unitprice
+//            itemdao.save(existingItem);
+//        }
+        for (Grnitem grnitems : grn.getGrnitems()) {
+            grnitems.setGrn(grn);
+        }
 
         if(errors=="")
         grndao.save(grn);

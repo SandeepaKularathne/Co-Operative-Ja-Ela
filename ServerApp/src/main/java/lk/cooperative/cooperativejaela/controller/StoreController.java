@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,14 +28,13 @@ public class StoreController {
 
         if(params.isEmpty())  return stores;
 
-//        String storestatusid= params.get("storestatusid");
         String storenumber= params.get("storenumber");
+        String employeeid= params.get("employeeid");
 
         Stream<Store> estream = stores.stream();
 
-        //if(storestatusid!=null) estream = estream.filter(e -> e.getStorestatus().getId()==Integer.parseInt(storestatusid));
         if(storenumber!=null) estream = estream.filter(e -> e.getStorenumber().contains(storenumber));
-
+        if(employeeid!=null) estream = estream.filter(e -> e.getEmployee().getId()==Integer.parseInt(employeeid));
 
         return estream.collect(Collectors.toList());
 
@@ -51,8 +51,10 @@ public class StoreController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
-        if(storedao.findById(store.getId())!=null)
-            errors = errors+"<br> Existing Number";
+        Optional<Store> existingStore = storedao.findByStorenumber(store.getStorenumber());
+        if (existingStore.isPresent()) {
+            errors += "<br> Existing Store Number";
+        }
 
         if(errors=="")
         storedao.save(store);
@@ -75,8 +77,10 @@ public class StoreController {
 
         Store emp1 = storedao.findByMyId(store.getId());
 
-        if(emp1!=null && store.getId()!=emp1.getId())
-            errors = errors+"<br> Existing Number";
+        Optional<Store> existingStore = storedao.findByStorenumber(store.getStorenumber());
+        if (existingStore.isPresent()) {
+            errors += "<br> Existing Store Number";
+        }
 
         if(errors=="") storedao.save(store);
         else errors = "Server Validation Errors : <br> "+errors;

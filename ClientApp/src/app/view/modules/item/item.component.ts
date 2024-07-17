@@ -69,13 +69,13 @@ export class ItemComponent {
   enadel:boolean = false;
 
   constructor(
-    private is: ItemService,
-    private vs: SupplierService,
-    private bs: Itembrandservice,
-    private ms: Subcategoryservice,
-    private cs: Categoryservice,
-    private ss: Itemstatusservice,
-    private ts: Unittypeservice,
+    private itms: ItemService,
+    private itsus: SupplierService,
+    private itbs: Itembrandservice,
+    private itscs: Subcategoryservice,
+    private itcs: Categoryservice,
+    private itmss: Itemstatusservice,
+    private itus: Unittypeservice,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
@@ -127,27 +127,27 @@ export class ItemComponent {
 
     this.createView();
 
-    this.ss.getAllList().then((vsts: Itemstatus[]) => {
+    this.itmss.getAllList().then((vsts: Itemstatus[]) => {
       this.itemstatuses = vsts;
     });
 
-    this.ts.getAllList().then((vtys: Unittype[]) => {
+    this.itus.getAllList().then((vtys: Unittype[]) => {
       this.unittypes = vtys;
     });
 
-    this.bs.getAllList().then((vbrs: Itembrand[]) => {
+    this.itbs.getAllList().then((vbrs: Itembrand[]) => {
       this.itembrands = vbrs;
     });
 
-    this.vs.getAll('').then((vsys: Supplier[]) => {
+    this.itsus.getAll('').then((vsys: Supplier[]) => {
       this.suppliers = vsys;
     });
 
-    this.cs.getAllList().then((csys: Category[]) => {
+    this.itcs.getAllList().then((csys: Category[]) => {
       this.categorys = csys;
     });
 
-    this.ms.getAllList().then((msys: Subcategory[]) => {
+    this.itscs.getAllList().then((msys: Subcategory[]) => {
       this.subcategorys = msys;
     });
 
@@ -212,7 +212,7 @@ export class ItemComponent {
 
   loadTable(query: string) {
 
-    this.is.getAll(query)
+    this.itms.getAll(query)
       .then((emps: Item[]) => {
         this.items = emps;
         this.imageurl = 'assets/fullfilled.png';
@@ -475,7 +475,7 @@ export class ItemComponent {
             else this.item.poto = this.olditem.poto;
             this.item.id = this.olditem.id;
 
-            this.is.update(this.item).then((responce: [] | undefined) => {
+            this.itms.update(this.item).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
                 updstatus = responce['errors'] == "";
                 if (!updstatus) { // @ts-ignore
@@ -545,7 +545,7 @@ export class ItemComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.is.delete(this.item.id).then((responce: [] | undefined) => {
+        this.itms.delete(this.item.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -598,7 +598,7 @@ export class ItemComponent {
 
   filtersubcategory(){
     let category = this.form.controls['category'].value.id;
-    this.ms.getSubcategoryByCategory(category).then((msys: Subcategory[]) => {
+    this.itscs.getSubcategoryByCategory(category).then((msys: Subcategory[]) => {
       this.subcategorys = msys;
     });
   }

@@ -64,6 +64,9 @@ public class Item {
     @JsonIgnore
     @OneToMany(mappedBy = "item")
     private Collection<Grnitem> grnitems;
+    @JsonIgnore
+    @OneToMany(mappedBy = "item")
+    private Collection<Disitem> disitems;
 
     public int getId() {
         return id;
@@ -198,5 +201,13 @@ public class Item {
 
     public void setGrnitems(Collection<Grnitem> grnitems) {
         this.grnitems = grnitems;
+    }
+
+    public Collection<Disitem> getDisItems() {
+        return disitems;
+    }
+
+    public void setDisItems(Collection<Disitem> disItems) {
+        this.disitems = disitems;
     }
 }

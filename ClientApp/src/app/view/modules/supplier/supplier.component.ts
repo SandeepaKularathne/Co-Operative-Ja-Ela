@@ -19,10 +19,6 @@ import { Supplierstypeservice } from 'src/app/service/supplierstypeservice';
 // @ts-ignore
 import { Categoryservice } from 'src/app/service/Categoryservice';
 
-
-
-
-
 @Component({
   selector: 'app-supplier',
   templateUrl: './supplier.component.html',
@@ -67,10 +63,10 @@ export class SupplierComponent {
 
 
   constructor(
-    private ss: SupplierService,
-    private sss: Supplierstatusservice,
-    private ts: Supplierstypeservice,
-    private cs: Categoryservice,
+    private sus: SupplierService,
+    private suss: Supplierstatusservice,
+    private suts: Supplierstypeservice,
+    private sucs: Categoryservice,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
@@ -120,15 +116,15 @@ export class SupplierComponent {
 
     this.createView();
 
-    this.sss.getAllList().then((vsts: Supplierstatus[]) => {
+    this.suss.getAllList().then((vsts: Supplierstatus[]) => {
       this.supplierstatuses = vsts;
     });
 
-    this.ts.getAllList().then((vtys: Supplierstype[]) => {
+    this.suts.getAllList().then((vtys: Supplierstype[]) => {
       this.suppliertypes = vtys;
     });
 
-    this.cs.getAllList().then((scos: Category[]) => {
+    this.sucs.getAllList().then((scos: Category[]) => {
       this.categorys = scos;
     });
 
@@ -194,7 +190,7 @@ export class SupplierComponent {
 
   loadTable(query: string) {
 
-    this.ss.getAll(query)
+    this.sus.getAll(query)
       .then((supp: Supplier[]) => {
         this.suppliers = supp;
         this.imageurl = 'assets/fullfilled.png';
@@ -343,7 +339,7 @@ export class SupplierComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           // @ts-ignore
-          this.vs.add(this.supplier).then((responce: [] | undefined) => {
+          this.sus.add(this.supplier).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";
@@ -484,7 +480,7 @@ export class SupplierComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.ss.delete(this.supplier.id).then((responce: [] | undefined) => {
+        this.sus.delete(this.supplier.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";

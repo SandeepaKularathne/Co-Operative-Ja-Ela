@@ -15,6 +15,9 @@ import { Postatus } from 'src/app/entity/postatus';
 import { PurorderService } from 'src/app/service/Purorderservice';
 import { Employee } from 'src/app/entity/employee';
 import { Item } from 'src/app/entity/item';
+import { Poitem } from 'src/app/entity/poitem';
+import { ItemService } from 'src/app/service/itemservice';
+import { EmployeeService } from 'src/app/service/employeeservice';
 
 @Component({
   selector: 'app-purorder',
@@ -25,12 +28,25 @@ import { Item } from 'src/app/entity/item';
 export class PurorderComponent {
 
 
-  columns: string[] = ['ponumber', 'employee', 'postatus', 'date','qty','item'];
-  headers: string[] = ['Ponumber', 'Employee', 'Status', 'Date','QTY', 'Item'];
-  binders: string[] = ['ponumber', 'employee.fullname', 'postatus.name', 'date','poitems','poitems'];
+  columns: string[] = ['ponumber', 'employee', 'postatus', 'date', 'qty', 'item'];
+  headers: string[] = ['Ponumber', 'Employee', 'Status', 'Date', 'QTY', 'Item'];
+  binders: string[] = ['ponumber', 'employee.fullname', 'postatus.name', 'date', 'poitems', 'poitems'];
 
-  cscolumns: string[] = ['csponumber', 'csemployee', 'cspostatus', 'csdate','csqty', 'csitem'];
-  csprompts: string[] = ['Search by Ponumber', 'Search by Employee', 'Search by Status', 'Search by Date','Search by QTY', 'Search by Item'];
+  cscolumns: string[] = ['csponumber', 'csemployee', 'cspostatus', 'csdate', 'csqty', 'csitem'];
+  csprompts: string[] = ['Search by Ponumber', 'Search by Employee', 'Search by Status', 'Search by Date', 'Search by QTY', 'Search by Item'];
+
+  incolumns: string[] = ['item', 'qty', 'explinetotal', 'remove'];
+  inheaders: string[] = ['Item', 'QTY', 'Line total', 'Remove',];
+  inbinders: string[] = ['item.name', 'qty', 'explinetotal', 'getBtn()'];
+
+  innerdata: any;
+  oldinnerdata: any;
+
+  indata!: MatTableDataSource<Poitem>
+  innerform!: FormGroup;
+  items: Array<Item> = [];
+  poitems: Array<Poitem> = [];
+  expectedcost = 0;
 
   public csearch!: FormGroup;
   public ssearch!: FormGroup;
@@ -51,21 +67,22 @@ export class PurorderComponent {
 
   postatuses: Array<Postatus> = [];
   employees: Array<Employee> = [];
-  items: Array<Item> = [];
 
-  enaadd:boolean = false;
-  enaupd:boolean = false;
-  enadel:boolean = false;
-  
+  enaadd: boolean = false;
+  enaupd: boolean = false;
+  enadel: boolean = false;
+
 
   constructor(
-    private vs: PurorderService,
-    private ss: Postatusservice,
+    private pos: PurorderService,
+    private poss: Postatusservice,
+    private itms: ItemService,
+    private emps: EmployeeService,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
-    public authService:AuthorizationManager) {
+    public authService: AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
 
@@ -83,13 +100,16 @@ export class PurorderComponent {
       sspostatus: new FormControl(),
     });
 
-    this.form =this.fb.group({
+    this.form = this.fb.group({
       "ponumber": new FormControl('', [Validators.required]),
       "date": new FormControl('', [Validators.required]),
       "expectedcost": new FormControl('', [Validators.required]),
       "description": new FormControl('', [Validators.required]),
       "postatus": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
+    }, {updateOn: 'change'});
+
+    this.innerform = this.fb.group({
       "item": new FormControl('', [Validators.required]),
       "qty": new FormControl('', [Validators.required]),
       "explinetotal": new FormControl('', [Validators.required]),
@@ -105,8 +125,16 @@ export class PurorderComponent {
 
     this.createView();
 
-    this.ss.getAllList().then((vsts: Postatus[]) => {
+    this.poss.getAllList().then((vsts: Postatus[]) => {
       this.postatuses = vsts;
+    });
+
+    this.emps.getAll('').then((vsts: Employee[]) => {
+      this.employees = vsts;
+    });
+
+    this.itms.getAll('').then((vsts: Item[]) => {
+      this.items = vsts;
     });
 
     this.rs.get('purorder').then((regs: []) => {
@@ -128,12 +156,15 @@ export class PurorderComponent {
     this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
     this.form.controls['postatus'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
-    this.form.controls['item'].setValidators([Validators.required]);
-    this.form.controls['qty'].setValidators([Validators.required]);
-    this.form.controls['explinetotal'].setValidators([Validators.required, Validators.pattern(this.regexes['expectedcost']['regex'])]);
+
+    this.innerform.controls['item'].setValidators([Validators.required]);
+    this.innerform.controls['qty'].setValidators([Validators.required]);
+    this.innerform.controls['explinetotal'].setValidators([Validators.required, Validators.pattern(this.regexes['expectedcost']['regex'])]);
 
 
-    Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
+    Object.values(this.form.controls).forEach(control => {
+      control.markAsTouched();
+    });
 
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
@@ -157,18 +188,18 @@ export class PurorderComponent {
 
     }
 
-    this.enableButtons(true,false,false);
+    this.enableButtons(true, false, false);
   }
 
-  enableButtons(add:boolean, upd:boolean, del:boolean){
-    this.enaadd=add;
-    this.enaupd=upd;
-    this.enadel=del;
+  enableButtons(add: boolean, upd: boolean, del: boolean) {
+    this.enaadd = add;
+    this.enaupd = upd;
+    this.enadel = del;
   }
 
   loadTable(query: string) {
 
-    this.vs.getAll(query)
+    this.pos.getAll(query)
       .then((emps: Purorder[]) => {
         this.purorders = emps;
         this.imageurl = 'assets/fullfilled.png';
@@ -194,7 +225,7 @@ export class PurorderComponent {
         (cserchdata.cspostatus == null || purorder.postatus.name.toLowerCase().includes(cserchdata.cspostatus.toLowerCase())) &&
         //(cserchdata.csqty == null || purorder.poitem.qty.toLowerCase().includes(cserchdata.csqty.toLowerCase())) &&
         //(cserchdata.csitem== null || purorder.poitem.item.name.toLowerCase().includes(cserchdata.csitem.toLowerCase()))&&
-        (cserchdata.csdate== null || purorder.date.includes(cserchdata.csitem.toLowerCase()));
+        (cserchdata.csdate == null || purorder.date.includes(cserchdata.csitem.toLowerCase()));
     };
 
     this.data.filter = 'xx';
@@ -259,13 +290,12 @@ export class PurorderComponent {
 
   fillForm(purorder: Purorder) {
 
-    this.enableButtons(false,true,true);
+    this.enableButtons(false, true, true);
 
-    this.selectedrow=purorder;
+    this.selectedrow = purorder;
 
     this.purorder = JSON.parse(JSON.stringify(purorder));
     this.oldpurorder = JSON.parse(JSON.stringify(purorder));
-
 
 
     //@ts-ignore
@@ -274,7 +304,6 @@ export class PurorderComponent {
     //this.purorder.purordertype = this.purordertypes.find(t => t.id === this.purorder.purordertype.id);
     //@ts-ignore
     //this.purorder.purordermodel = this.purordermodels.find(m => m.id === this.purorder.purordermodel.id);
-
 
 
     this.form.patchValue(this.purorder);
@@ -317,7 +346,7 @@ export class PurorderComponent {
 
       confirm.afterClosed().subscribe(async result => {
         if (result) {
-          this.vs.add(this.purorder).then((responce: [] | undefined) => {
+          this.pos.add(this.purorder).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";
@@ -365,7 +394,11 @@ export class PurorderComponent {
         width: '500px',
         data: {heading: "Errors - Purorder Update ", message: "You have following Errors <br> " + errors}
       });
-      errmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+      errmsg.afterClosed().subscribe(async result => {
+        if (!result) {
+          return;
+        }
+      });
 
     } else {
 
@@ -389,7 +422,7 @@ export class PurorderComponent {
 
             this.purorder.id = this.oldpurorder.id;
 
-            this.vs.update(this.purorder).then((responce: [] | undefined) => {
+            this.pos.update(this.purorder).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
                 updstatus = responce['errors'] == "";
                 if (!updstatus) { // @ts-ignore
@@ -399,11 +432,13 @@ export class PurorderComponent {
                 updstatus = false;
                 updmessage = "Content Not Found"
               }
-            } ).finally(() => {
+            }).finally(() => {
               if (updstatus) {
                 updmessage = "Successfully Updated";
                 this.form.reset();
-                Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
+                Object.values(this.form.controls).forEach(control => {
+                  control.markAsTouched();
+                });
                 this.loadTable("");
               }
 
@@ -411,19 +446,26 @@ export class PurorderComponent {
                 width: '500px',
                 data: {heading: "Status -Purorder Add", message: updmessage}
               });
-              stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+              stsmsg.afterClosed().subscribe(async result => {
+                if (!result) {
+                  return;
+                }
+              });
 
             });
           }
         });
-      }
-      else {
+      } else {
 
         const updmsg = this.dg.open(MessageComponent, {
           width: '500px',
           data: {heading: "Confirmation - Purorder Update", message: "Nothing Changed"}
         });
-        updmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+        updmsg.afterClosed().subscribe(async result => {
+          if (!result) {
+            return;
+          }
+        });
 
       }
     }
@@ -437,7 +479,7 @@ export class PurorderComponent {
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
       if (control.dirty) {
-        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1)+" Changed";
+        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1) + " Changed";
       }
     }
     return updates;
@@ -458,7 +500,7 @@ export class PurorderComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.vs.delete(this.purorder.id).then((responce: [] | undefined) => {
+        this.pos.delete(this.purorder.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -469,11 +511,13 @@ export class PurorderComponent {
             delstatus = false;
             delmessage = "Content Not Found"
           }
-        } ).finally(() => {
+        }).finally(() => {
           if (delstatus) {
             delmessage = "Successfully Deleted";
             this.form.reset();
-            Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
+            Object.values(this.form.controls).forEach(control => {
+              control.markAsTouched();
+            });
             this.loadTable("");
           }
 
@@ -481,14 +525,18 @@ export class PurorderComponent {
             width: '500px',
             data: {heading: "Status - Purorder Delete ", message: delmessage}
           });
-          stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+          stsmsg.afterClosed().subscribe(async result => {
+            if (!result) {
+              return;
+            }
+          });
 
         });
       }
     });
   }
 
-  clear():void{
+  clear(): void {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
@@ -502,10 +550,67 @@ export class PurorderComponent {
         this.form.reset()
       }
     });
-    this.enableButtons(true,false,false);
+    this.enableButtons(true, false, false);
+  }
+
+  //inner table
+
+  id = 0;
+
+  btnaddMc() {
+
+    this.innerdata = this.innerform.getRawValue();
+    console.log(this.innerdata);
+
+    if (this.innerdata != null) {
+
+      let explinetotal =this.innerdata.qty * this.innerdata.explinetotal;
+      let poitem = new Poitem(this.id,this.innerdata.qty, explinetotal, this.innerdata.item);
+
+      let tem: Poitem[] = [];
+      if (this.indata != null) this.indata.data.forEach((i) => tem.push(i));
+
+      this.poitems = [];
+      tem.forEach((t) => this.poitems.push(t));
+
+      this.poitems.push(poitem);
+      this.indata = new MatTableDataSource(this.poitems);
+
+      this.id++;
+
+      this.calculateGrandTotal();
+      this.innerform.reset();
+
+    }
+
+  }
+
+  calculateGrandTotal() {
+
+    this.indata.data.forEach((m) => {
+      this.expectedcost = this.expectedcost + m.explinetotal
+    })
+
+    this.form.controls['expectedcost'].setValue(this.expectedcost);
+  }
+
+  deleteRaw(x: any) {
+
+    let datasources = this.indata.data
+
+    const index = datasources.findIndex(m => m.id === x.id);
+    if (index > -1) {
+      datasources.splice(index, 1);
+    }
+    this.indata.data = datasources;
+    this.poitems = this.indata.data;
+
+    this.calculateGrandTotal();
   }
 
 }
+
+
 
 
 

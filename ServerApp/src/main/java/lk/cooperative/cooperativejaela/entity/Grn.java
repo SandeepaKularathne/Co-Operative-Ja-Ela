@@ -35,7 +35,7 @@ public class Grn {
     @ManyToOne
     @JoinColumn(name = "purorder_id", referencedColumnName = "id", nullable = false)
     private Purorder purorder;
-    @OneToMany(mappedBy = "grn")
+    @OneToMany(mappedBy = "grn",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Grnitem> grnitems;
 
     public int getId() {

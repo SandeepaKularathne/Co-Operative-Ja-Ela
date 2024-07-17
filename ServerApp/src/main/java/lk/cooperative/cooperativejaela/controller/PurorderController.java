@@ -1,6 +1,8 @@
 package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.PurorderDao;
+import lk.cooperative.cooperativejaela.entity.Grnitem;
+import lk.cooperative.cooperativejaela.entity.Poitem;
 import lk.cooperative.cooperativejaela.entity.Purorder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,8 +51,9 @@ public class PurorderController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
-        if(purorderdao.findById(purorder.getId())!=null)
-            errors = errors+"<br> Existing Number";
+        for (Poitem poitems : purorder.getPoitems()) {
+            poitems.setPurorder(purorder);
+        }
 
         if(errors=="")
             purorderdao.save(purorder);

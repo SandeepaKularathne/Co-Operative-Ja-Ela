@@ -11,6 +11,8 @@ public interface StoreDao extends JpaRepository<Store,Integer> {
     
     Optional<Store> findById(Integer id);
 
+    Optional<Store> findByStorenumber(String id);
+
     @Query("select e from Store e where e.id = :id")
     Store findByMyId(@Param("id") Integer id);
 

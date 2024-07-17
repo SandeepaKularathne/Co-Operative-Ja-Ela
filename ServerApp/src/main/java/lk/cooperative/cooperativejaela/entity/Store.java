@@ -3,6 +3,7 @@ package lk.cooperative.cooperativejaela.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Objects;
@@ -15,9 +16,11 @@ public class Store {
     private int id;
     @Basic
     @Column(name = "storenumber")
+    @Pattern(regexp = "^[A-Z]\\d{3}$", message = "Invalid Number")
     private String storenumber;
     @Basic
     @Column(name = "location")
+    @Pattern(regexp = "^.*$", message = "Invalid Location")
     private String location;
     @Basic
     @Column(name = "esdate")
@@ -28,6 +31,13 @@ public class Store {
     @JsonIgnore
     @OneToMany(mappedBy = "store")
     private Collection<Grnitem> grnitems;
+    @Basic
+    @Column(name = "email")
+    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Invalid Email Address")
+    private String email;
+    @ManyToOne
+    @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
+    private Employee employee;
 
     public int getId() {
         return id;
@@ -88,5 +98,21 @@ public class Store {
 
     public void setGrnitems(Collection<Grnitem> grnitems) {
         this.grnitems = grnitems;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

@@ -63,11 +63,11 @@ export class VehicleComponent {
   enadel:boolean = false;
 
   constructor(
-    private vs: VehicleService,
-    private bs: Vehiclebrandservice,
-    private ms: Vehiclemodelservice,
-    private ss: Vehiclestatusservice,
-    private ts: Vehicletypeservice,
+    private vhs: VehicleService,
+    private vhbs: Vehiclebrandservice,
+    private vhms: Vehiclemodelservice,
+    private vhss: Vehiclestatusservice,
+    private vhts: Vehicletypeservice,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
@@ -118,19 +118,19 @@ export class VehicleComponent {
 
     this.createView();
 
-    this.ss.getAllList().then((vsts: Vehiclestatus[]) => {
+    this.vhss.getAllList().then((vsts: Vehiclestatus[]) => {
       this.vehiclestatuses = vsts;
     });
 
-    this.ts.getAllList().then((vtys: Vehicletype[]) => {
+    this.vhts.getAllList().then((vtys: Vehicletype[]) => {
       this.vehicletypes = vtys;
     });
 
-    this.ms.getAllList().then((vmos: Vehiclemodel[]) => {
+    this.vhms.getAllList().then((vmos: Vehiclemodel[]) => {
       this.vehiclemodels = vmos;
     });
 
-    this.bs.getAllList().then((vbrs: Vehiclebrand[]) => {
+    this.vhbs.getAllList().then((vbrs: Vehiclebrand[]) => {
       this.vehiclebrands = vbrs;
     });
 
@@ -195,7 +195,7 @@ export class VehicleComponent {
 
   loadTable(query: string) {
 
-    this.vs.getAll(query)
+    this.vhs.getAll(query)
       .then((emps: Vehicle[]) => {
         this.vehicles = emps;
         this.imageurl = 'assets/fullfilled.png';
@@ -386,7 +386,7 @@ export class VehicleComponent {
 
       confirm.afterClosed().subscribe(async result => {
         if (result) {
-          this.vs.add(this.vehicle).then((responce: [] | undefined) => {
+          this.vhs.add(this.vehicle).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";
@@ -460,7 +460,7 @@ export class VehicleComponent {
             else this.vehicle.poto = this.oldvehicle.poto;
             this.vehicle.id = this.oldvehicle.id;
 
-            this.vs.update(this.vehicle).then((responce: [] | undefined) => {
+            this.vhs.update(this.vehicle).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
                 updstatus = responce['errors'] == "";
                 if (!updstatus) { // @ts-ignore
@@ -530,7 +530,7 @@ export class VehicleComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.vs.delete(this.vehicle.id).then((responce: [] | undefined) => {
+        this.vhs.delete(this.vehicle.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -572,7 +572,8 @@ export class VehicleComponent {
 
     confirm.afterClosed().subscribe(async result => {
       if (result) {
-        this.form.reset()
+        this.form.reset();
+        this.loadTable('');
       }
     });
     this.enableButtons(true,false,false);
