@@ -18,6 +18,9 @@ public class Gender {
     @JsonIgnore
     @OneToMany(mappedBy = "gender")
     private Collection<Employee> employees;
+    @JsonIgnore
+    @OneToMany(mappedBy = "gender")
+    private Collection<Customer> customersById;
 
     public Integer getId() {
         return id;
@@ -61,5 +64,13 @@ public class Gender {
 
     public void setEmployees(Collection<Employee> employees) {
         this.employees = employees;
+    }
+
+    public Collection<Customer> getCustomersById() {
+        return customersById;
+    }
+
+    public void setCustomersById(Collection<Customer> customersById) {
+        this.customersById = customersById;
     }
 }
