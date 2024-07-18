@@ -135,15 +135,15 @@ public class Item {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Item)) return false;
         Item item = (Item) o;
-        return id == item.id && Objects.equals(name, item.name) && Objects.equals(sprice, item.sprice) && Objects.equals(pprice, item.pprice) && Arrays.equals(poto, item.poto) && Objects.equals(quantity, item.quantity) && Objects.equals(rop, item.rop) && Objects.equals(dointroduced, item.dointroduced);
+        return getId() == item.getId() && Objects.equals(getName(), item.getName()) && Objects.equals(getSprice(), item.getSprice()) && Objects.equals(getPprice(), item.getPprice()) && Arrays.equals(getPoto(), item.getPoto()) && Objects.equals(getQuantity(), item.getQuantity()) && Objects.equals(getRop(), item.getRop()) && Objects.equals(getDointroduced(), item.getDointroduced()) && Objects.equals(getSubcategory(), item.getSubcategory()) && Objects.equals(getItembrand(), item.getItembrand()) && Objects.equals(getItemstatus(), item.getItemstatus()) && Objects.equals(getUnittype(), item.getUnittype()) && Objects.equals(getSupplier(), item.getSupplier()) && Objects.equals(getPoitems(), item.getPoitems()) && Objects.equals(getGrnitems(), item.getGrnitems());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, name, sprice, pprice, quantity, rop, dointroduced);
-        result = 31 * result + Arrays.hashCode(poto);
+        int result = Objects.hash(getId(), getName(), getSprice(), getPprice(), getQuantity(), getRop(), getDointroduced(), getSubcategory(), getItembrand(), getItemstatus(), getUnittype(), getSupplier(), getPoitems(), getGrnitems());
+        result = 31 * result + Arrays.hashCode(getPoto());
         return result;
     }
 
@@ -203,11 +203,11 @@ public class Item {
         this.grnitems = grnitems;
     }
 
-    public Collection<Disitem> getDisItems() {
-        return disitems;
-    }
+//    public Collection<Disitem> getDisItems() {
+//        return disitems;
+//    }
 
-    public void setDisItems(Collection<Disitem> disItems) {
-        this.disitems = disitems;
-    }
+//    public void setDisItems(Collection<Disitem> disItems) {
+//        this.disitems = disitems;
+//    }
 }

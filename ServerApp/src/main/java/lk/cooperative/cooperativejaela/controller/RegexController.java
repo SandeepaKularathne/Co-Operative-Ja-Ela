@@ -46,6 +46,9 @@ public class RegexController {
     @GetMapping(path ="/shop", produces = "application/json")
     public HashMap<String, HashMap<String, String>> shop() {return RegexProvider.get(new Shop());}
 
+    @GetMapping(path ="/customer", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> customer() {return RegexProvider.get(new Customer());}
+
 
 }
 

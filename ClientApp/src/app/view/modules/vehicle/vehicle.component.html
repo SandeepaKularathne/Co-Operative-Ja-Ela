@@ -41,7 +41,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Date Of Attach</mat-label>
-            <input matInput [matDatepicker]="doattach" formControlName="doattach">
+            <input matInput [matDatepicker]="doattach" [matDatepickerFilter]="filterDates" formControlName="doattach">
             <mat-datepicker-toggle matIconSuffix [for]="doattach"></mat-datepicker-toggle>
             <mat-datepicker #doattach></mat-datepicker>
           </mat-form-field>
@@ -75,14 +75,14 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Last Register Date</mat-label>
-            <input matInput [matDatepicker]="lastregdate" formControlName="lastregdate">
+            <input matInput [matDatepicker]="lastregdate" [matDatepickerFilter]="filterDates" formControlName="lastregdate">
             <mat-datepicker-toggle matIconSuffix [for]="lastregdate"></mat-datepicker-toggle>
             <mat-datepicker #lastregdate></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Last Service Date</mat-label>
-            <input matInput [matDatepicker]="lastservicedate" formControlName="lastservicedate">
+            <input matInput [matDatepicker]="lastservicedate" [matDatepickerFilter]="filterDates" formControlName="lastservicedate">
             <mat-datepicker-toggle matIconSuffix [for]="lastservicedate"></mat-datepicker-toggle>
             <mat-datepicker #lastservicedate></mat-datepicker>
           </mat-form-field>

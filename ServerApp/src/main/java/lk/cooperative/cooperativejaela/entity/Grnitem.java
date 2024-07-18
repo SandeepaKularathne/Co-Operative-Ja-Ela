@@ -20,7 +20,7 @@ public class Grnitem {
     private Integer qty;
     @Basic
     @Column(name = "linecost")
-    private String linecost;
+    private BigDecimal linecost;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "grn_id", referencedColumnName = "id", nullable = false)
@@ -57,11 +57,11 @@ public class Grnitem {
         this.qty = qty;
     }
 
-    public String getLinecost() {
+    public BigDecimal getLinecost() {
         return linecost;
     }
 
-    public void setLinecost(String linecost) {
+    public void setLinecost(BigDecimal linecost) {
         this.linecost = linecost;
     }
 

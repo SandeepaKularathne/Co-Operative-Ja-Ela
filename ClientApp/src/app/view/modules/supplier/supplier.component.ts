@@ -134,6 +134,10 @@ export class SupplierComponent {
     });
   }
 
+  filterDates = (date: Date | null): boolean => {
+    const currentDate = new Date();
+    return !date || date.getTime() <= currentDate.getTime();
+  };
   createView() {
     this.imageurl = 'assets/pending.gif';
     this.loadTable("");

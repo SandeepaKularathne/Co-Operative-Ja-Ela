@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -12,18 +13,22 @@ public class Customer {
     private int id;
     @Basic
     @Column(name = "name")
+    @Pattern(regexp = "^[A-Z][a-zA-Z-'\\s]{1,}$", message = "Invalid Name")
     private String name;
     @Basic
     @Column(name = "birthday")
     private Date birthday;
     @Basic
     @Column(name = "email")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Invalid Email Address")
     private String email;
     @Basic
     @Column(name = "phonenumber")
+    @Pattern(regexp = "^\\d{9,10}$", message = "Invalid Phone Number")
     private String phonenumber;
     @Basic
     @Column(name = "city")
+    @Pattern(regexp = "^.*$", message = "Invalid City")
     private String city;
     @ManyToOne
     @JoinColumn(name = "gender_id", referencedColumnName = "id", nullable = false)

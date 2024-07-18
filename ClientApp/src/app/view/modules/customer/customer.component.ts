@@ -9,37 +9,38 @@ import {ConfirmComponent} from "../../../util/dialog/confirm/confirm.component";
 import {RegexService} from "../../../service/regexservice";
 import {DatePipe} from "@angular/common";
 import {AuthorizationManager} from "../../../service/authorizationmanager";
-import { Store } from 'src/app/entity/store';
-import { Employee } from 'src/app/entity/employee';
-import { EmployeeService } from 'src/app/service/employeeservice';
-import { Storeservice } from 'src/app/service/Storeservice';
-
+import {Customer} from "../../../entity/customer";
+import {Customerservice} from "../../../service/customerservice";
+import { Gender } from '../../../entity/gender';
+import { Loyaltyprogram } from '../../../entity/loyaltyprogram';
+import {Loyaltyprogramservice} from "../../../service/loyaltyprogramservice";
+import {GenderService} from "../../../service/genderservice";
 
 @Component({
-  selector: 'app-store',
-  templateUrl: './store.component.html',
-  styleUrls: ['./store.component.css']
+  selector: 'app-customer',
+  templateUrl: './customer.component.html',
+  styleUrls: ['./customer.component.css']
 })
 
-export class StoreComponent {
+export class CustomerComponent {
 
 
-  columns: string[] = ['storenumber', 'location', 'esdate', 'employee','cnumber', 'mail'];
-  headers: string[] = ['Store Number', 'Location', 'Date', 'A.Employee', 'Contact Number','Email'];
-  binders: string[] = ['storenumber', 'location', 'esdate', 'employee.fullname','cnumber', 'email'];
+  columns: string[] = ['phonenumber', 'name', 'birthday', 'city','loyaltyprogram', 'gender'];
+  headers: string[] = ['Phone Number', 'Name', 'Birthday', 'City', 'Level','Gender'];
+  binders: string[] = ['phonenumber', 'name', 'birthday', 'city','loyaltyprogram.level', 'gender.name'];
 
-  cscolumns: string[] = ['csstorenumber', 'cslocation', 'csesdate', 'csemployee', 'cscnumber', 'csemail'];
-  csprompts: string[] = ['Search by Store Number', 'Search by Location', 'Search by Date', 'Search by Employee', 'Search by C.No', 'Search by Email'];
+  cscolumns: string[] = ['csphonenumber', 'csname', 'csbirthday', 'cscity', 'csloyaltyprogram', 'csgender'];
+  csprompts: string[] = ['Search by Phone Number', 'Search by Name', 'Search by Birthday', 'Search by City', 'Search by Level', 'Search by Gender'];
 
   public csearch!: FormGroup;
   public ssearch!: FormGroup;
   public form!: FormGroup;
 
-  store!: Store;
-  oldstore!: Store;
+  customer!: Customer;
+  oldcustomer!: Customer;
 
-  stores: Array<Store> = [];
-  data!: MatTableDataSource<Store>;
+  customers: Array<Customer> = [];
+  data!: MatTableDataSource<Customer>;
   imageurl: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   imageempurl: string = 'assets/default.png'
@@ -48,7 +49,8 @@ export class StoreComponent {
   regexes: any;
   selectedrow: any;
 
-  employees: Array<Employee> = [];
+  loyaltyprograms: Array<Loyaltyprogram> = [];
+  genders: Array<Gender> = [];
 
 
   enaadd:boolean = true;
@@ -56,8 +58,9 @@ export class StoreComponent {
   enadel:boolean = false;
 
   constructor(
-    private sts: Storeservice,
-    private emps: EmployeeService,
+    private cuss: Customerservice,
+    private lops: Loyaltyprogramservice,
+    private gens: GenderService,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
@@ -67,26 +70,28 @@ export class StoreComponent {
     this.uiassist = new UiAssist(this);
 
     this.csearch = this.fb.group({
-      csstorenumber: new FormControl(),
-      cslocation: new FormControl(),
-      csesdate: new FormControl(),
-      cscnumber: new FormControl(),
-      csemployee: new FormControl(),
-      csemail: new FormControl(),
+      csphonenumber: new FormControl(),
+      csname: new FormControl(),
+      csbirthday: new FormControl(),
+      cscity: new FormControl(),
+      csloyaltyprogram: new FormControl(),
+      csgender: new FormControl(),
     });
 
     this.ssearch = this.fb.group({
-      ssstorenumber: new FormControl(),
-      ssemployee: new FormControl(),
+      ssphonenumber: new FormControl(),
+      ssloyaltyprogram: new FormControl(),
+      ssgender: new FormControl(),
     });
 
     this.form =this.fb.group({
-      "storenumber": new FormControl('', [Validators.required]),
-      "location": new FormControl('', [Validators.required]),
-      "esdate": new FormControl('', [Validators.required]),
-      "cnumber": new FormControl('', [Validators.required]),
+      "phonenumber": new FormControl('', [Validators.required]),
+      "name": new FormControl('', [Validators.required]),
+      "birthday": new FormControl('', [Validators.required]),
+      "city": new FormControl('', [Validators.required]),
       "email": new FormControl('', [Validators.required]),
-      "employee": new FormControl('', [Validators.required]),
+      "loyaltyprogram": new FormControl('', [Validators.required]),
+      "gender": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
 
   }
@@ -99,11 +104,15 @@ export class StoreComponent {
 
     this.createView();
 
-    this.emps.getAll('').then((vsts: Employee[]) => {
-      this.employees = vsts;
+    this.lops.getAllList().then((vsts: Loyaltyprogram[]) => {
+      this.loyaltyprograms = vsts;
     });
 
-    this.rs.get('store').then((regs: []) => {
+    this.gens.getAllList().then((vsts: Gender[]) => {
+      this.genders = vsts;
+    });
+
+    this.rs.get('customer').then((regs: []) => {
       this.regexes = regs;
       this.createForm();
     });
@@ -116,12 +125,13 @@ export class StoreComponent {
 
   createForm() {
 
-    this.form.controls['storenumber'].setValidators([Validators.required, Validators.pattern(this.regexes['storenumber']['regex'])]);
-    this.form.controls['location'].setValidators([Validators.required]);
-    this.form.controls['esdate'].setValidators([Validators.required]);
-    this.form.controls['cnumber'].setValidators([Validators.required, Validators.pattern(this.regexes['cnumber']['regex'])]);
+    this.form.controls['phonenumber'].setValidators([Validators.required, Validators.pattern(this.regexes['phonenumber']['regex'])]);
+    this.form.controls['name'].setValidators([Validators.required, Validators.pattern(this.regexes['name']['regex'])]);
+    this.form.controls['birthday'].setValidators([Validators.required]);
+    this.form.controls['city'].setValidators([Validators.required, Validators.pattern(this.regexes['city']['regex'])]);
     this.form.controls['email'].setValidators([Validators.required, Validators.pattern(this.regexes['email']['regex'])]);
-    this.form.controls['employee'].setValidators([Validators.required]);
+    this.form.controls['loyaltyprogram'].setValidators([Validators.required]);
+    this.form.controls['gender'].setValidators([Validators.required]);
 
     Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
 
@@ -129,12 +139,12 @@ export class StoreComponent {
       const control = this.form.controls[controlName];
       control.valueChanges.subscribe(value => {
           // @ts-ignore
-          if (controlName == "esdate" || controlName == "date")
+          if (controlName == "birthday" || controlName == "birthday")
             value = this.dp.transform(new Date(value), 'yyyy-MM-dd');
 
-          if (this.oldstore != undefined && control.valid) {
+          if (this.oldcustomer != undefined && control.valid) {
             // @ts-ignore
-            if (value === this.store[controlName]) {
+            if (value === this.customer[controlName]) {
               control.markAsPristine();
             } else {
               control.markAsDirty();
@@ -158,16 +168,16 @@ export class StoreComponent {
 
   loadTable(query: string) {
 
-    this.sts.getAll(query)
-      .then((emps: Store[]) => {
-        this.stores = emps;
+    this.cuss.getAll(query)
+      .then((emps: Customer[]) => {
+        this.customers = emps;
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
         this.imageurl = 'assets/rejected.png';
       })
       .finally(() => {
-        this.data = new MatTableDataSource(this.stores);
+        this.data = new MatTableDataSource(this.customers);
         this.data.paginator = this.paginator;
       });
 
@@ -177,13 +187,13 @@ export class StoreComponent {
 
     const cserchdata = this.csearch.getRawValue();
 
-    this.data.filterPredicate = (store: Store, filter: string) => {
-      return (cserchdata.csstorenumber == null || store.storenumber.toLowerCase().includes(cserchdata.csstorenumber.toLowerCase())) &&
-        (cserchdata.cslocation == null || store.location.toLowerCase().includes(cserchdata.cslocation.toLowerCase())) &&
-        (cserchdata.csesdate == null || store.esdate.toLowerCase().includes(cserchdata.csesdate.toLowerCase())) &&
-        (cserchdata.csemployee== null || store.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
-        (cserchdata.cscnumber == null || store.cnumber.toLowerCase().includes(cserchdata.cscnumber.toLowerCase())) &&
-        (cserchdata.csemail == null || store.email.toLowerCase().includes(cserchdata.csemail.toLowerCase()));
+    this.data.filterPredicate = (customer: Customer, filter: string) => {
+      return (cserchdata.csphonenumber == null || customer.phonenumber.toLowerCase().includes(cserchdata.csphonenumber.toLowerCase())) &&
+        (cserchdata.csname == null || customer.name.toLowerCase().includes(cserchdata.csname.toLowerCase())) &&
+        (cserchdata.csbirthday == null || customer.birthday.toLowerCase().includes(cserchdata.csbirthday.toLowerCase())) &&
+        (cserchdata.csloyaltyprogram== null || customer.loyaltyprogram.level.toLowerCase().includes(cserchdata.csloyaltyprogram.toLowerCase())) &&
+        (cserchdata.csgender== null || customer.gender.name.toLowerCase().includes(cserchdata.csgender.toLowerCase())) &&
+        (cserchdata.cscity == null || customer.city.toLowerCase().includes(cserchdata.cscity.toLowerCase()));
     };
 
     this.data.filter = 'xx';
@@ -195,13 +205,15 @@ export class StoreComponent {
     this.csearch.reset();
     const sserchdata = this.ssearch.getRawValue();
 
-    let storenumber = sserchdata.ssstorenumber;
-    let employeeid = sserchdata.ssemployee;
+    let genderid= sserchdata.ssgender;
+    let loyaltyprogramid = sserchdata.ssloyaltyprogram;
+    let phonenumber = sserchdata.ssphonenumber;
 
     let query = "";
 
-    if (storenumber != null && storenumber.trim() != "") query = query + "&storenumber=" + storenumber;
-    if (employeeid != null) query = query + "&employeeid=" + employeeid;
+    if (genderid != null) query = query + "&genderid=" + genderid;
+    if (loyaltyprogramid != null) query = query + "&loyaltyprogramid=" + loyaltyprogramid;
+    if (phonenumber != null && phonenumber.trim() != "") query = query + "&phonenumber=" + phonenumber;
 
     if (query != "") query = query.replace(/^./, "?")
 
@@ -245,19 +257,22 @@ export class StoreComponent {
     return errors;
   }
 
-  fillForm(store: Store) {
+  fillForm(customer: Customer) {
 
     this.enableButtons(false,true,true);
 
-    this.selectedrow=store;
+    this.selectedrow=customer;
 
-    this.store = JSON.parse(JSON.stringify(store));
-    this.oldstore = JSON.parse(JSON.stringify(store));
+    this.customer = JSON.parse(JSON.stringify(customer));
+    this.oldcustomer = JSON.parse(JSON.stringify(customer));
 
     //@ts-ignore
-    this.store.employee = this.employees.find(s => s.id === this.store.employee.id);
+    this.customer.gender = this.genders.find(s => s.id === this.customer.gender.id);
 
-    this.form.patchValue(this.store);
+    //@ts-ignore
+    this.customer.loyaltyprogram = this.loyaltyprograms.find(s => s.id === this.customer.loyaltyprogram.id);
+
+    this.form.patchValue(this.customer);
     this.form.markAsPristine();
 
   }
@@ -269,7 +284,7 @@ export class StoreComponent {
     if (errors != "") {
       const errmsg = this.dg.open(MessageComponent, {
         width: '500px',
-        data: {heading: "Errors - Store Add ", message: "You have following Errors <br> " + errors}
+        data: {heading: "Errors - Customer Add ", message: "You have following Errors <br> " + errors}
       });
       errmsg.afterClosed().subscribe(async result => {
         if (!result) {
@@ -278,17 +293,17 @@ export class StoreComponent {
       });
     } else {
 
-      this.store = this.form.getRawValue();
+      this.customer = this.form.getRawValue();
 
-      let vehdata: string = "";
+      let shdata: string = "";
 
-      vehdata = vehdata + "<br>Number is : " + this.store.storenumber;
+      shdata = shdata + "<br> Customer Number is : " + this.customer.phonenumber;
 
       const confirm = this.dg.open(ConfirmComponent, {
         width: '500px',
         data: {
-          heading: "Confirmation - Store Add",
-          message: "Are you sure to Add the following Store? <br> <br>" + vehdata
+          heading: "Confirmation - Customer Add",
+          message: "Are you sure to Add the following Customer? <br> <br>" + shdata
         }
       });
 
@@ -296,9 +311,8 @@ export class StoreComponent {
       let addmessage: string = "Server Not Found";
 
       confirm.afterClosed().subscribe(async result => {
-        console.log(this.store)
         if (result) {
-          this.sts.add(this.store).then((responce: [] | undefined) => {
+          this.cuss.add(this.customer).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";
@@ -322,7 +336,7 @@ export class StoreComponent {
 
             const stsmsg = this.dg.open(MessageComponent, {
               width: '500px',
-              data: {heading: "Status -Store Add", message: addmessage}
+              data: {heading: "Status -Customer Add", message: addmessage}
             });
 
             stsmsg.afterClosed().subscribe(async result => {
@@ -366,11 +380,11 @@ export class StoreComponent {
         });
         confirm.afterClosed().subscribe(async result => {
           if (result) {
-            this.store = this.form.getRawValue();
+            this.customer = this.form.getRawValue();
 
-            this.store.id = this.oldstore.id;
+            this.customer.id = this.oldcustomer.id;
 
-            this.sts.update(this.store).then((responce: [] | undefined) => {
+            this.cuss.update(this.customer).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
                 updstatus = responce['errors'] == "";
                 if (!updstatus) { // @ts-ignore
@@ -386,6 +400,7 @@ export class StoreComponent {
                 this.form.reset();
                 Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
                 this.loadTable("");
+                this.enableButtons(true,false,false);
               }
 
               const stsmsg = this.dg.open(MessageComponent, {
@@ -429,8 +444,8 @@ export class StoreComponent {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - Store Delete",
-        message: "Are you sure to Delete following Store? <br> <br>" + this.store.storenumber
+        heading: "Confirmation - Customer Delete",
+        message: "Are you sure to Delete following Customer? <br> <br>" + this.customer.phonenumber
       }
     });
 
@@ -439,7 +454,7 @@ export class StoreComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.sts.delete(this.store.id).then((responce: [] | undefined) => {
+        this.cuss.delete(this.customer.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -454,13 +469,14 @@ export class StoreComponent {
           if (delstatus) {
             delmessage = "Successfully Deleted";
             this.form.reset();
+            this.enableButtons(true,false,false);
             Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
             this.loadTable("");
           }
 
           const stsmsg = this.dg.open(MessageComponent, {
             width: '500px',
-            data: {heading: "Status - Store Delete ", message: delmessage}
+            data: {heading: "Status - Customer Delete ", message: delmessage}
           });
           stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -473,7 +489,7 @@ export class StoreComponent {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - Store Clear",
+        heading: "Confirmation - Customer Clear",
         message: "Are you sure to Clear following Details ? <br> <br>"
       }
     });
@@ -482,15 +498,17 @@ export class StoreComponent {
       if (result) {
         this.form.reset();
         this.loadTable('');
+        this.enableButtons(true,false,false);
       }
     });
-    this.enableButtons(true,false,false);
+
   }
 
   filterDates = (date: Date | null): boolean => {
     const currentDate = new Date();
     return !date || date.getTime() <= currentDate.getTime();
   };
+
 }
 
 

@@ -603,6 +603,10 @@ export class ItemComponent {
     });
   }
 
+  filterDates = (date: Date | null): boolean => {
+    const currentDate = new Date();
+    return !date || date.getTime() <= currentDate.getTime();
+  };
 
 }
 

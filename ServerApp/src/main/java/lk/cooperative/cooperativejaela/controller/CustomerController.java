@@ -29,7 +29,7 @@ public class CustomerController {
 
         if(params.isEmpty())  return customers;
 
-        String phonenumber = params.get("Phonenumber");
+        String phonenumber = params.get("phonenumber");
         String genderid= params.get("genderid");
         String loyaltyprogramid= params.get("loyaltyprogramid");
 

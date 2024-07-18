@@ -65,7 +65,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Date Of Introduced</mat-label>
-            <input matInput [matDatepicker]="dointroduced" formControlName="dointroduced">
+            <input matInput [matDatepicker]="dointroduced" [matDatepickerFilter]="filterDates" formControlName="dointroduced">
             <mat-datepicker-toggle matIconSuffix [for]="dointroduced"></mat-datepicker-toggle>
             <mat-datepicker #dointroduced></mat-datepicker>
           </mat-form-field>

@@ -22,6 +22,10 @@ public class Disrequests {
     private String description;
     @OneToMany(mappedBy = "disrequests")
     private Collection<Disitem> disitems;
+
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "disrequests_id")
+//    private Collection<Disitem> disitems;
     @ManyToOne
     @JoinColumn(name = "disstatus_id", referencedColumnName = "id", nullable = false)
     private Disstatus disstatus;
@@ -67,9 +71,9 @@ public class Disrequests {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Disrequests)) return false;
         Disrequests that = (Disrequests) o;
-        return id == that.id && Objects.equals(disnumber, that.disnumber) && Objects.equals(reqdate, that.reqdate) && Objects.equals(description, that.description);
+        return getId() == that.getId() && Objects.equals(getDisnumber(), that.getDisnumber()) && Objects.equals(getReqdate(), that.getReqdate()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(disitems, that.disitems) && Objects.equals(getDisstatus(), that.getDisstatus()) && Objects.equals(getShop(), that.getShop()) && Objects.equals(getEmployee(), that.getEmployee());
     }
 
     @Override

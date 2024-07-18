@@ -1,14 +1,19 @@
-<mat-grid-list [cols]="12" rowHeight="4.5rem">
+<mat-grid-list [cols]="12" rowHeight="5rem">
 
-  <mat-grid-tile [colspan]="4" [rowspan]="10">
+  <mat-grid-tile [colspan]="4" [rowspan]="9">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="right">Supplier Detail</mat-card-title>
+        <mat-card-title id="left">Customer Detail</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content id="supplierform">
+      <mat-card-content id="customerform">
 
         <mat-form  [formGroup]="form" >
+
+          <mat-form-field appearance="outline">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phonenumber">
+          </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
@@ -16,49 +21,31 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Supplier Status</mat-label>
-            <mat-select formControlName="supplierstatus">
+            <mat-label>Loyal Level</mat-label>
+            <mat-select formControlName="loyaltyprogram">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let supplierstatus of supplierstatuses" [value]="supplierstatus">{{supplierstatus.name}}</mat-option>
+              <mat-option *ngFor="let loyaltyprogram of loyaltyprograms" [value]="loyaltyprogram">{{loyaltyprogram.level}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Supplier Type</mat-label>
-            <mat-select formControlName="supplierstype">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="gender">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let supplierstype of suppliertypes" [value]="supplierstype">{{supplierstype.name}}</mat-option>
+              <mat-option *ngFor="let gender of genders" [value]="gender">{{gender.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="category">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let category of categorys" [value]="category">{{category.name}}</mat-option>
-            </mat-select>
+            <mat-label>Birthday</mat-label>
+            <input matInput [matDatepicker]="birthday" [matDatepickerFilter]="filterDates" formControlName="birthday">
+            <mat-datepicker-toggle matIconSuffix [for]="birthday"></mat-datepicker-toggle>
+            <mat-datepicker #birthday></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Registerion Number</mat-label>
-            <input matInput formControlName="registernumber">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Date Of Register</mat-label>
-            <input matInput [matDatepicker]="doregister" [matDatepickerFilter]="filterDates" formControlName="doregister">
-            <mat-datepicker-toggle matIconSuffix [for]="doregister"></mat-datepicker-toggle>
-            <mat-datepicker #doregister></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Address</mat-label>
-            <input matInput formControlName="address">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Office Tel</mat-label>
-            <input matInput formControlName="officetp">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -66,27 +53,6 @@
             <input matInput formControlName="email">
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Contact Person Name</mat-label>
-            <input matInput formControlName="contactperson">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Contact Person Number</mat-label>
-            <input matInput formControlName="contactnumber">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Date Of Enter</mat-label>
-            <input matInput [matDatepicker]="doenter" formControlName="doenter">
-            <mat-datepicker-toggle matIconSuffix [for]="doenter"></mat-datepicker-toggle>
-            <mat-datepicker #doenter></mat-datepicker>
-          </mat-form-field>
 
           <div id="butpanel">
             <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
@@ -103,10 +69,10 @@
   </mat-grid-tile>
 
 
-  <mat-grid-tile [colspan]="8" [rowspan]="4">
+  <mat-grid-tile [colspan]="8" [rowspan]="3">
     <mat-card id="ssearch">
       <mat-card-header>
-        <mat-card-title id="left">Supplier Search</mat-card-title>
+        <mat-card-title id="right">Customer Search</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
@@ -114,22 +80,26 @@
         <mat-form [formGroup]="ssearch">
 
           <mat-form-field appearance="outline">
-            <mat-label>Search by Name</mat-label>
-            <input matInput formControlName="ssname">
+            <mat-label>Search by Phone Number</mat-label>
+            <input matInput formControlName="ssphonenumber">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Search by Register Number</mat-label>
-            <input matInput formControlName="ssregisternumber">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="sscategory">
-              <mat-option [value]="null" selected >Not Selected</mat-option>
-              <mat-option *ngFor="let category of categorys" [value]="category.id">{{category.name}}</mat-option>
+            <mat-label>Loyalty Program"</mat-label>
+            <mat-select formControlName="ssloyaltyprogram">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let loyaltyprogram of loyaltyprograms" [value]="loyaltyprogram.id">{{loyaltyprogram.level}}</mat-option>
             </mat-select>
           </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="ssgender">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let gender of genders" [value]="gender.id">{{gender.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
 
           <div>
             <button mat-raised-button color="primary" (click)="btnSearchMc()"><mat-icon>search</mat-icon> Search </button>
@@ -147,7 +117,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="left">Supplier Table</mat-card-title>
+        <mat-card-title id="right">Customer Table</mat-card-title>
         <div id="loading">
           <img [src]="imageurl">
         </div>

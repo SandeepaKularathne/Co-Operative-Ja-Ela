@@ -16,7 +16,7 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Vehicle Status</mat-label>
+            <mat-label>Shop Status</mat-label>
             <mat-select formControlName="shopstatus">
               <mat-option [value]="null" selected>Not Selected</mat-option>
               <mat-option *ngFor="let shopstatus of shopstatuses" [value]="shopstatus">{{shopstatus.name}}</mat-option>
@@ -34,7 +34,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Open Date</mat-label>
-            <input matInput [matDatepicker]="esdate" formControlName="opdate">
+            <input matInput [matDatepicker]="esdate" [matDatepickerFilter]="filterDates" formControlName="opdate">
             <mat-datepicker-toggle matIconSuffix [for]="esdate"></mat-datepicker-toggle>
             <mat-datepicker #esdate></mat-datepicker>
           </mat-form-field>

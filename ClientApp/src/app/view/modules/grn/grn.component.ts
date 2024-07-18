@@ -21,7 +21,9 @@ import { Grnitem } from 'src/app/entity/grnitem';
 import { Item } from 'src/app/entity/item';
 import { Store } from 'src/app/entity/store';
 import { ItemService } from 'src/app/service/itemservice';
+// @ts-ignore
 import { Storeservice } from 'src/app/service/Storeservice';
+
 
 @Component({
   selector: 'app-grn',
@@ -58,6 +60,8 @@ export class GrnComponent {
 
   grn!: Grn;
   oldgrn!: Grn;
+
+  today = new Date();
 
   grns: Array<Grn> = [];
   data!: MatTableDataSource<Grn>;
@@ -108,7 +112,7 @@ export class GrnComponent {
     });
 
     this.form =this.fb.group({
-      "date": new FormControl('', [Validators.required]),
+      "date": new FormControl(this.today, [Validators.required],),
       "description": new FormControl('', [Validators.required]),
       "grandtotal": new FormControl('', [Validators.required]),
       "grnstatus": new FormControl('', [Validators.required]),
@@ -161,6 +165,11 @@ export class GrnComponent {
       this.createForm();
     });
   }
+
+  filterDates = (date: Date | null): boolean => {
+    const currentDate = new Date();
+    return !date || date.getTime() <= currentDate.getTime();
+  };
 
   createView() {
     this.imageurl = 'assets/pending.gif';
@@ -326,34 +335,66 @@ export class GrnComponent {
     return errors;
   }
 
-  fillForm(grn: Grn) {
+  fillForm(grn: Grn){
 
     this.enableButtons(false,true,true);
 
-    this.selectedrow=grn;
+    this.selectedrow = grn;
 
     this.grn = JSON.parse(JSON.stringify(grn));
-
     this.oldgrn = JSON.parse(JSON.stringify(grn));
 
+    // @ts-ignore
+    this.grn.grnstatus = this.grnstatuses.find(g => g.id === this.grn.grnstatus.id);
+    // @ts-ignore
+    this.grn.employee = this.employees.find(e => e.id === this.grn.employee.id);
+    // @ts-ignore
+    this.grn.purorder = this.purchaseorders.find(p => p.id === this.grn.purorder.id);
 
+    // @ts-ignore
+    this.grn.purorder = this.purchaseorders.find(p => p.supplier === this.grn.purorder.supplier);
 
+    this.indata = new MatTableDataSource(this.grn.grnitems);
 
-    //@ts-ignore
-    this.grn.grnstatus = this.grnstatuses.find(s => s.id === this.grn.grnstatus.id);
-    //@ts-ignore
-    this.grn.employee = this.employees.find(t => t.id === this.grn.employee.id);
-    //@ts-ignore
-    this.grn.purorder = this.purorders.find(m => m.id === this.grn.purorder.category.id);
-    //@ts-ignore
-
-
-
+    // if (this.grn.purorder.supplier === this.form.controls['supplier'].value) {
+    //   this.form.controls['supplier'].markAsDirty();
+    // }
 
     this.form.patchValue(this.grn);
     this.form.markAsPristine();
+    this.calculateGrandTotal();
+    this.form.controls['supplier'].markAsPristine();
 
   }
+
+  // fillForm(grn: Grn) {
+  //
+  //   this.enableButtons(false,true,true);
+  //
+  //   this.selectedrow=grn;
+  //
+  //   this.grn = JSON.parse(JSON.stringify(grn));
+  //
+  //   this.oldgrn = JSON.parse(JSON.stringify(grn));
+  //
+  //
+  //
+  //
+  //   //@ts-ignore
+  //   this.grn.grnstatus = this.grnstatuses.find(s => s.id === this.grn.grnstatus.id);
+  //   //@ts-ignore
+  //   this.grn.employee = this.employees.find(t => t.id === this.grn.employee.id);
+  //   //@ts-ignore
+  //   this.grn.purorder = this.purorders.find(m => m.id === this.grn.purorder.category.id);
+  //   //@ts-ignore
+  //
+  //
+  //
+  //
+  //   this.form.patchValue(this.grn);
+  //   this.form.markAsPristine();
+  //
+  // }
 
   add() {
 

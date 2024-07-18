@@ -187,6 +187,11 @@ export class VehicleComponent {
     this.enableButtons(true,false,false);
   }
 
+  filterDates = (date: Date | null): boolean => {
+    const currentDate = new Date();
+    return !date || date.getTime() <= currentDate.getTime();
+  };
+
   enableButtons(add:boolean, upd:boolean, del:boolean){
     this.enaadd=add;
     this.enaupd=upd;
