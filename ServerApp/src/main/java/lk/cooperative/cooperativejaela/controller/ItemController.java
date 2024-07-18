@@ -1,7 +1,9 @@
 package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.ItemDao;
+import lk.cooperative.cooperativejaela.entity.Employee;
 import lk.cooperative.cooperativejaela.entity.Item;
+import lk.cooperative.cooperativejaela.entity.Subcategory;
 import lk.cooperative.cooperativejaela.entity.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -109,6 +111,22 @@ public class ItemController {
         responce.put("errors",errors);
 
         return responce;
+    }
+
+    @GetMapping(path ="/filter/{id}",produces = "application/json")
+    public List<Item> filterItemByPurorder(@PathVariable Integer id) {
+
+        List<Item> items = this.itemdao.findItemByPurorder(id);
+
+        items = items.stream().map(
+                item -> { Item g = new Item();
+                    g.setId(item.getId());
+                    g.setName(item.getName());
+                    return g; }
+        ).collect(Collectors.toList());
+
+        return items;
+
     }
 }
 

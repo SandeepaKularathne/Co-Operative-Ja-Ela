@@ -123,10 +123,10 @@ export class GrnComponent {
 
     this.innerform =this.fb.group({
 
-      "store": new FormControl(),
-      "qty": new FormControl(),
-      "unitcost": new FormControl(),
-      "item": new FormControl(),
+      "store": new FormControl('', [Validators.required]),
+      "qty": new FormControl('', [Validators.required]),
+      "unitcost": new FormControl('', [Validators.required]),
+      "item": new FormControl('', [Validators.required]),
 
     }, {updateOn: 'change'});
 
@@ -351,19 +351,12 @@ export class GrnComponent {
     // @ts-ignore
     this.grn.purorder = this.purchaseorders.find(p => p.id === this.grn.purorder.id);
 
-    // @ts-ignore
-    this.grn.purorder = this.purchaseorders.find(p => p.supplier === this.grn.purorder.supplier);
 
-    this.indata = new MatTableDataSource(this.grn.grnitems);
-
-    // if (this.grn.purorder.supplier === this.form.controls['supplier'].value) {
-    //   this.form.controls['supplier'].markAsDirty();
-    // }
+    this.innerdata = new MatTableDataSource(this.grn.grnitems);
 
     this.form.patchValue(this.grn);
     this.form.markAsPristine();
     this.calculateGrandTotal();
-    this.form.controls['supplier'].markAsPristine();
 
   }
 
@@ -385,7 +378,7 @@ export class GrnComponent {
   //   //@ts-ignore
   //   this.grn.employee = this.employees.find(t => t.id === this.grn.employee.id);
   //   //@ts-ignore
-  //   this.grn.purorder = this.purorders.find(m => m.id === this.grn.purorder.category.id);
+  //   this.grn.purorder = this.purorders.find(m => m.id === this.grn.purorder.id);
   //   //@ts-ignore
   //
   //
@@ -395,6 +388,8 @@ export class GrnComponent {
   //   this.form.markAsPristine();
   //
   // }
+
+
 
   add() {
 
@@ -623,10 +618,18 @@ export class GrnComponent {
         this.form.reset()
         this.enableButtons(true,false,false);
         this.loadTable('');
+        window.location.reload();
       }
     });
 
 
+  }
+
+  filteritem(){
+    let purorder = this.form.controls['purorder'].value.id;
+    this.itms.getItemByPurorder(purorder).then((msys: Item[]) => {
+      this.items = msys;
+    });
   }
 
 //inner table

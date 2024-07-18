@@ -32,6 +32,15 @@ export class ItemService {
     // @ts-ignore
     return this.http.delete('http://localhost:8080/items/' + id).toPromise();
   }
+
+  async getItemByPurorder(id :number ): Promise<Array<Item>> {
+
+    const subcategoryes = await this.http.get<Array<Item>>('http://localhost:8080/items/filter/'+id).toPromise();
+    if(subcategoryes == undefined){
+      return [];
+    }
+    return subcategoryes;
+  }
 }
 
 
