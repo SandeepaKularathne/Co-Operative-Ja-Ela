@@ -21,7 +21,7 @@ import { Grnitem } from 'src/app/entity/grnitem';
 import { Item } from 'src/app/entity/item';
 import { Store } from 'src/app/entity/store';
 import { ItemService } from 'src/app/service/itemservice';
-import { StoreService } from 'src/app/service/Storeservice';
+import { Storeservice } from 'src/app/service/Storeservice';
 
 @Component({
   selector: 'app-grn',
@@ -81,7 +81,7 @@ export class GrnComponent {
   constructor(
     private grs: GrnService,
     private itms: ItemService,
-    private stos: StoreService,
+    private stos: Storeservice,
     private emps: EmployeeService,
     private pos: PurorderService,
     private grss: GrnstatusService,

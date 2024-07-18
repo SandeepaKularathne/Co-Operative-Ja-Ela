@@ -47,6 +47,7 @@ import {PurorderComponent} from './view/modules/purorder/purorder.component';
 import { JwtInterceptor } from './service/jwtInterceptor';
 import {GrnComponent} from './view/modules/grn/grn.component';
 import { StoreComponent } from './view/modules/store/store.component';
+import { ShopComponent } from './view/modules/shop/shop.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { StoreComponent } from './view/modules/store/store.component';
     ItemComponent,
     PurorderComponent,
     GrnComponent,
-    StoreComponent
+    StoreComponent,
+    ShopComponent
 
   ],
     imports: [

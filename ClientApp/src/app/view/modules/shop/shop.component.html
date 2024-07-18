@@ -3,16 +3,24 @@
   <mat-grid-tile [colspan]="4" [rowspan]="9">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="left">Store Detail</mat-card-title>
+        <mat-card-title id="left">Shop Detail</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content id="storeform">
+      <mat-card-content id="shopform">
 
         <mat-form  [formGroup]="form" >
 
           <mat-form-field appearance="outline">
-            <mat-label>Store Number</mat-label>
-            <input matInput formControlName="storenumber">
+            <mat-label>Shop Number</mat-label>
+            <input matInput formControlName="shopnumber">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Vehicle Status</mat-label>
+            <mat-select formControlName="shopstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let shopstatus of shopstatuses" [value]="shopstatus">{{shopstatus.name}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -25,8 +33,8 @@
 
 
           <mat-form-field appearance="outline">
-            <mat-label>Establish Date</mat-label>
-            <input matInput [matDatepicker]="esdate" formControlName="esdate">
+            <mat-label>Open Date</mat-label>
+            <input matInput [matDatepicker]="esdate" formControlName="opdate">
             <mat-datepicker-toggle matIconSuffix [for]="esdate"></mat-datepicker-toggle>
             <mat-datepicker #esdate></mat-datepicker>
           </mat-form-field>
@@ -42,8 +50,8 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Location</mat-label>
-            <input matInput formControlName="location">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address">
           </mat-form-field>
 
           <div id="butpanel">
@@ -64,7 +72,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="3">
     <mat-card id="ssearch">
       <mat-card-header>
-        <mat-card-title id="right">Store Search</mat-card-title>
+        <mat-card-title id="right">Shop Search</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
@@ -72,8 +80,11 @@
         <mat-form [formGroup]="ssearch">
 
           <mat-form-field appearance="outline">
-            <mat-label>Search by Number</mat-label>
-            <input matInput formControlName="ssstorenumber">
+            <mat-label>Shop Status</mat-label>
+            <mat-select formControlName="ssshopstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let shopstatus of shopstatuses" [value]="shopstatus.id">{{shopstatus.name}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -101,7 +112,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="right">Store Table</mat-card-title>
+        <mat-card-title id="right">Shop Table</mat-card-title>
         <div id="loading">
           <img [src]="imageurl">
         </div>

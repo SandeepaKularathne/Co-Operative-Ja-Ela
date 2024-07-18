@@ -48,7 +48,7 @@ public class UserAuthorityController {
                     "supplier return-select","supplier return-delete","supplier return-update","supplier return-insert",
                     "supplier-select","supplier-delete","supplier-update","supplier-insert",
 
-                    "customer-select","customer-delete","customer-update","customer-insert",
+                    "Customer Registrationr-select","Customer Registrationr-delete","Customer Registrationr-update","Customer Registrationr-insert",
                     "customer payment-select","customer payment-delete","customer payment-update","customer payment-insert",
                     "customer return-select","customer return-delete","customer return-update","customer return-insert",
                     "invoice-select","invoice-delete","invoice-update","invoice-insert",

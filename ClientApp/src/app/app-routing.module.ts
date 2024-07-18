@@ -16,6 +16,7 @@ import {ItemComponent} from './view/modules/item/item.component';
 import { PurorderComponent } from './view/modules/purorder/purorder.component';
 import { GrnComponent } from './view/modules/grn/grn.component';
 import { StoreComponent } from './view/modules/store/store.component';
+import { ShopComponent } from './view/modules/shop/shop.component';
 
 
 const routes: Routes = [
@@ -41,7 +42,7 @@ const routes: Routes = [
       {path: "purorder", component: PurorderComponent},
       {path: "grn", component: GrnComponent},
       {path: "store", component: StoreComponent},
-
+      {path: "shop", component: ShopComponent},
     ]
   }];
 

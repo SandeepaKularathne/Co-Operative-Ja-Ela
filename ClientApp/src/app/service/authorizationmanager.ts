@@ -31,7 +31,7 @@ export class AuthorizationManager {
   ];
 
   saleMenuItems = [
-    { name: 'Customer Registrationr', accessFlag: true, routerLink: 'customer' },
+    { name: 'Customer Registration', accessFlag: true, routerLink: 'customer' },
     { name: 'Customer Payment', accessFlag: true, routerLink: 'customerpayment' },
     { name: 'Customer Return', accessFlag: true, routerLink: 'customerreturn' },
     { name: 'Invoice', accessFlag: true, routerLink: 'invoice' },

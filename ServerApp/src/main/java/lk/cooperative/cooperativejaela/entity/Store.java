@@ -27,13 +27,14 @@ public class Store {
     private Date esdate;
     @Basic
     @Column(name = "cnumber")
+    @Pattern(regexp = "^\\d{9,12}$", message = "Invalid Contact Number")
     private String cnumber;
     @JsonIgnore
     @OneToMany(mappedBy = "store")
     private Collection<Grnitem> grnitems;
     @Basic
     @Column(name = "email")
-    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Invalid Email Address")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Invalid Email Address")
     private String email;
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)

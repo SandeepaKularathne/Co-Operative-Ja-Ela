@@ -3,6 +3,7 @@ package lk.cooperative.cooperativejaela.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -14,15 +15,19 @@ public class Shop {
     private int id;
     @Basic
     @Column(name = "shopnumber")
+    @Pattern(regexp = "^\\d{3}$", message = "Invalid Number")
     private String shopnumber;
     @Basic
     @Column(name = "address")
+    @Pattern(regexp = "^.*$", message = "Invalid Address")
     private String address;
     @Basic
     @Column(name = "cnumber")
+    @Pattern(regexp = "^\\d{9,12}$", message = "Invalid Contact Number")
     private String cnumber;
     @Basic
     @Column(name = "email")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Invalid Email Address")
     private String email;
     @Basic
     @Column(name = "opdate")

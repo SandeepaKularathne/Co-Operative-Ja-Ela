@@ -32,7 +32,7 @@ public class Purorder {
     @Column(name = "description")
     @Pattern(regexp = "^.*$", message = "Invalid Description")
     private String description;
-    @OneToMany(mappedBy = "purorder")
+    @OneToMany(mappedBy = "purorder",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Poitem> poitems;
     @ManyToOne
     @JoinColumn(name = "postatus_id", referencedColumnName = "id", nullable = false)
@@ -41,7 +41,7 @@ public class Purorder {
     @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
     private Employee employee;
     @JsonIgnore
-    @OneToMany(mappedBy = "purorder",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "purorder")
     private Collection<Grn> grns;
 
     public int getId() {
