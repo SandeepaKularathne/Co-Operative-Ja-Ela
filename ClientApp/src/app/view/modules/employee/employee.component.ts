@@ -108,7 +108,7 @@ export class EmployeeComponent {
       "photo": new FormControl('', [Validators.required]),
       "address": new FormControl('', [Validators.required]),
       "mobile": new FormControl('', [Validators.required]),
-      "land": new FormControl('',),
+      "land": new FormControl('',[Validators.required]),
       "email": new FormControl('', [Validators.required]),
       "designation": new FormControl('', [Validators.required]),
       "doassignment": new FormControl('', [Validators.required]),

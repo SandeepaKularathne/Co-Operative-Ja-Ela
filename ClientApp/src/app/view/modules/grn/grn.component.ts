@@ -72,7 +72,6 @@ export class GrnComponent {
 
   regexes: any;
   selectedrow: any;
-  grandtotal = 0;
 
   grnstatuses: Array<Grnstatus> = [];
   employees: Array<Employee> = [];
@@ -342,6 +341,7 @@ export class GrnComponent {
     this.selectedrow = grn;
 
     this.grn = JSON.parse(JSON.stringify(grn));
+
     this.oldgrn = JSON.parse(JSON.stringify(grn));
 
     // @ts-ignore
@@ -349,10 +349,10 @@ export class GrnComponent {
     // @ts-ignore
     this.grn.employee = this.employees.find(e => e.id === this.grn.employee.id);
     // @ts-ignore
-    this.grn.purorder = this.purchaseorders.find(p => p.id === this.grn.purorder.id);
+    this.grn.purorder = this.purorders.find(p => p.id === this.grn.purorder.id);
 
 
-    this.innerdata = new MatTableDataSource(this.grn.grnitems);
+    this.indata = new MatTableDataSource(this.grn.grnitems);
 
     this.form.patchValue(this.grn);
     this.form.markAsPristine();
@@ -360,41 +360,7 @@ export class GrnComponent {
 
   }
 
-  // fillForm(grn: Grn) {
-  //
-  //   this.enableButtons(false,true,true);
-  //
-  //   this.selectedrow=grn;
-  //
-  //   this.grn = JSON.parse(JSON.stringify(grn));
-  //
-  //   this.oldgrn = JSON.parse(JSON.stringify(grn));
-  //
-  //
-  //
-  //
-  //   //@ts-ignore
-  //   this.grn.grnstatus = this.grnstatuses.find(s => s.id === this.grn.grnstatus.id);
-  //   //@ts-ignore
-  //   this.grn.employee = this.employees.find(t => t.id === this.grn.employee.id);
-  //   //@ts-ignore
-  //   this.grn.purorder = this.purorders.find(m => m.id === this.grn.purorder.id);
-  //   //@ts-ignore
-  //
-  //
-  //
-  //
-  //   this.form.patchValue(this.grn);
-  //   this.form.markAsPristine();
-  //
-  // }
-
-
-
   add() {
-
-
-
     let errors = this.getErrors();
 
     if (errors != "") {
@@ -502,8 +468,17 @@ export class GrnComponent {
         });
         confirm.afterClosed().subscribe(async result => {
           if (result) {
+
             this.grn = this.form.getRawValue();
-            this.grn.id = this.oldgrn.id;
+            this.grn.grnitems = this.grnitems;
+            // @ts-ignore
+            this.grn.id =this.oldgrn.id;
+
+            // @ts-ignore
+            this.grnitems.forEach((i)=> delete  i.id);
+
+            // @ts-ignore
+            this.grn.date = this.dp.transform(this.grn.date,"yyyy-MM-dd");
 
             this.grs.update(this.grn).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
@@ -666,12 +641,12 @@ export class GrnComponent {
   }
 
   calculateGrandTotal(){
-
+    let grandtotal =0;
     this.indata.data.forEach((m)=>{
-      this.grandtotal = this.grandtotal+m.linecost
+      grandtotal = grandtotal+m.linecost
     })
 
-    this.form.controls['grandtotal'].setValue(this.grandtotal);
+    this.form.controls['grandtotal'].setValue(grandtotal);
   }
 
   deleteRaw(x:any) {

@@ -20,7 +20,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="date" [min]="today" [max]="today" formControlName="date">
+            <input matInput [matDatepicker]="date" [min]="today" [max]="today" readonly formControlName="date">
             <mat-datepicker-toggle matIconSuffix [for]="date"></mat-datepicker-toggle>
             <mat-datepicker #date></mat-datepicker>
           </mat-form-field>

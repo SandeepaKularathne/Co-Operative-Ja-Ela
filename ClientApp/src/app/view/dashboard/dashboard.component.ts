@@ -5,6 +5,8 @@ import { SupplierService } from 'src/app/service/supplierservice';
 import { Supplier } from 'src/app/entity/supplier';
 import { Employee } from 'src/app/entity/employee';
 import { EmployeeService } from 'src/app/service/employeeservice';
+import { Customer } from 'src/app/entity/customer';
+import { Customerservice } from 'src/app/service/customerservice';
 
 @Component({
   selector: 'app-home',
@@ -16,11 +18,14 @@ export class DashboardComponent{
   vehicles: Vehicle[] = [];
   suppliers: Supplier[] = [];
   employees: Employee[] = [];
+  customers: Customer[] = [];
   vCount: number = 0;
   supCount: number = 0;
   empCount: number = 0;
+  cusCount: number = 0;
 
-  constructor(private vs: VehicleService, private ss: SupplierService,private es: EmployeeService) {}
+
+  constructor(private vs: VehicleService, private ss: SupplierService,private es: EmployeeService,private cs: Customerservice) {}
 
   generalmessages: any[] = [
     {icon:'info', name:'General Inquiries:' , to:'info@cooperativejaela.lk', for: 'Requests for information about services or products'},
@@ -35,6 +40,7 @@ export class DashboardComponent{
     this.fetchVehicles();
     this.fetchsuppliers();
     this.fetchemployees();
+    this.fetchCustomers();
   }
 
   fetchVehicles(): void {
@@ -104,5 +110,26 @@ export class DashboardComponent{
     });
     this.supCount = count;
   }
-  
+
+  fetchCustomers(): void {
+    this.cs.getAll('').then(
+      (customers: Customer[]) => {
+        this.customers = customers;
+        this.customerCount();
+      },
+      (error: any) => {
+        console.error('Error fetching customers:', error);
+      }
+    );
+  }
+  customerCount(): void {
+    let count: number = 0;
+
+    this.customers.forEach(customer => {
+      count = count + 1;
+    });
+    this.cusCount = count;
+  }
+
+
 }

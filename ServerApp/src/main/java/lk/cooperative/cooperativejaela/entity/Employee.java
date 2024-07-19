@@ -48,7 +48,7 @@ public class Employee {
     private String mobile;
     @Basic
     @Column(name = "land")
-    @Pattern(regexp = "^\\d{0,10}$", message = "Invalid Landphone Number")
+    @Pattern(regexp = "^0\\d{9}$", message = "Invalid Landphone Number")
     private String land;
     @Basic
     @Column(name = "email")

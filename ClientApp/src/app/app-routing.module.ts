@@ -28,22 +28,21 @@ const routes: Routes = [
     children: [
       {path: "dashboard", component: DashboardComponent},
       {path: "employee", component: EmployeeComponent},
+      {path: "dashboard/employee", component: EmployeeComponent},
       {path: "user", component: UserComponent},
       {path:"reports", component: ArrearsByProgramComponent},
       {path:"payments",component:PaymentComponent},
-      {path: "dashboard/batchregistration", redirectTo: 'batchregistration', pathMatch: 'full'},
-      {path: "dashboard/students", redirectTo: 'students', pathMatch: 'full'},
-      {path: "dashboard/class", redirectTo: 'class', pathMatch: 'full'},
-      {path: "dashboard/books", redirectTo: 'books', pathMatch: 'full'},
       {path: "vehicle", component: VehicleComponent},
       {path: "dashboard/vehicle", component: VehicleComponent},
       {path: "supplier", component: SupplierComponent},
+      {path: "dashboard/supplier", component: SupplierComponent},
       {path: "item", component: ItemComponent},
       {path: "purorder", component: PurorderComponent},
       {path: "grn", component: GrnComponent},
       {path: "store", component: StoreComponent},
       {path: "shop", component: ShopComponent},
       {path: "customer", component: CustomerComponent},
+      {path: "dashboard/customer", component: CustomerComponent},
     ]
   }];
 

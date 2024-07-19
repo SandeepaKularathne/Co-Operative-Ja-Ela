@@ -62,40 +62,36 @@ public class GrnController {
     public HashMap<String,String> add(@RequestBody Grn grn){
 
         HashMap<String,String> responce = new HashMap<>();
-        StringBuilder errors = new StringBuilder();
+        String errors = "";
+        if(grn==null)errors = "Empty Grn Item : <br> "+errors;
 
         for (Grnitem grnItem : grn.getGrnitems()) {
             grnItem.setGrn(grn);
         }
 
-        for (Grnitem grnItem : grn.getGrnitems()) {
-            Item item = grnItem.getItem();
-            BigDecimal unitCost = grnItem.getUnitcost();
-            int qtyToIncrease = grnItem.getQty();
+        if(errors==""){
+            grndao.save(grn);
+            for (Grnitem grnItem : grn.getGrnitems()) {
+                Item item = grnItem.getItem();
+                BigDecimal unitCost = grnItem.getUnitcost();
+                int qtyToIncrease = grnItem.getQty();
 
-            // Find the existing item or create a new one if not found
-            Item existingItem = itemdao.findById(item.getId()).orElse(item);
+                // Find the existing item or create a new one if not found
+                Item existingItem = itemdao.findById(item.getId()).orElse(item);
 
-            // Calculate the updated qty for the item
-            int increasedQty = existingItem.getQuantity() + qtyToIncrease;
+                // Calculate the updated qty for the item
+                int increasedQty = existingItem.getQuantity() + qtyToIncrease;
 
-            // Update the item's qty and unitprice
-            existingItem.setQuantity(increasedQty);
-            existingItem.setPprice(unitCost); // Set unitprice as unitcost for simplicity, you can customize the logic here.
+                // Update the item's qty and unitprice
+                existingItem.setQuantity(increasedQty);
+                existingItem.setPprice(unitCost); // Set unitprice as unitcost for simplicity, you can customize the logic here.
 
-            // Save the item with the updated qty and unitprice
-            itemdao.save(existingItem);
+                // Save the item with the updated qty and unitprice
+                itemdao.save(existingItem);
+            }
         }
 
-
-
-//        for (Grnitem grnitems : grn.getGrnitems()) {
-//            grnitems.setGrn(grn);
-//        }
-
-//        if(errors=="")
-//        grndao.save(grn);
-//        else errors = "Server Validation Errors : <br> "+errors;
+        else errors = "Server Validation Errors : <br> "+errors;
 
         responce.put("id",String.valueOf(grn.getId()));
         responce.put("url","/grns/"+grn.getId());
@@ -112,12 +108,36 @@ public class GrnController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
-        Grn emp1 = grndao.findByMyId(grn.getId());
+        Grn grn1 = grndao.findByMyId(grn.getId());
+        if(grn1!=null && grn.getId()!=grn1.getId())
+            errors = errors+"<br> GRN Not Found";
 
-        if(emp1!=null && grn.getId()!=emp1.getId())
-            errors = errors+"<br> Existing Number";
+        for (Grnitem grnItem : grn.getGrnitems()) {
+            grnItem.setGrn(grn);
+        }
 
-        if(errors=="") grndao.save(grn);
+        if(errors==""){
+            grndao.save(grn);
+            for (Grnitem grnItem : grn.getGrnitems()) {
+                Item item = grnItem.getItem();
+                BigDecimal unitCost = grnItem.getUnitcost();
+                int qtyToIncrease = grnItem.getQty();
+
+                // Find the existing item or create a new one if not found
+                Item existingItem = itemdao.findById(item.getId()).orElse(item);
+
+                // Calculate the updated qty for the item
+                int increasedQty = existingItem.getQuantity() + qtyToIncrease;
+
+                // Update the item's qty and unitprice
+                existingItem.setQuantity(increasedQty);
+                existingItem.setPprice(unitCost); // Set unitprice as unitcost for simplicity, you can customize the logic here.
+
+                // Save the item with the updated qty and unitprice
+                itemdao.save(existingItem);
+            }
+        }
+
         else errors = "Server Validation Errors : <br> "+errors;
 
         responce.put("id",String.valueOf(grn.getId()));
