@@ -479,6 +479,7 @@ export class GrnComponent {
 
             // @ts-ignore
             this.grn.date = this.dp.transform(this.grn.date,"yyyy-MM-dd");
+            
 
             this.grs.update(this.grn).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore

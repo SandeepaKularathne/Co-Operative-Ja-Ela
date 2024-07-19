@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.PurorderDao;
+import lk.cooperative.cooperativejaela.entity.Grn;
 import lk.cooperative.cooperativejaela.entity.Grnitem;
 import lk.cooperative.cooperativejaela.entity.Poitem;
 import lk.cooperative.cooperativejaela.entity.Purorder;
@@ -51,6 +52,10 @@ public class PurorderController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
+        Purorder grn1 = purorderdao.findByMyId(purorder.getId());
+        if(grn1!=null && purorder.getId()!=grn1.getId())
+            errors = errors+"<br> Purorder Not Found";
+
         for (Poitem poitems : purorder.getPoitems()) {
             poitems.setPurorder(purorder);
         }
@@ -75,10 +80,12 @@ public class PurorderController {
         String errors = "";
 
         Purorder itm1 = purorderdao.findByMyId(purorder.getId());
-
         if (itm1 != null && purorder.getId() != itm1.getId())
             errors = errors + "<br> Existing Number";
 
+        for (Poitem poItem : purorder.getPoitems()) {
+            poItem.setPurorder(purorder);
+        }
 
         if (errors == "") purorderdao.save(purorder);
         else errors = "Server Validation Errors : <br> " + errors;

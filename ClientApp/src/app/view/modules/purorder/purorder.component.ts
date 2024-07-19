@@ -28,12 +28,12 @@ import { EmployeeService } from 'src/app/service/employeeservice';
 export class PurorderComponent {
 
 
-  columns: string[] = ['ponumber', 'employee', 'postatus', 'date', 'qty', 'item'];
-  headers: string[] = ['Ponumber', 'Employee', 'Status', 'Date', 'QTY', 'Item'];
-  binders: string[] = ['ponumber', 'employee.fullname', 'postatus.name', 'date', 'poitems', 'poitems'];
+  columns: string[] = ['ponumber', 'employee', 'postatus', 'date', 'description', 'expectedcost'];
+  headers: string[] = ['Ponumber', 'Employee', 'Status', 'Date', 'Description', 'Expected Cost'];
+  binders: string[] = ['ponumber', 'employee.fullname', 'postatus.name', 'date', 'description', 'expectedcost'];
 
-  cscolumns: string[] = ['csponumber', 'csemployee', 'cspostatus', 'csdate', 'csqty', 'csitem'];
-  csprompts: string[] = ['Search by Ponumber', 'Search by Employee', 'Search by Status', 'Search by Date', 'Search by QTY', 'Search by Item'];
+  cscolumns: string[] = ['csponumber', 'csemployee', 'cspostatus', 'csdate', 'csdescription', 'csexpectedcost'];
+  csprompts: string[] = ['Search by Ponumber', 'Search by Employee', 'Search by Status', 'Search by Date', 'Search by Description', 'Search by Expected Cost'];
 
   incolumns: string[] = ['item', 'qty', 'explinetotal', 'remove'];
   inheaders: string[] = ['Item', 'QTY', 'Line total', 'Remove',];
@@ -46,7 +46,6 @@ export class PurorderComponent {
   innerform!: FormGroup;
   items: Array<Item> = [];
   poitems: Array<Poitem> = [];
-  expectedcost = 0;
 
   public csearch!: FormGroup;
   public ssearch!: FormGroup;
@@ -91,8 +90,8 @@ export class PurorderComponent {
       csemployee: new FormControl(),
       cspostatus: new FormControl(),
       csdate: new FormControl(),
-      csqty: new FormControl(),
-      csitem: new FormControl(),
+      csdescription: new FormControl(),
+      csexpectedcost: new FormControl(),
     });
 
     this.ssearch = this.fb.group({
@@ -119,6 +118,7 @@ export class PurorderComponent {
 
   ngOnInit() {
     this.initialize();
+    console.log(this.poitems)
   }
 
   initialize() {
@@ -191,6 +191,11 @@ export class PurorderComponent {
     this.enableButtons(true, false, false);
   }
 
+  filterDates = (date: Date | null): boolean => {
+    const currentDate = new Date();
+    return !date || date.getTime() <= currentDate.getTime();
+  };
+
   enableButtons(add: boolean, upd: boolean, del: boolean) {
     this.enaadd = add;
     this.enaupd = upd;
@@ -223,8 +228,8 @@ export class PurorderComponent {
       return (cserchdata.csponumber == null || purorder.ponumber.toLowerCase().includes(cserchdata.csponumber.toLowerCase())) &&
         (cserchdata.csemployee == null || purorder.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
         (cserchdata.cspostatus == null || purorder.postatus.name.toLowerCase().includes(cserchdata.cspostatus.toLowerCase())) &&
-        //(cserchdata.csqty == null || purorder.poitem.qty.toLowerCase().includes(cserchdata.csqty.toLowerCase())) &&
-        //(cserchdata.csitem== null || purorder.poitem.item.name.toLowerCase().includes(cserchdata.csitem.toLowerCase()))&&
+        (cserchdata.csdescription == null || purorder.description.toLowerCase().includes(cserchdata.csdescription.toLowerCase())) &&
+        (cserchdata.csexpectedcost == null || purorder.expectedcost == cserchdata.csexpectedcost)&&
         (cserchdata.csdate == null || purorder.date.includes(cserchdata.csitem.toLowerCase()));
     };
 
@@ -268,7 +273,6 @@ export class PurorderComponent {
 
   }
 
-
   getErrors(): string {
 
     let errors: string = "";
@@ -301,13 +305,12 @@ export class PurorderComponent {
     //@ts-ignore
     this.purorder.postatus = this.postatuses.find(s => s.id === this.purorder.postatus.id);
     //@ts-ignore
-    //this.purorder.purordertype = this.purordertypes.find(t => t.id === this.purorder.purordertype.id);
-    //@ts-ignore
-    //this.purorder.purordermodel = this.purordermodels.find(m => m.id === this.purorder.purordermodel.id);
+    this.purorder.employee = this.employees.find(e => e.id === this.purorder.employee.id);
 
-
+    this.indata = new MatTableDataSource(this.purorder.poitems);
     this.form.patchValue(this.purorder);
     this.form.markAsPristine();
+    this.calculateGrandTotal();
 
   }
 
@@ -327,7 +330,11 @@ export class PurorderComponent {
       });
     } else {
 
+
       this.purorder = this.form.getRawValue();
+      this.purorder.poitems = this.poitems;
+      // @ts-ignore
+      this.poitems.forEach((i )=> delete i.id);
 
       let vehdata: string = "";
 
@@ -419,8 +426,16 @@ export class PurorderComponent {
         confirm.afterClosed().subscribe(async result => {
           if (result) {
             this.purorder = this.form.getRawValue();
+            this.purorder.poitems = this.poitems;
 
             this.purorder.id = this.oldpurorder.id;
+
+            // @ts-ignore
+            this.poitems.forEach((i)=> delete  i.id);
+
+
+            // @ts-ignore
+            this.purorder.date = this.dp.transform(this.purorder.date,"yyyy-MM-dd");
 
             this.pos.update(this.purorder).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
@@ -436,6 +451,7 @@ export class PurorderComponent {
               if (updstatus) {
                 updmessage = "Successfully Updated";
                 this.form.reset();
+                this.loadTable("");
                 Object.values(this.form.controls).forEach(control => {
                   control.markAsTouched();
                 });
@@ -587,11 +603,12 @@ export class PurorderComponent {
 
   calculateGrandTotal() {
 
+    let expectedcost=0;
     this.indata.data.forEach((m) => {
-      this.expectedcost = this.expectedcost + m.explinetotal
+      expectedcost = expectedcost + m.explinetotal
     })
 
-    this.form.controls['expectedcost'].setValue(this.expectedcost);
+    this.form.controls['expectedcost'].setValue(expectedcost);
   }
 
   deleteRaw(x: any) {
@@ -606,6 +623,11 @@ export class PurorderComponent {
     this.poitems = this.indata.data;
 
     this.calculateGrandTotal();
+  }
+
+  filterlinecost(){
+    let i = this.innerform.controls['item'].value.pprice;
+    this.innerform.controls['explinetotal'].setValue(i);
   }
 
 }

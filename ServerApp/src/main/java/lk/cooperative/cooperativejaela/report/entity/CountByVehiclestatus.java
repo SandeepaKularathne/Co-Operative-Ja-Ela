@@ -4,25 +4,25 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class CountByDesignation {
+public class CountByVehiclestatus {
 
     private Integer id;
-    private String designation;
+    private String vehiclestatus;
     private Long count;
     private double percentage;
 
-    public CountByDesignation() {  }
+    public CountByVehiclestatus() {  }
 
-    public CountByDesignation(String designation, Long count) {
-        this.designation = designation;
+    public CountByVehiclestatus(String vehiclestatus, Long count) {
+        this.vehiclestatus = vehiclestatus;
         this.count = count;
     }
 
-    public String getDesignation() {
-        return designation;
+    public String getVehiclestatus() {
+        return vehiclestatus;
     }
-    public void setDesignation(String designation) {
-        this.designation = designation;
+    public void setVehiclestatus(String vehiclestatus) {
+        this.vehiclestatus = vehiclestatus;
     }
     public Long getCount() {
         return count;

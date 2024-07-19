@@ -31,8 +31,6 @@ import {ConfirmComponent} from "./util/dialog/confirm/confirm.component";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {DatePipe, NgOptimizedImage} from "@angular/common";
-import { ArrearsByProgramComponent } from './report/view/arrearsbyprogram/arrearsbyprogram.component';
-import {CountByDesignationComponent} from "./report/view/countbydesignation/countbydesignation.component";
 import {MatChipsModule} from "@angular/material/chips";
 import { PrivilageComponent } from './view/modules/privilage/privilage.component';
 import {AuthorizationManager} from "./service/authorizationmanager";
@@ -49,6 +47,7 @@ import {GrnComponent} from './view/modules/grn/grn.component';
 import { StoreComponent } from './view/modules/store/store.component';
 import { ShopComponent } from './view/modules/shop/shop.component';
 import { CustomerComponent } from './view/modules/customer/customer.component';
+import {CountByVehiclestatusComponent} from "./report/view/countbyvehiclestatus/countbyvehiclestatus.component";
 
 
 @NgModule({
@@ -60,8 +59,6 @@ import { CustomerComponent } from './view/modules/customer/customer.component';
     EmployeeComponent,
     UserComponent,
     ConfirmComponent,
-    ArrearsByProgramComponent,
-    CountByDesignationComponent,
     MessageComponent,
     PrivilageComponent,
     OperationComponent,
@@ -73,7 +70,8 @@ import { CustomerComponent } from './view/modules/customer/customer.component';
     GrnComponent,
     StoreComponent,
     ShopComponent,
-    CustomerComponent
+    CustomerComponent,
+    CountByVehiclestatusComponent
 
   ],
     imports: [

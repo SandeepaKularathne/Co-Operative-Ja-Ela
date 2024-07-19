@@ -11,8 +11,9 @@ export class Purorder {
   public description !: string;
   public postatus !: Postatus;
   public employee !: Employee;
+  public poitems !: Array<Poitem>;
 
-  constructor(id: number, ponumber: string, date: string, expectedcost: number, description: string, postatus: Postatus, employee: Employee) {
+  constructor(id: number, ponumber: string, date: string, expectedcost: number, description: string, postatus:Postatus, employee:Employee, poitems: Array<Poitem>) {
     this.id = id;
     this.ponumber = ponumber;
     this.date = date;
@@ -20,5 +21,7 @@ export class Purorder {
     this.description = description;
     this.postatus = postatus;
     this.employee = employee;
+    this.poitems = poitems;
   }
+  
 }

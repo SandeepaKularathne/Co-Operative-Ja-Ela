@@ -116,6 +116,7 @@ export class MainwindowComponent {
   saleMenuItems = this.authService.saleMenuItems;
   disMenuItems = this.authService.disMenuItems;
   invMenuItems = this.authService.invMenuItems;
+  repMenuItems = this.authService.repMenuItems;
 
   isMenuVisible(category: string): boolean {
     switch (category) {
@@ -129,6 +130,8 @@ export class MainwindowComponent {
         return this.disMenuItems.some(menuItem => menuItem.accessFlag);
       case 'Inventory':
         return this.invMenuItems.some(menuItem => menuItem.accessFlag);
+      case 'Reports':
+        return this.repMenuItems.some(menuItem => menuItem.accessFlag);
       default:
         return false;
     }

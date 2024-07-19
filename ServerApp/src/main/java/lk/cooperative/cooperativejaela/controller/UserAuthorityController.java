@@ -64,7 +64,9 @@ public class UserAuthorityController {
                     "item-select","item-delete","item-update","item-insert",
                     "Goods Received Note-select","Goods Received Note-delete","Goods Received Note-update","Goods Received Note-insert",
                     "store-select","store-delete","store-update","store-insert",
-                    "store return-select","store return-delete","store return-update","store return-insert"
+                    "store return-select","store return-delete","store return-update","store return-insert",
+
+                    "Purchase-select","Sale-select","Distribution-select","Inventory-select"
             );
         }
 

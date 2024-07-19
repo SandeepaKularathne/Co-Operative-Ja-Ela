@@ -11,6 +11,7 @@ export class AuthorizationManager {
   private readonly localStorageSaleMenus = 'saleMenuState';
   private readonly localStorageDisMenus = 'disMenuState';
   private readonly localStorageInvMenus = 'invMenuState';
+  private readonly localStorageRepMenus = 'repMenuState';
 
   public enaadd = false;
   public enaupd = false;
@@ -54,6 +55,13 @@ export class AuthorizationManager {
     { name: 'Store Return', accessFlag: true, routerLink: 'storereturn' }
   ];
 
+  repMenuItems = [
+    { name: 'Purchase', accessFlag: true, routerLink: 'purchase' },
+    { name: 'Sale', accessFlag: true, routerLink: 'sale' },
+    { name: 'Distribution', accessFlag: true, routerLink: 'countbyvehiclestatus' },
+    { name: 'Inventory', accessFlag: true, routerLink: 'inventory' }
+  ];
+
 
   constructor(private am: AuthoritySevice) {}
 
@@ -87,12 +95,17 @@ export class AuthorizationManager {
       menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
     });
 
+    this.repMenuItems.forEach(menuItem => {
+      menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
+    });
+
     // Save menu state in localStorage
     localStorage.setItem(this.localStorageAdmMenus, JSON.stringify(this.admMenuItems));
     localStorage.setItem(this.localStoragePurMenus, JSON.stringify(this.purMenuItems));
     localStorage.setItem(this.localStorageSaleMenus, JSON.stringify(this.saleMenuItems));
     localStorage.setItem(this.localStorageDisMenus, JSON.stringify(this.disMenuItems));
     localStorage.setItem(this.localStorageInvMenus, JSON.stringify(this.invMenuItems));
+    localStorage.setItem(this.localStorageRepMenus, JSON.stringify(this.repMenuItems));
 
   }
 
@@ -176,6 +189,11 @@ export class AuthorizationManager {
     if (invMenuState) {
       this.invMenuItems = JSON.parse(invMenuState);
     }
+
+    const repMenuState = localStorage.getItem(this.localStorageInvMenus);
+    if (repMenuState) {
+      this.repMenuItems = JSON.parse(repMenuState);
+    }
   }
 
   clearUsername(): void {
@@ -192,6 +210,7 @@ export class AuthorizationManager {
     localStorage.removeItem(this.localStorageSaleMenus);
     localStorage.removeItem(this.localStorageDisMenus);
     localStorage.removeItem(this.localStorageInvMenus);
+    localStorage.removeItem(this.localStorageRepMenus);
   }
 
   isMenuItemDisabled(menuItem: { accessFlag: boolean }): boolean {

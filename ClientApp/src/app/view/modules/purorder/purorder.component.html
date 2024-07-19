@@ -17,7 +17,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Purorder Status</mat-label>
-            <mat-select formControlName="postatus">
+            <mat-select formControlName="postatus" >
               <mat-option [value]="null" selected>Not Selected</mat-option>
               <mat-option *ngFor="let postatuse of postatuses" [value]="postatuse">{{postatuse.name}}</mat-option>
             </mat-select>
@@ -33,7 +33,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="date" formControlName="date">
+            <input matInput [matDatepicker]="date" [matDatepickerFilter]="filterDates" formControlName="date">
             <mat-datepicker-toggle matIconSuffix [for]="date"></mat-datepicker-toggle>
             <mat-datepicker #date></mat-datepicker>
           </mat-form-field>
@@ -49,7 +49,7 @@
 
               <mat-form-field appearance="outline">
                 <mat-label>Item</mat-label>
-                <mat-select formControlName="item">
+                <mat-select formControlName="item" (selectionChange)="filterlinecost()">
                   <mat-option [value]="null" selected>Not Selected</mat-option>
                   <mat-option *ngFor="let item of items" [value]="item">{{item.name}}</mat-option>
                 </mat-select>
@@ -62,7 +62,7 @@
 
               <mat-form-field appearance="outline">
                 <mat-label>Explinetotal</mat-label>
-                <input matInput formControlName="explinetotal">
+                <input matInput readonly formControlName="explinetotal">
               </mat-form-field>
 
               <button mat-raised-button id="btnAdd" (click)="btnaddMc()" >Add</button>

@@ -5,8 +5,7 @@ import {MainwindowComponent} from "./view/mainwindow/mainwindow.component";
 import {EmployeeComponent} from "./view/modules/employee/employee.component";
 import {DashboardComponent} from "./view/dashboard/dashboard.component";
 import {UserComponent} from "./view/modules/user/user.component";
-import {CountByDesignationComponent} from "./report/view/countbydesignation/countbydesignation.component";
-import {ArrearsByProgramComponent} from "./report/view/arrearsbyprogram/arrearsbyprogram.component";
+import {CountByVehiclestatusComponent} from "./report/view/countbyvehiclestatus/countbyvehiclestatus.component";
 import {PrivilageComponent} from "./view/modules/privilage/privilage.component";
 import {OperationComponent} from "./view/modules/operation/operation.component";
 import {PaymentComponent} from "./view/modules/payment/payment.component";
@@ -30,7 +29,6 @@ const routes: Routes = [
       {path: "employee", component: EmployeeComponent},
       {path: "dashboard/employee", component: EmployeeComponent},
       {path: "user", component: UserComponent},
-      {path:"reports", component: ArrearsByProgramComponent},
       {path:"payments",component:PaymentComponent},
       {path: "vehicle", component: VehicleComponent},
       {path: "dashboard/vehicle", component: VehicleComponent},
@@ -43,6 +41,7 @@ const routes: Routes = [
       {path: "shop", component: ShopComponent},
       {path: "customer", component: CustomerComponent},
       {path: "dashboard/customer", component: CustomerComponent},
+      {path: "countbyvehiclestatus", component: CountByVehiclestatusComponent},
     ]
   }];
 

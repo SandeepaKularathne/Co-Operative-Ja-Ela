@@ -1,23 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportService } from '../../reportservice';
-import { CountByDesignation } from '../../entity/countbydesignation';
+import { CountByVehiclestatus } from '../../entity/countbyvehiclestatus';
 import {MatTableDataSource} from "@angular/material/table";
 
 declare var google: any;
 
 @Component({
-  selector: 'app-designation',
-  templateUrl: './countbydesignation.component.html',
-  styleUrls: ['./countbydesignation.component.css']
+  selector: 'app-vehiclestatus',
+  templateUrl: './countbyvehiclestatus.component.html',
+  styleUrls: ['./countbyvehiclestatus.component.css']
 })
-export class CountByDesignationComponent implements OnInit {
+export class CountByVehiclestatusComponent implements OnInit {
 
-  countbydesignations!: CountByDesignation[];
-  data!: MatTableDataSource<CountByDesignation>;
+  countbyvehiclestatuss!: CountByVehiclestatus[];
+  data!: MatTableDataSource<CountByVehiclestatus>;
 
-  columns: string[] = ['designation', 'count', 'percentage'];
-  headers: string[] = ['Designation', 'Count', 'Percentage'];
-  binders: string[] = ['designation', 'count', 'percentage'];
+  columns: string[] = ['vehiclestatus', 'count', 'percentage'];
+  headers: string[] = ['Vehiclestatus', 'Count', 'Percentage'];
+  binders: string[] = ['vehiclestatus', 'count', 'percentage'];
 
   @ViewChild('barchart', { static: false }) barchart: any;
   @ViewChild('piechart', { static: false }) piechart: any;
@@ -29,9 +29,9 @@ export class CountByDesignationComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.rs.countByDesignation()
-      .then((des: CountByDesignation[]) => {
-        this.countbydesignations = des;
+    this.rs.countByVehiclestatus()
+      .then((des: CountByVehiclestatus[]) => {
+        this.countbyvehiclestatuss = des;
         }).finally(() => {
       this.loadTable();
       this.loadCharts();
@@ -40,7 +40,7 @@ export class CountByDesignationComponent implements OnInit {
   }
 
   loadTable() : void{
-    this.data = new MatTableDataSource(this.countbydesignations);
+    this.data = new MatTableDataSource(this.countbyvehiclestatuss);
   }
 
   loadCharts() : void{
@@ -52,39 +52,39 @@ export class CountByDesignationComponent implements OnInit {
   drawCharts() {
 
     const barData = new google.visualization.DataTable();
-    barData.addColumn('string', 'Designation');
+    barData.addColumn('string', 'Vehiclestatus');
     barData.addColumn('number', 'Count');
 
     const pieData = new google.visualization.DataTable();
-    pieData.addColumn('string', 'Designation');
+    pieData.addColumn('string', 'Vehiclestatus');
     pieData.addColumn('number', 'Count');
 
     const lineData = new google.visualization.DataTable();
-    lineData.addColumn('string', 'Designation');
+    lineData.addColumn('string', 'Vehiclestatus');
     lineData.addColumn('number', 'Count');
 
-    this.countbydesignations.forEach((des: CountByDesignation) => {
-      barData.addRow([des.designation, des.count]);
-      pieData.addRow([des.designation, des.count]);
-      lineData.addRow([des.designation, des.count]);
+    this.countbyvehiclestatuss.forEach((des: CountByVehiclestatus) => {
+      barData.addRow([des.vehiclestatus, des.count]);
+      pieData.addRow([des.vehiclestatus, des.count]);
+      lineData.addRow([des.vehiclestatus, des.count]);
     });
 
     const barOptions = {
-      title: 'Designation Count (Bar Chart)',
-      subtitle: 'Count of Employees by Designation',
+      title: 'Vehiclestatus Count (Bar Chart)',
+      subtitle: 'Count of Employees by Vehiclestatus',
       bars: 'horizontal',
       height: 400,
       width: 600
     };
 
     const pieOptions = {
-      title: 'Designation Count (Pie Chart)',
+      title: 'Vehiclestatus Count (Pie Chart)',
       height: 400,
       width: 550
     };
 
     const lineOptions = {
-      title: 'Designation Count (Line Chart)',
+      title: 'Vehiclestatus Count (Line Chart)',
       height: 400,
       width: 600
     };

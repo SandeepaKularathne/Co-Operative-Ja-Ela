@@ -18,7 +18,7 @@ public class Purorder {
     private int id;
     @Basic
     @Column(name = "ponumber")
-    @Pattern(regexp = "^[A-Z\\s]{1,2}\\d{43}$", message = "Invalid Number")
+    @Pattern(regexp = "^[A-Z\\s]{1,2}\\d{1,43}$", message = "Invalid Number")
     private String ponumber;
     @Basic
     @Column(name = "date")

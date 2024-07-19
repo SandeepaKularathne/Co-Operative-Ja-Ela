@@ -1,4 +1,4 @@
-import {CountByDesignation} from "./entity/countbydesignation";
+import {CountByVehiclestatus} from "./entity/countbyvehiclestatus";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 
@@ -10,13 +10,13 @@ export class ReportService {
 
   constructor(private http: HttpClient) {  }
 
-  async countByDesignation(): Promise<Array<CountByDesignation>> {
+  async countByVehiclestatus(): Promise<Array<CountByVehiclestatus>> {
 
-    const countbydesignations = await this.http.get<Array<CountByDesignation>>('http://localhost:8080/reports/countbydesignation').toPromise();
-    if(countbydesignations == undefined){
+    const countbyvehiclestatuss = await this.http.get<Array<CountByVehiclestatus>>('http://localhost:8080/reports/countbyvehiclestatus').toPromise();
+    if(countbyvehiclestatuss == undefined){
       return [];
     }
-    return countbydesignations;
+    return countbyvehiclestatuss;
   }
 
 }

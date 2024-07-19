@@ -1,7 +1,7 @@
 package lk.cooperative.cooperativejaela.report;
 
-import lk.cooperative.cooperativejaela.report.dao.CountByDesignaitonDao;
-import lk.cooperative.cooperativejaela.report.entity.CountByDesignation;
+import lk.cooperative.cooperativejaela.report.dao.CountByVehiclestatusDao;
+import lk.cooperative.cooperativejaela.report.entity.CountByVehiclestatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,27 +14,28 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/reports")
 public class ReportController {
+
     @Autowired
-    private CountByDesignaitonDao countbydesignaitondao;
+    private CountByVehiclestatusDao countbyvehiclestatusdao;
 
-    @GetMapping(path ="/countbydesignation",produces = "application/json")
-    public List<CountByDesignation> get() {
+    @GetMapping(path ="/countbyvehiclestatus",produces = "application/json")
+    public List<CountByVehiclestatus> getvehiclestatus() {
 
-        List<CountByDesignation> designations = this.countbydesignaitondao.countByDesignation();
+        List<CountByVehiclestatus> vehiclestatuss = this.countbyvehiclestatusdao.countByVehiclestatus();
         long totalCount = 0;
 
-        for (CountByDesignation countByDesignation : designations) {
-            totalCount += countByDesignation.getCount();
+        for (CountByVehiclestatus countByVehiclestatus : vehiclestatuss) {
+            totalCount += countByVehiclestatus.getCount();
         }
 
-        for (CountByDesignation countByDesignation : designations) {
-            long count = countByDesignation.getCount();
+        for (CountByVehiclestatus countByVehiclestatus : vehiclestatuss) {
+            long count = countByVehiclestatus.getCount();
             double percentage = (double) count / totalCount * 100;
             percentage = Math.round(percentage * 100.0) / 100.0;
-            countByDesignation.setPercentage(percentage);
+            countByVehiclestatus.setPercentage(percentage);
         }
 
-        return designations;
+        return vehiclestatuss;
     }
 }
 
