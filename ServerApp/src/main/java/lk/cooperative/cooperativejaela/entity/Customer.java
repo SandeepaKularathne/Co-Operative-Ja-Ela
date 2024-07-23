@@ -36,6 +36,9 @@ public class Customer {
     @ManyToOne
     @JoinColumn(name = "loyaltyprogram_id", referencedColumnName = "id", nullable = false)
     private Loyaltyprogram loyaltyprogram;
+    @Basic
+    @Column(name = "date")
+    private Date date;
 
     public int getId() {
         return id;
@@ -112,5 +115,13 @@ public class Customer {
 
     public void setLoyaltyprogram(Loyaltyprogram loyaltyprogram) {
         this.loyaltyprogram = loyaltyprogram;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
