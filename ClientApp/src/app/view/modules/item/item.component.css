@@ -19,7 +19,7 @@ mat-card-content { overflow: auto; height: 100%; }
 #ssearch button{ width: 195px; margin-left:10px; margin-top: 5px; background-color: #005710;   }
 
 
-#employeeform {
+#itemform {
   padding-top: 20px;
 
 }
@@ -59,7 +59,7 @@ mat-sidenav-container{
 }
 
 
-/* Employee Form > Button Panel  */
+/* Item Form > Button Panel  */
 #butpanel{  margin-top: 30px;
   margin-bottom: 30px;
 }
@@ -79,7 +79,7 @@ mat-sidenav-container{
   background-color: inherit!important;
 }
 
-#employeeform mat-form-field .ng-dirty{
+#itemform mat-form-field .ng-dirty{
   background-color: gold;
 }
 

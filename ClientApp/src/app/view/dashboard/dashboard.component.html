@@ -13,22 +13,22 @@
         </div>
       </mat-card-content>
       <mat-card-footer class="card-footer">
-        <a routerLink="vehicle">Assign Vehicle</a>
+        <a routerLink="vehicle">See More Details</a>
       </mat-card-footer>
     </mat-card>
 
     <mat-card>
       <mat-card-content class="card-content">
         <div class="content-left">
-          <h3>TOTAL SUPPLIERS</h3>
-          <h1>{{ supCount }}</h1>
+          <h3>TOTAL SHOPS</h3>
+          <h1>{{ shopCount }}</h1>
         </div>
         <div class="icon-right">
           <mat-icon>storefront</mat-icon>
         </div>
       </mat-card-content>
       <mat-card-footer class="card-footer">
-        <a routerLink="supplier">View Suppliers</a>
+        <a routerLink="shop">See More Details</a>
       </mat-card-footer>
     </mat-card>
 
@@ -43,7 +43,7 @@
         </div>
       </mat-card-content>
       <mat-card-footer class="card-footer">
-        <a routerLink="employeeS">View Employees</a>
+        <a routerLink="employeeS">See More Details</a>
       </mat-card-footer>
     </mat-card>
 
@@ -58,13 +58,10 @@
         </div>
       </mat-card-content>
       <mat-card-footer class="card-footer">
-        <a routerLink="customer">Add Customer</a>
+        <a routerLink="customer">See More Details</a>
       </mat-card-footer>
     </mat-card>
-
-
   </mat-grid-tile>
-
 
   <mat-grid-tile [colspan]="4" [rowspan]="8"  id="detail-cart">
       <mat-card>
@@ -72,15 +69,27 @@
         <mat-card-content >
           <mat-list>
             <mat-list-item *ngFor="let message of generalmessages">
-              <mat-icon matListItemIcon>{{message.icon}}</mat-icon>
-              <div matListItemTitle ><b>{{message.name}}</b></div>
-              <div matListItemTitle >{{message.to}}</div>
-              <div matListItemTitle >{{message.for}}</div>
-              <div matListItemTitle >{{message.tel}}</div>
+              <mat-icon matListItemIcon id="icon">{{message.icon}}</mat-icon>
+              <div matLine ><b>{{message.name}}</b></div>
+              <div matLine >{{message.to}}</div>
+              <div matLine >{{message.for}}</div>
+              <div matLine >{{message.tel}}</div>
             </mat-list-item>
           </mat-list>
         </mat-card-content>
       </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="2" [rowspan]="8" id="chart">
+    <mat-card>
+      <mat-card-header><mat-card-title style="text-align: center; color: #515154;">Percentage of Items Below and Above Reorder Point (ROP)</mat-card-title></mat-card-header>
+      <mat-card-content><div #piechart class="pie-chart"></div></mat-card-content>
+      <mat-card-footer class="card-footer" id="gap">
+        <a routerLink="item">See Items Details</a>
+        <a routerLink="supplier">Contact Suppliers </a>
+        <a routerLink="purorder">Add Purchase Order</a>
+      </mat-card-footer>
+    </mat-card>
   </mat-grid-tile>
 
 

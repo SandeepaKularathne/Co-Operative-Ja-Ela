@@ -90,6 +90,7 @@ export class CustomerComponent {
       "birthday": new FormControl('', [Validators.required]),
       "city": new FormControl('', [Validators.required]),
       "email": new FormControl('', [Validators.required]),
+      "date": new FormControl('', [Validators.required]),
       "loyaltyprogram": new FormControl('', [Validators.required]),
       "gender": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
@@ -130,6 +131,7 @@ export class CustomerComponent {
     this.form.controls['birthday'].setValidators([Validators.required]);
     this.form.controls['city'].setValidators([Validators.required, Validators.pattern(this.regexes['city']['regex'])]);
     this.form.controls['email'].setValidators([Validators.required, Validators.pattern(this.regexes['email']['regex'])]);
+    this.form.controls['date'].setValidators([Validators.required]);
     this.form.controls['loyaltyprogram'].setValidators([Validators.required]);
     this.form.controls['gender'].setValidators([Validators.required]);
 

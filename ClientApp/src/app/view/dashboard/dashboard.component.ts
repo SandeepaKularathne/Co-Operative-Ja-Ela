@@ -1,12 +1,21 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild, ElementRef} from '@angular/core';
 import { Vehicle } from 'src/app/entity/vehicle';
 import { VehicleService } from 'src/app/service/vehicleservice';
-import { SupplierService } from 'src/app/service/supplierservice';
-import { Supplier } from 'src/app/entity/supplier';
 import { Employee } from 'src/app/entity/employee';
 import { EmployeeService } from 'src/app/service/employeeservice';
 import { Customer } from 'src/app/entity/customer';
 import { Customerservice } from 'src/app/service/customerservice';
+import { ReportService } from 'src/app/report/reportservice';
+import { Shopservice } from 'src/app/service/shopservice';
+import { Shop } from 'src/app/entity/shop';
+
+declare var google: any;
+
+
+export interface DashRep {
+  lower: number;
+  upper: number;
+}
 
 @Component({
   selector: 'app-home',
@@ -16,16 +25,21 @@ import { Customerservice } from 'src/app/service/customerservice';
 export class DashboardComponent{
 
   vehicles: Vehicle[] = [];
-  suppliers: Supplier[] = [];
+  shops: Shop[] = [];
   employees: Employee[] = [];
   customers: Customer[] = [];
   vCount: number = 0;
-  supCount: number = 0;
+  shopCount: number = 0;
   empCount: number = 0;
   cusCount: number = 0;
 
+  @ViewChild('piechart', { static: true }) piechart!: ElementRef;
+  dashrep: Array<any> = [];
+  private colorInterval: any;
+  private currentColor: string = 'red';
 
-  constructor(private vs: VehicleService, private ss: SupplierService,private es: EmployeeService,private cs: Customerservice) {}
+
+  constructor(private vs: VehicleService, private sh: Shopservice,private es: EmployeeService,private cs: Customerservice, private rs: ReportService) {}
 
   generalmessages: any[] = [
     {icon:'info', name:'General Inquiries:' , to:'info@cooperativejaela.lk', for: 'Requests for information about services or products'},
@@ -38,9 +52,10 @@ export class DashboardComponent{
 
   ngOnInit(): void {
     this.fetchVehicles();
-    this.fetchsuppliers();
+    this.fetchshops();
     this.fetchemployees();
     this.fetchCustomers();
+    this.getreport();
   }
 
   fetchVehicles(): void {
@@ -55,11 +70,11 @@ export class DashboardComponent{
     );
   }
 
-  fetchsuppliers(): void {
-    this.ss.getAll('').then(
-      (suppliers: Supplier[]) => {
-        this.suppliers = suppliers;
-        this.supplierCount();
+  fetchshops(): void {
+    this.sh.getAll('').then(
+      (shops: Shop[]) => {
+        this.shops = shops;
+        this.shopCount = this.shops.length;
       },
       (error: any) => {
         console.error('Error fetching suppliers:', error);
@@ -71,12 +86,22 @@ export class DashboardComponent{
     this.es.getAll('').then(
       (employees: Employee[]) => {
         this.employees = employees;
-        this.employeeCount();
+        this.empCount = this.employees.length;
       },
       (error: any) => {
         console.error('Error fetching suppliers:', error);
       }
     );
+  }
+
+  getreport(): void {
+    this.rs.dashrep()
+      .then((des: any[]) => {
+        this.dashrep = des;
+      })
+      .finally(() => {
+        this.loadCharts();
+      });
   }
 
   vehicleCount(): void {
@@ -93,42 +118,70 @@ export class DashboardComponent{
     this.vCount = count;
   }
 
-  employeeCount(): void {
-    let count: number = 0;
-
-    this.employees.forEach(vehicle => {
-      count = count+1
-    });
-    this.empCount = count;
-  }
-
-  supplierCount(): void {
-    let count: number = 0;
-
-    this.suppliers.forEach(vehicle => {
-      count = count+1
-    });
-    this.supCount = count;
-  }
-
   fetchCustomers(): void {
     this.cs.getAll('').then(
       (customers: Customer[]) => {
         this.customers = customers;
-        this.customerCount();
+        this.cusCount = this.customers.length;
       },
       (error: any) => {
         console.error('Error fetching customers:', error);
       }
     );
   }
-  customerCount(): void {
-    let count: number = 0;
 
-    this.customers.forEach(customer => {
-      count = count + 1;
+  getSliceColor(): string {
+
+    if (this.dashrep[0].lower > 35) {
+      if (!this.colorInterval) {
+        this.startColorInterval();
+      }
+      return this.currentColor;
+    }
+    return '#FFD700';
+
+  }
+
+  startColorInterval(): void {
+    this.colorInterval = setInterval(() => {
+      this.currentColor = this.currentColor === 'red' ? '#FFD700' : 'red';
+      this.drawCharts(); // Redraw charts to update the color
+    }, 500);
+  }
+
+
+  loadCharts(): void {
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(this.drawCharts.bind(this));
+  }
+  drawCharts(): void {
+    const pieData = new google.visualization.DataTable();
+    pieData.addColumn('string', 'Range');
+    pieData.addColumn('number', 'Value');
+
+    this.dashrep.forEach((des: any) => {
+      pieData.addRow(['Lower', des.lower]);
+      pieData.addRow(['Upper', des.upper]);
     });
-    this.cusCount = count;
+
+    const sliceColor = this.getSliceColor();
+
+    const pieOptions = {
+      slices: {
+        0: { offset: 0.01, color:sliceColor },  // Customize slice color and offset this.dashrep.forEach(e->) < 0.65 ? 'red' :
+        1: { color: '#005710' }  // Customize other slice colors
+      },
+      height: 400,  // Height in pixels
+      width: 400,   // Width in pixels
+      legend: { position: 'none' },   // Position the legend
+      tooltip: { showColorCode: true } , // Show color code in tooltips
+      chartArea: { left: 50, top: 0, width: '100%', height: '100%'},
+      pieSliceText: 'label',
+      pieSliceTextStyle: { fontSize: 23,fontName: 'Arial' }
+    };
+
+    const pieChart = new google.visualization.PieChart(this.piechart.nativeElement);
+    pieChart.draw(pieData, pieOptions);
   }
 
 
