@@ -17,6 +17,7 @@ import { GrnComponent } from './view/modules/grn/grn.component';
 import { StoreComponent } from './view/modules/store/store.component';
 import { ShopComponent } from './view/modules/shop/shop.component';
 import { CustomerComponent } from './view/modules/customer/customer.component';
+import { CountByCRDateComponent } from './report/view/countbycrdate/countbycrdate.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -35,13 +36,17 @@ const routes: Routes = [
       {path: "supplier", component: SupplierComponent},
       {path: "dashboard/supplier", component: SupplierComponent},
       {path: "item", component: ItemComponent},
+      {path: "dashboard/item", component: ItemComponent},
       {path: "purorder", component: PurorderComponent},
+      {path: "dashboard/purorder", component: PurorderComponent},
       {path: "grn", component: GrnComponent},
       {path: "store", component: StoreComponent},
       {path: "shop", component: ShopComponent},
+      {path: "dashboard/shop", component: ShopComponent},
       {path: "customer", component: CustomerComponent},
       {path: "dashboard/customer", component: CustomerComponent},
       {path: "countbyvehiclestatus", component: CountByVehiclestatusComponent},
+      {path: "countbycrdate", component: CountByCRDateComponent},
     ]
   }];
 

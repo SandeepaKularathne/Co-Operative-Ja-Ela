@@ -57,7 +57,7 @@ export class AuthorizationManager {
 
   repMenuItems = [
     { name: 'Purchase', accessFlag: true, routerLink: 'purchase' },
-    { name: 'Sale', accessFlag: true, routerLink: 'sale' },
+    { name: 'Sale', accessFlag: true, routerLink: 'countbycrdate' },
     { name: 'Distribution', accessFlag: true, routerLink: 'countbyvehiclestatus' },
     { name: 'Inventory', accessFlag: true, routerLink: 'inventory' }
   ];

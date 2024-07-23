@@ -48,6 +48,7 @@ import { StoreComponent } from './view/modules/store/store.component';
 import { ShopComponent } from './view/modules/shop/shop.component';
 import { CustomerComponent } from './view/modules/customer/customer.component';
 import {CountByVehiclestatusComponent} from "./report/view/countbyvehiclestatus/countbyvehiclestatus.component";
+import { CountByCRDateComponent } from './report/view/countbycrdate/countbycrdate.component';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import {CountByVehiclestatusComponent} from "./report/view/countbyvehiclestatus/
     StoreComponent,
     ShopComponent,
     CustomerComponent,
-    CountByVehiclestatusComponent
+    CountByVehiclestatusComponent,
+    CountByCRDateComponent
 
   ],
     imports: [
