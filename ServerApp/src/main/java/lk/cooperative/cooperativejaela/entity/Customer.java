@@ -1,8 +1,11 @@
 package lk.cooperative.cooperativejaela.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -39,6 +42,9 @@ public class Customer {
     @Basic
     @Column(name = "date")
     private Date date;
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    private Collection<Invoice> invoices;
 
     public int getId() {
         return id;
@@ -123,5 +129,13 @@ public class Customer {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Collection<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(Collection<Invoice> invoices) {
+        this.invoices = invoices;
     }
 }

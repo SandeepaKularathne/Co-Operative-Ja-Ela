@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Objects;
@@ -13,19 +14,18 @@ public class Disrequests {
     private int id;
     @Basic
     @Column(name = "disnumber")
+    @Pattern(regexp = "^[A-Z\\s]{1,2}\\d{3,9}$", message = "Invalid Number")
     private String disnumber;
     @Basic
     @Column(name = "reqdate")
     private Date reqdate;
     @Basic
     @Column(name = "description")
+    @Pattern(regexp = "^.*$", message = "Invalid Description")
     private String description;
     @OneToMany(mappedBy = "disrequests")
     private Collection<Disitem> disitems;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "disrequests_id")
-//    private Collection<Disitem> disitems;
     @ManyToOne
     @JoinColumn(name = "disstatus_id", referencedColumnName = "id", nullable = false)
     private Disstatus disstatus;

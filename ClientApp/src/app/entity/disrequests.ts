@@ -1,6 +1,9 @@
+import { Injectable } from "@angular/core";
+import { Disitem } from "./disitem";
 import { Disstatus } from "./disstatus";
 import { Employee } from "./employee";
 import { Shop } from "./shop";
+
 
 export class Disrequests{
 
@@ -12,6 +15,7 @@ export class Disrequests{
   public employee !: Employee;
   public shop !: Shop;
   public disstatus !: Disstatus;
+  public disitems !: Array<Disitem>;
 
   constructor(id: number, disnumber: number, reqdate: string, description: string, grandtotal: number, employee:Employee, shop:Shop, disstatus:Disstatus) {
     this.id = id;
@@ -24,7 +28,7 @@ export class Disrequests{
     this.disstatus = disstatus;
   }
 
-  
+
 }
 
 

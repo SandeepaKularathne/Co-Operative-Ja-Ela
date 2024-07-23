@@ -5,7 +5,7 @@ mat-card-content { overflow: auto; height: 100%; }
 #loading img{
   width: 30px;
   height: 25px;
-  margin-left: -175px;
+  margin-left: -290px;
   position: relative;
   margin-top: 3px;
 }

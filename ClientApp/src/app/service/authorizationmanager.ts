@@ -45,7 +45,7 @@ export class AuthorizationManager {
     { name: 'Root', accessFlag: true, routerLink: 'root' },
     { name: 'Distribution Order', accessFlag: true, routerLink: 'distributionorder' },
     { name: 'Distribution Receives', accessFlag: true, routerLink: 'distributionreceives' },
-    { name: 'Distribution Request', accessFlag: true, routerLink: 'distributionrequest' }
+    { name: 'Distribution Request', accessFlag: true, routerLink: 'disrequests' }
   ];
 
   invMenuItems = [

@@ -12,17 +12,17 @@ export class DisrequestsService {
 
   async delete(id: number): Promise<[]|undefined>{
     // @ts-ignore
-    return this.http.delete('http://localhost:8080/disrequestss/' + id).toPromise();
+    return this.http.delete('http://localhost:8080/disrequestses/' + id).toPromise();
   }
 
   async update(disrequests: Disrequests): Promise<[]|undefined>{
     //console.log("Disrequests Updating-"+disrequests.id);
-    return this.http.put<[]>('http://localhost:8080/disrequestss', disrequests).toPromise();
+    return this.http.put<[]>('http://localhost:8080/disrequestses', disrequests).toPromise();
   }
 
 
   async getAll(query:string): Promise<Array<Disrequests>> {
-    const disrequestss = await this.http.get<Array<Disrequests>>('http://localhost:8080/disrequestss'+query).toPromise();
+    const disrequestss = await this.http.get<Array<Disrequests>>('http://localhost:8080/disrequestses'+query).toPromise();
     if(disrequestss == undefined){
       return [];
     }
@@ -31,7 +31,7 @@ export class DisrequestsService {
 
   async getAllListNameId(): Promise<Array<Disrequests>> {
 
-    const disrequestss = await this.http.get<Array<Disrequests>>('http://localhost:8080/disrequestss/list').toPromise();
+    const disrequestss = await this.http.get<Array<Disrequests>>('http://localhost:8080/disrequestses/list').toPromise();
     if(disrequestss == undefined){
       return [];
     }
@@ -41,7 +41,7 @@ export class DisrequestsService {
   async add(disrequests: Disrequests): Promise<[]|undefined>{
     //console.log("Disrequests Adding-"+JSON.stringify(disrequests));
     //disrequests.number="47457";
-    return this.http.post<[]>('http://localhost:8080/disrequestss', disrequests).toPromise();
+    return this.http.post<[]>('http://localhost:8080/disrequestses', disrequests).toPromise();
   }
 
 }

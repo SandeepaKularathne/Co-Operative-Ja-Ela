@@ -1,7 +1,9 @@
 package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.DisrequestsDao;
+import lk.cooperative.cooperativejaela.entity.Disitem;
 import lk.cooperative.cooperativejaela.entity.Disrequests;
+import lk.cooperative.cooperativejaela.entity.Grnitem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -48,10 +50,15 @@ public class DisrequestsController {
         HashMap<String,String> responce = new HashMap<>();
         System.out.println("Disrequests"+disrequests.getEmployee());
         String errors="";
+        if(disrequests == null)errors = "Empty Grn Item : <br> "+errors;
 
         Optional<Disrequests> existingDisrequests = disrequestsdao.findByDisnumber(disrequests.getDisnumber());
         if (existingDisrequests.isPresent()) {
             errors += "<br> Existing Disrequests Number";
+        }
+
+        for (Disitem disItem : disrequests.getDisItems()) {
+            disItem.setDisrequests(disrequests);
         }
 
         if(errors == "")

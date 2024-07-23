@@ -9,62 +9,59 @@ import {ConfirmComponent} from "../../../util/dialog/confirm/confirm.component";
 import {RegexService} from "../../../service/regexservice";
 import {DatePipe} from "@angular/common";
 import {AuthorizationManager} from "../../../service/authorizationmanager";
-import { Grn } from 'src/app/entity/grn';
-import { GrnService } from 'src/app/service/grnservice';
-import {GrnstatusService } from 'src/app/service/grnstatusservice';
-import { Grnstatus } from 'src/app/entity/grnstatus';
+import { Disrequests } from 'src/app/entity/disrequests';
+import { DisrequestsService } from 'src/app/service/disrequestsservice';
+import { Disstatusservice } from 'src/app/service/disstatusservice';
+import { Disstatus } from 'src/app/entity/disstatus';
 import { Employee } from 'src/app/entity/employee';
-import { Purorder } from 'src/app/entity/purorder';
 import { EmployeeService } from 'src/app/service/employeeservice';
-import { PurorderService } from 'src/app/service/Purorderservice';
-import { Grnitem } from 'src/app/entity/grnitem';
+import { Disitem } from 'src/app/entity/disitem';
 import { Item } from 'src/app/entity/item';
-import { Store } from 'src/app/entity/store';
 import { ItemService } from 'src/app/service/itemservice';
-// @ts-ignore
-import { Storeservice } from 'src/app/service/Storeservice';
+import { Shop } from 'src/app/entity/shop';
+import { Shopservice } from 'src/app/service/shopservice';
 
 
 @Component({
-  selector: 'app-grn',
-  templateUrl: './grn.component.html',
-  styleUrls: ['./grn.component.css']
+  selector: 'app-disrequests',
+  templateUrl: './disrequests.component.html',
+  styleUrls: ['./disrequests.component.css']
 })
 
 export class DisrequestsComponent {
 
 
-  columns: string[] = ['employee', 'grnstatus', 'purorder', 'date','grandtotal', 'description'];
-  headers: string[] = ['Employee', 'Status', 'Purorder No', 'Date', 'Grand Total','Description'];
-  binders: string[] = ['employee.fullname', 'grnstatus.name', 'purorder.ponumber', 'date','grandtotal', 'description'];
+  columns: string[] = ['disnumber', 'disstatus', 'shop', 'reqdate','employee', 'description'];
+  headers: string[] = ['Number', 'Status', 'Shop', 'Date', 'Employee No','Description'];
+  binders: string[] = ['disnumber', 'disstatus.name', 'shop.shopnumber', 'reqdate','employee.number', 'description'];
 
-  cscolumns: string[] = ['csemployee', 'csgrnstatus', 'cspurorder', 'csdate', 'csgrandtotal', 'csdescription'];
-  csprompts: string[] = ['Search by Employee', 'Search by Status', 'Search by Purorder No', 'Search by Date', 'Search by Grand Total', 'Search by Description'];
+  cscolumns: string[] = ['csdisnumber', 'csdisstatus', 'csshop', 'csreqdate', 'csemployee', 'csdescription'];
+  csprompts: string[] = ['Search by Number', 'Search by Status', 'Search by Shop', 'Search by Date', 'Search by Employee', 'Search by Description'];
 
-  incolumns: string[] = ['item', 'unitcost', 'qty', 'linecost','store', 'remove'];
-  inheaders: string[] = ['Item', 'Unit Cost', 'QTY', 'Line cost','Store','Remove',];
-  inbinders: string[] = ['item.name', 'unitcost', 'qty', 'linecost','store.storenumber','getBtn()'];
+  incolumns: string[] = ['item', 'qty', 'remove'];
+  inheaders: string[] = ['Item', 'QTY','Remove',];
+  inbinders: string[] = ['item.name', 'qty','getBtn()'];
 
   innerdata:any;
   oldinnerdata:any;
 
-  indata!:MatTableDataSource<Grnitem>
+  indata!:MatTableDataSource<Disitem>
   innerform!:FormGroup;
   items:Array<Item> = [];
-  stores:Array<Store> = [];
-  grnitems:Array<Grnitem> = [];
+  shops:Array<Shop> = [];
+  disitems:Array<Disitem> = [];
 
   public csearch!: FormGroup;
   public ssearch!: FormGroup;
   public form!: FormGroup;
 
-  grn!: Grn;
-  oldgrn!: Grn;
+  disrequests!: Disrequests;
+  olddisrequests!: Disrequests;
 
   today = new Date();
 
-  grns: Array<Grn> = [];
-  data!: MatTableDataSource<Grn>;
+  disrequestss: Array<Disrequests> = [];
+  data!: MatTableDataSource<Disrequests>;
   imageurl: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   imageempurl: string = 'assets/default.png'
@@ -73,21 +70,19 @@ export class DisrequestsComponent {
   regexes: any;
   selectedrow: any;
 
-  grnstatuses: Array<Grnstatus> = [];
+  disstatuses: Array<Disstatus> = [];
   employees: Array<Employee> = [];
-  purorders: Array<Purorder> = [];
 
   enaadd:boolean = true;
   enaupd:boolean = false;
   enadel:boolean = false;
 
   constructor(
-    private grs: GrnService,
+    private dis: DisrequestsService,
     private itms: ItemService,
-    private stos: Storeservice,
+    private shos: Shopservice,
     private emps: EmployeeService,
-    private pos: PurorderService,
-    private grss: GrnstatusService,
+    private diss: Disstatusservice,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
@@ -97,34 +92,32 @@ export class DisrequestsComponent {
     this.uiassist = new UiAssist(this);
 
     this.csearch = this.fb.group({
+      csdisnumber: new FormControl(),
+      csdisstatus: new FormControl(),
+      csshop: new FormControl(),
+      csreqdate: new FormControl(),
       csemployee: new FormControl(),
-      csgrnstatus: new FormControl(),
-      cspurorder: new FormControl(),
-      csdate: new FormControl(),
-      csgrandtotal: new FormControl(),
       csdescription: new FormControl(),
     });
 
     this.ssearch = this.fb.group({
-      ssgrnstatus: new FormControl(),
-      sspurorder: new FormControl(),
+      ssdisnumber: new FormControl(),
+      ssdisstatus: new FormControl(),
     });
 
     this.form =this.fb.group({
-      "date": new FormControl(this.today, [Validators.required],),
+      "rqdate": new FormControl(this.today, [Validators.required],),
       "description": new FormControl('', [Validators.required]),
-      "grandtotal": new FormControl('', [Validators.required]),
-      "grnstatus": new FormControl('', [Validators.required]),
+      "disnumber": new FormControl('', [Validators.required]),
+      "disstatus": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
-      "purorder": new FormControl('', [Validators.required]),
+      "shop": new FormControl('', [Validators.required]),
 
     }, {updateOn: 'change'});
 
     this.innerform =this.fb.group({
 
-      "store": new FormControl('', [Validators.required]),
       "qty": new FormControl('', [Validators.required]),
-      "unitcost": new FormControl('', [Validators.required]),
       "item": new FormControl('', [Validators.required]),
 
     }, {updateOn: 'change'});
@@ -139,27 +132,23 @@ export class DisrequestsComponent {
 
     this.createView();
 
-    this.grss.getAllList().then((vsts: Grnstatus[]) => {
-      this.grnstatuses = vsts;
+    this.diss.getAllList().then((vsts: Disstatus[]) => {
+      this.disstatuses = vsts;
     });
 
     this.emps.getAll('').then((vtys: Employee[]) => {
       this.employees = vtys;
     });
 
-    this.pos.getAll('').then((vbrs: Purorder[]) => {
-      this.purorders = vbrs;
+    this.shos.getAll('').then((vbrs: Shop[]) => {
+      this.shops = vbrs;
     });
 
     this.itms.getAll('').then((vbrs: Item[]) => {
       this.items = vbrs;
     });
 
-    this.stos.getAll('').then((vbrs: Store[]) => {
-      this.stores = vbrs;
-    });
-
-    this.rs.get('grn').then((regs: []) => {
+    this.rs.get('disrequests').then((regs: []) => {
       this.regexes = regs;
       this.createForm();
     });
@@ -177,16 +166,15 @@ export class DisrequestsComponent {
 
   createForm() {
 
-    this.form.controls['date'].setValidators([Validators.required]);
+    this.form.controls['rqdate'].setValidators([Validators.required]);
     this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
-    this.form.controls['grandtotal'].setValidators([Validators.required, Validators.pattern(this.regexes['grandtotal']['regex'])]);
-    this.form.controls['grnstatuse'];
+    this.form.controls['disnumber'].setValidators([Validators.required, Validators.pattern(this.regexes['disnumber']['regex'])]);
+    this.form.controls['disstatuse'];
     this.form.controls['employee'].setValidators([Validators.required]);
-    this.form.controls['purorder'].setValidators([Validators.required]);
+    this.form.controls['shop'].setValidators([Validators.required]);
 
-    this.innerform.controls['store'].setValidators([Validators.required]);
+
     this.innerform.controls['qty'].setValidators([Validators.required]);
-    this.innerform.controls['unitcost'].setValidators([Validators.required]);
     this.innerform.controls['item'].setValidators([Validators.required]);
 
 
@@ -197,12 +185,12 @@ export class DisrequestsComponent {
       const control = this.form.controls[controlName];
       control.valueChanges.subscribe(value => {
           // @ts-ignore
-          if (controlName == "date" || controlName == "date")
+          if (controlName == "ssrqdate" || controlName == "ssrqdate")
             value = this.dp.transform(new Date(value), 'yyyy-MM-dd');
 
-          if (this.oldgrn != undefined && control.valid) {
+          if (this.olddisrequests != undefined && control.valid) {
             // @ts-ignore
-            if (value === this.grn[controlName]) {
+            if (value === this.disrequests[controlName]) {
               control.markAsPristine();
             } else {
               control.markAsDirty();
@@ -219,9 +207,9 @@ export class DisrequestsComponent {
       const control = this.innerform.controls[controlName];
       control.valueChanges.subscribe(value => {
           // @ts-ignore
-          if (this.oldgrn != undefined && control.valid) {
+          if (this.olddisrequests != undefined && control.valid) {
             // @ts-ignore
-            if (value === this.grn[controlName]) {
+            if (value === this.disrequests[controlName]) {
               control.markAsPristine();
             } else {
               control.markAsDirty();
@@ -245,16 +233,16 @@ export class DisrequestsComponent {
 
   loadTable(query: string) {
 
-    this.grs.getAll(query)
-      .then((emps: Grn[]) => {
-        this.grns = emps;
+    this.dis.getAll(query)
+      .then((emps: Disrequests[]) => {
+        this.disrequestss = emps;
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
         this.imageurl = 'assets/rejected.png';
       })
       .finally(() => {
-        this.data = new MatTableDataSource(this.grns);
+        this.data = new MatTableDataSource(this.disrequestss);
         this.data.paginator = this.paginator;
       });
 
@@ -264,14 +252,14 @@ export class DisrequestsComponent {
 
     const cserchdata = this.csearch.getRawValue();
 
-    this.data.filterPredicate = (grn: Grn, filter: string) => {
-      return (cserchdata.csdate == null || grn.date.toLowerCase().includes(cserchdata.csdate.toLowerCase())) &&
-        (cserchdata.csdescription == null || grn.description.toLowerCase().includes(cserchdata.csdescription.toLowerCase())) &&
-        (cserchdata.csgrnstatus == null || grn.grnstatus.name.toLowerCase().includes(cserchdata.csgrnstatus.toLowerCase())) &&
-        //(cserchdata.csgrandtotal == null || grn.grandtotal.toLowerCase().includes(cserchdata.csname.toLowerCase())) &&
-        (cserchdata.csemployee == null || grn.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
-        (cserchdata.cspurorder == null || grn.purorder.ponumber.toLowerCase().includes(cserchdata.cspurorder.toLowerCase()));
-    };
+    // this.data.filterPredicate = (disrequests: Disrequests, filter: string) => {
+    //   return (cserchdata.csdate == null || disrequests.date.toLowerCase().includes(cserchdata.csdate.toLowerCase())) &&
+    //     (cserchdata.csdescription == null || disrequests.description.toLowerCase().includes(cserchdata.csdescription.toLowerCase())) &&
+    //     (cserchdata.csdisrequestsstatus == null || disrequests.disrequestsstatus.name.toLowerCase().includes(cserchdata.csdisrequestsstatus.toLowerCase())) &&
+    //     //(cserchdata.csgrandtotal == null || disrequests.grandtotal.toLowerCase().includes(cserchdata.csname.toLowerCase())) &&
+    //     (cserchdata.csemployee == null || disrequests.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
+    //     (cserchdata.cspurorder == null || disrequests.purorder.ponumber.toLowerCase().includes(cserchdata.cspurorder.toLowerCase()));
+    // };
 
     this.data.filter = 'xx';
 
@@ -282,14 +270,14 @@ export class DisrequestsComponent {
     this.csearch.reset();
     const sserchdata = this.ssearch.getRawValue();
 
-    let purorderid = sserchdata.sspurorder;
-    let grnstatusid = sserchdata.ssgrnstatus;
+    let disnumber = sserchdata.ssdisnumber;
+    let disstatusid = sserchdata.ssdisstatus;
 
 
     let query = "";
 
-    if (grnstatusid != null) query = query + "&grnstatusid=" + grnstatusid;
-    if (purorderid != null) query = query + "&purorderid=" + purorderid;
+    if (disnumber != null) query = query + "&disnumber=" + disnumber;
+    if (disstatusid != null) query = query + "&disstatusid=" + disstatusid;
 
 
     if (query != "") query = query.replace(/^./, "?")
@@ -334,29 +322,28 @@ export class DisrequestsComponent {
     return errors;
   }
 
-  fillForm(grn: Grn){
+  fillForm(disrequests: Disrequests){
 
     this.enableButtons(false,true,true);
 
-    this.selectedrow = grn;
+    this.selectedrow = disrequests;
 
-    this.grn = JSON.parse(JSON.stringify(grn));
+    this.disrequests = JSON.parse(JSON.stringify(disrequests));
 
-    this.oldgrn = JSON.parse(JSON.stringify(grn));
+    this.olddisrequests = JSON.parse(JSON.stringify(disrequests));
 
     // @ts-ignore
-    this.grn.grnstatus = this.grnstatuses.find(g => g.id === this.grn.grnstatus.id);
+    this.disrequests.disstatus = this.disstatuses.find(g => g.id === this.disrequests.disstatus.id);
     // @ts-ignore
-    this.grn.employee = this.employees.find(e => e.id === this.grn.employee.id);
+    this.disrequests.employee = this.employees.find(e => e.id === this.disrequests.employee.id);
     // @ts-ignore
-    this.grn.purorder = this.purorders.find(p => p.id === this.grn.purorder.id);
+    this.disrequests.shop = this.shops.find(e => e.id === this.disrequests.shop.id);
 
 
-    this.indata = new MatTableDataSource(this.grn.grnitems);
+    this.indata = new MatTableDataSource(this.disrequests.disitems);
 
-    this.form.patchValue(this.grn);
+    this.form.patchValue(this.disrequests);
     this.form.markAsPristine();
-    this.calculateGrandTotal();
 
   }
 
@@ -366,7 +353,7 @@ export class DisrequestsComponent {
     if (errors != "") {
       const errmsg = this.dg.open(MessageComponent, {
         width: '500px',
-        data: {heading: "Errors - grn Add ", message: "You have following Errors <br> " + errors}
+        data: {heading: "Errors - disrequests Add ", message: "You have following Errors <br> " + errors}
       });
       errmsg.afterClosed().subscribe(async result => {
         if (!result) {
@@ -375,22 +362,22 @@ export class DisrequestsComponent {
       });
     } else {
 
-      this.grn = this.form.getRawValue();
-      this.grn.grnitems = this.grnitems;
+      this.disrequests = this.form.getRawValue();
+      this.disrequests.disitems = this.disitems;
 
       // @ts-ignore
-      this.grnitems.forEach((i )=> delete i.id);
+      this.disrequestsitems.forEach((i )=> delete i.id);
 
       let itmdata: string = "";
 
-      itmdata = itmdata + "<br>Date is : " + this.grn.date;
-      itmdata = itmdata + "<br>Description is : " + this.grn.description;
+      itmdata = itmdata + "<br>Date is : " + this.disrequests.reqdate;
+      itmdata = itmdata + "<br>Number is : " + this.disrequests.disnumber;
 
       const confirm = this.dg.open(ConfirmComponent, {
         width: '500px',
         data: {
-          heading: "Confirmation - grn Add",
-          message: "Are you sure to Add the following grn? <br> <br>" + itmdata
+          heading: "Confirmation - disrequests Add",
+          message: "Are you sure to Add the following disrequests? <br> <br>" + itmdata
         }
       });
 
@@ -400,7 +387,7 @@ export class DisrequestsComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           // @ts-ignore
-          this.grs.add(this.grn).then((responce: [] | undefined) => {
+          this.dis.add(this.disrequests).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";
@@ -424,7 +411,7 @@ export class DisrequestsComponent {
 
             const stsmsg = this.dg.open(MessageComponent, {
               width: '500px',
-              data: {heading: "Status -grn Add", message: addmessage}
+              data: {heading: "Status -disrequests Add", message: addmessage}
             });
 
             stsmsg.afterClosed().subscribe(async result => {
@@ -446,7 +433,7 @@ export class DisrequestsComponent {
 
       const errmsg = this.dg.open(MessageComponent, {
         width: '500px',
-        data: {heading: "Errors - grn Update ", message: "You have following Errors <br> " + errors}
+        data: {heading: "Errors - disrequests Update ", message: "You have following Errors <br> " + errors}
       });
       errmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -462,26 +449,26 @@ export class DisrequestsComponent {
         const confirm = this.dg.open(ConfirmComponent, {
           width: '500px',
           data: {
-            heading: "Confirmation - grn Update",
+            heading: "Confirmation - disrequests Update",
             message: "Are you sure to Save folowing Updates? <br> <br>" + updates
           }
         });
         confirm.afterClosed().subscribe(async result => {
           if (result) {
 
-            this.grn = this.form.getRawValue();
-            this.grn.grnitems = this.grnitems;
+            this.disrequests = this.form.getRawValue();
+            this.disrequests.disitems = this.disitems;
             // @ts-ignore
-            this.grn.id =this.oldgrn.id;
+            this.disrequests.id =this.olddisrequests.id;
 
             // @ts-ignore
-            this.grnitems.forEach((i)=> delete  i.id);
+            this.disrequestsitems.forEach((i)=> delete  i.id);
 
             // @ts-ignore
-            this.grn.date = this.dp.transform(this.grn.date,"yyyy-MM-dd");
-            
+            this.disrequests.date = this.dp.transform(this.disrequests.date,"yyyy-MM-dd");
 
-            this.grs.update(this.grn).then((responce: [] | undefined) => {
+
+            this.dis.update(this.disrequests).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
                 updstatus = responce['errors'] == "";
                 if (!updstatus) { // @ts-ignore
@@ -501,7 +488,7 @@ export class DisrequestsComponent {
 
               const stsmsg = this.dg.open(MessageComponent, {
                 width: '500px',
-                data: {heading: "Status -grn Add", message: updmessage}
+                data: {heading: "Status -disrequests Add", message: updmessage}
               });
               stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -513,7 +500,7 @@ export class DisrequestsComponent {
 
         const updmsg = this.dg.open(MessageComponent, {
           width: '500px',
-          data: {heading: "Confirmation - grn Update", message: "Nothing Changed"}
+          data: {heading: "Confirmation - disrequests Update", message: "Nothing Changed"}
         });
         updmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -540,8 +527,8 @@ export class DisrequestsComponent {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - grn Delete",
-        message: "Are you sure to Delete following grn? <br> <br>" + this.grn.date+"id "+this.grn.id
+        heading: "Confirmation - disrequests Delete",
+        message: "Are you sure to Delete following disrequests? <br> <br>" + this.disrequests.reqdate+"id "+this.disrequests.id
       }
     });
 
@@ -550,7 +537,7 @@ export class DisrequestsComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.grs.delete(this.grn.id).then((responce: [] | undefined) => {
+        this.dis.delete(this.disrequests.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -571,7 +558,7 @@ export class DisrequestsComponent {
 
           const stsmsg = this.dg.open(MessageComponent, {
             width: '500px',
-            data: {heading: "Status - grn Delete ", message: delmessage}
+            data: {heading: "Status - disrequests Delete ", message: delmessage}
           });
           stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -584,7 +571,7 @@ export class DisrequestsComponent {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - grn Clear",
+        heading: "Confirmation - disrequests Clear",
         message: "Are you sure to Clear following Details ? <br> <br>"
       }
     });
@@ -621,33 +608,23 @@ export class DisrequestsComponent {
 
       let linecost = this.innerdata.qty * this.innerdata.unitcost;
 
-      let grnitem = new  Grnitem(this.id,this.innerdata.item,this.innerdata.unitcost,this.innerdata.qty,this.innerdata.store,linecost);
+      let disrequestsitem = new  Disitem(this.id,this.innerdata.item,this.innerdata.qty);
 
-      let tem: Grnitem[] = [];
+      let tem: Disitem[] = [];
       if(this.indata != null) this.indata.data.forEach((i) => tem.push(i));
 
-      this.grnitems = [];
-      tem.forEach((t)=> this.grnitems.push(t));
+      this.disitems = [];
+      tem.forEach((t)=> this.disitems.push(t));
 
-      this.grnitems.push(grnitem);
-      this.indata = new MatTableDataSource(this.grnitems);
+      this.disitems.push(disrequestsitem);
+      this.indata = new MatTableDataSource(this.disitems);
 
       this.id++;
 
-      this.calculateGrandTotal();
       this.innerform.reset();
 
     }
 
-  }
-
-  calculateGrandTotal(){
-    let grandtotal =0;
-    this.indata.data.forEach((m)=>{
-      grandtotal = grandtotal+m.linecost
-    })
-
-    this.form.controls['grandtotal'].setValue(grandtotal);
   }
 
   deleteRaw(x:any) {
@@ -659,9 +636,8 @@ export class DisrequestsComponent {
       datasources.splice(index, 1);
     }
     this.indata.data = datasources;
-    this.grnitems = this.indata.data;
+    this.disitems = this.indata.data;
 
-    this.calculateGrandTotal();
   }
 
 }

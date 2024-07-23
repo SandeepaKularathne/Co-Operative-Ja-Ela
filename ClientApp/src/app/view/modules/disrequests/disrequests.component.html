@@ -3,10 +3,10 @@
   <mat-grid-tile [colspan]="4" [rowspan]="10">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="left">Grn Detail</mat-card-title>
+        <mat-card-title id="left">Disrequests Detail</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content id="grnform">
+      <mat-card-content id="disrequestsform">
 
         <mat-form  [formGroup]="form" >
 
@@ -19,18 +19,30 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
+            <mat-label>Shop</mat-label>
+            <mat-select formControlName="shop">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let shop of shops" [value]="shop">{{shop.shopnumber}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>DR Number</mat-label>
+            <input matInput formControlName="disnumber">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
             <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="date" [min]="today" [max]="today" readonly formControlName="date">
+            <input matInput [matDatepicker]="date" [min]="today" [max]="today" readonly formControlName="rqdate">
             <mat-datepicker-toggle matIconSuffix [for]="date"></mat-datepicker-toggle>
             <mat-datepicker #date></mat-datepicker>
           </mat-form-field>
 
-
           <mat-form-field appearance="outline">
-            <mat-label>Purorder</mat-label>
-            <mat-select formControlName="purorder" (selectionChange)="filteritem()">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="disstatus">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let purorder of purorders" [value]="purorder">{{purorder.ponumber}}</mat-option>
+              <mat-option *ngFor="let disstatus of disstatuses" [value]="disstatus">{{disstatus.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -52,21 +64,8 @@
               </mat-form-field>
 
               <mat-form-field appearance="outline">
-                <mat-label>unit Cost</mat-label>
-                <input matInput   formControlName="unitcost">
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
                 <mat-label>Qty</mat-label>
                 <input matInput   formControlName="qty">
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Store</mat-label>
-                <mat-select formControlName="store">
-                  <mat-option [value]="null" selected>Not Selected</mat-option>
-                  <mat-option *ngFor="let store of stores" [value]="store">{{store.storenumber}}</mat-option>
-                </mat-select>
               </mat-form-field>
 
               <button mat-raised-button id="btnAdd" (click)="btnaddMc()" >Add</button>
@@ -89,18 +88,6 @@
 
           </div>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Grandtotal</mat-label>
-            <input matInput formControlName="grandtotal">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="grnstatus">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let grnstatus of grnstatuses" [value]="grnstatus">{{grnstatus.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
 
           <div id="butpanel">
             <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
@@ -120,7 +107,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="3">
     <mat-card id="ssearch">
       <mat-card-header>
-        <mat-card-title id="right">Grn Search</mat-card-title>
+        <mat-card-title id="right">Distribution Requests Search</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
@@ -128,18 +115,15 @@
         <mat-form [formGroup]="ssearch">
 
           <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="ssgrnstatus">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let grnstatus of grnstatuses" [value]="grnstatus.id">{{grnstatus.name}}</mat-option>
-            </mat-select>
+            <mat-label>DR Number</mat-label>
+            <input matInput formControlName="ssdisnumber">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Purorder</mat-label>
-            <mat-select formControlName="sspurorder">
-              <mat-option [value]="null" selected >Not Selected</mat-option>
-              <mat-option *ngFor="let purorder of purorders" [value]="purorder.id">{{purorder.ponumber}}</mat-option>
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="ssdisstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let disstatus of disstatuses" [value]="disstatus.id">{{disstatus.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -160,7 +144,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="right">Grn Table</mat-card-title>
+        <mat-card-title id="right">Distribution Requests Table</mat-card-title>
         <div id="loading">
           <img [src]="imageurl">
         </div>

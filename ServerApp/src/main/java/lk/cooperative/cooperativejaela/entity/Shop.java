@@ -41,6 +41,9 @@ public class Shop {
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
     private Employee employee;
+    @JsonIgnore
+    @OneToMany(mappedBy = "shop")
+    private Collection<Invoice> invoices;
 
     public int getId() {
         return id;
@@ -125,5 +128,13 @@ public class Shop {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Collection<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(Collection<Invoice> invoices) {
+        this.invoices = invoices;
     }
 }

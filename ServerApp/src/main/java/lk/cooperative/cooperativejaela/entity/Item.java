@@ -68,6 +68,10 @@ public class Item {
     @OneToMany(mappedBy = "item")
     private Collection<Disitem> disitems;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "item")
+    private Collection<Iteminvoice> iteminvoices;
+
     public int getId() {
         return id;
     }
@@ -199,15 +203,19 @@ public class Item {
         return grnitems;
     }
 
-    public void setGrnitems(Collection<Grnitem> grnitems) {
-        this.grnitems = grnitems;
-    }
-
 //    public Collection<Disitem> getDisItems() {
 //        return disitems;
 //    }
 
-//    public void setDisItems(Collection<Disitem> disItems) {
-//        this.disitems = disitems;
-//    }
+    public void setGrnitems(Collection<Grnitem> grnitems) {
+        this.grnitems = grnitems;
+    }
+
+    public Collection<Iteminvoice> getIteminvoices() {
+        return iteminvoices;
+    }
+
+    public void setIteminvoices(Collection<Iteminvoice> iteminvoices) {
+        this.iteminvoices = iteminvoices;
+    }
 }
