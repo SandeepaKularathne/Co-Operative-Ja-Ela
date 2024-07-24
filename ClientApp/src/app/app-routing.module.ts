@@ -19,6 +19,7 @@ import { ShopComponent } from './view/modules/shop/shop.component';
 import { CustomerComponent } from './view/modules/customer/customer.component';
 import { CountByCRDateComponent } from './report/view/countbycrdate/countbycrdate.component';
 import { DisrequestsComponent } from './view/modules/disrequests/disrequests.component';
+import { InvoiceComponent } from './view/modules/invoice/invoice.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -49,6 +50,9 @@ const routes: Routes = [
       {path: "countbyvehiclestatus", component: CountByVehiclestatusComponent},
       {path: "countbycrdate", component: CountByCRDateComponent},
       {path: "disrequests", component: DisrequestsComponent},
+      {path: "invoice", component: InvoiceComponent},
+      {path: "privilege", component: PrivilageComponent},
+      {path: "operation", component: OperationComponent}
     ]
   }];
 

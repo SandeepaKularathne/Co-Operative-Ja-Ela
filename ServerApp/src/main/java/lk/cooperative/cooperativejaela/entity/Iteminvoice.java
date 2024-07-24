@@ -1,5 +1,7 @@
 package lk.cooperative.cooperativejaela.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -19,6 +21,7 @@ public class Iteminvoice {
     @ManyToOne
     @JoinColumn(name = "Item_id", referencedColumnName = "id", nullable = false)
     private Item item;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "invoice_id", referencedColumnName = "id", nullable = false)
     private Invoice invoice;

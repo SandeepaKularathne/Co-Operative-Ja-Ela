@@ -23,7 +23,7 @@ public class Invoice {
     @Basic
     @Column(name = "invnumber")
     private String invnumber;
-    @JsonIgnore
+
     @OneToMany(mappedBy = "invoice")
     private Collection<Iteminvoice> iteminvoices;
     @ManyToOne
@@ -35,6 +35,9 @@ public class Invoice {
     @ManyToOne
     @JoinColumn(name = "shop_id", referencedColumnName = "id", nullable = false)
     private Shop shop;
+    @JsonIgnore
+    @OneToMany(mappedBy = "invoice")
+    private Collection<Payment> payments;
 
     public int getId() {
         return id;
@@ -111,5 +114,13 @@ public class Invoice {
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    public Collection<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Collection<Payment> payments) {
+        this.payments = payments;
     }
 }

@@ -62,14 +62,13 @@ export class CountByCRDateComponent implements OnInit {
     barData.addColumn('number', 'Other');
 
     // Initialize the map with months and gender counts
-    const monthGenderCountMap: { [key: string]: { male: number; female: number,other: number } } = {};
+    const monthGenderCountMap: { [key: string]: { male: number; female: number; other: number; } } = {};
 
     this.countbycrdate.forEach((des: CountByCRDate) => {
       const month = `${des.year}-${des.month}`;
       if (!monthGenderCountMap[month]) {
         monthGenderCountMap[month] = { male: 0, female: 0 , other: 0};
       }
-      console.log(des.gender.toLowerCase().trim());
       if (des.gender.toLowerCase().trim() === 'male') {
         monthGenderCountMap[month].male += des.tcount;
       }else if (des.gender.toLowerCase().trim() === 'female'){

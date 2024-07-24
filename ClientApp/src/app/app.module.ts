@@ -50,6 +50,7 @@ import { CustomerComponent } from './view/modules/customer/customer.component';
 import {CountByVehiclestatusComponent} from "./report/view/countbyvehiclestatus/countbyvehiclestatus.component";
 import { CountByCRDateComponent } from './report/view/countbycrdate/countbycrdate.component';
 import { DisrequestsComponent } from './view/modules/disrequests/disrequests.component';
+import { InvoiceComponent } from './view/modules/invoice/invoice.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { DisrequestsComponent } from './view/modules/disrequests/disrequests.com
     CustomerComponent,
     CountByVehiclestatusComponent,
     CountByCRDateComponent,
-    DisrequestsComponent
+    DisrequestsComponent,
+    InvoiceComponent
 
   ],
     imports: [

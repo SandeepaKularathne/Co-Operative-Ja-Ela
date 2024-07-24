@@ -37,6 +37,9 @@ public class Grn {
     private Purorder purorder;
     @OneToMany(mappedBy = "grn",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Grnitem> grnitems;
+    @Basic
+    @Column(name = "grnnumber")
+    private String grnnumber;
 
     public int getId() {
         return id;
@@ -113,5 +116,13 @@ public class Grn {
 
     public void setGrnitems(Collection<Grnitem> grnitems) {
         this.grnitems = grnitems;
+    }
+
+    public String getGrnnumber() {
+        return grnnumber;
+    }
+
+    public void setGrnnumber(String grnnumber) {
+        this.grnnumber = grnnumber;
     }
 }
