@@ -19,9 +19,8 @@ mat-card-content { overflow: auto; height: 100%; }
 #ssearch button{ width: 195px; margin-left:10px; margin-top: 5px; background-color: #005710;   }
 
 
-#employeeform {
+#paymentform {
   padding-top: 20px;
-
 }
 
 #imgpanel {
@@ -79,7 +78,7 @@ mat-sidenav-container{
   background-color: inherit!important;
 }
 
-#paymentform mat-form-field .ng-dirty{
+#employeeform mat-form-field .ng-dirty{
   background-color: gold;
 }
 
@@ -88,7 +87,7 @@ button:disabled {
   opacity: 0.5;
 }
 
-#employeeform mat-form-field .ng-valid,
+#grnform mat-form-field .ng-valid,
 .ng-valid.required {
   background-color: lightgreen;
 }
@@ -108,10 +107,10 @@ mat-card-title{
   /*text-shadow: 1px 1px 2px rgba(4, 57, 12, 0.89), -1px -1px 2px transparent, 1px -1px 2px transparent, -1px 1px 2px transparent;*/
 }
 
-#right{
+#left{
   margin-left: 100px;
 }
 
-#left{
+#right{
   margin-left: 300px;
 }

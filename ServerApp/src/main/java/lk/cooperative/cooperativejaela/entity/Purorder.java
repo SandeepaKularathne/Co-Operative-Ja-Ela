@@ -43,6 +43,9 @@ public class Purorder {
     @JsonIgnore
     @OneToMany(mappedBy = "purorder")
     private Collection<Grn> grns;
+    @ManyToOne
+    @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false)
+    private Supplier supplier;
 
     public int getId() {
         return id;
@@ -127,5 +130,13 @@ public class Purorder {
 
     public void setGrns(Collection<Grn> grns) {
         this.grns = grns;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 }

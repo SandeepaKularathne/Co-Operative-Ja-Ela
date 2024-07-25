@@ -73,17 +73,18 @@ public class Grn {
         this.grandtotal = grandtotal;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Grn)) return false;
         Grn grn = (Grn) o;
-        return id == grn.id && Objects.equals(date, grn.date) && Objects.equals(description, grn.description) && Objects.equals(grandtotal, grn.grandtotal);
+        return getId() == grn.getId() && Objects.equals(getDate(), grn.getDate()) && Objects.equals(getDescription(), grn.getDescription()) && Objects.equals(getGrandtotal(), grn.getGrandtotal()) && Objects.equals(getEmployee(), grn.getEmployee()) && Objects.equals(getGrnstatus(), grn.getGrnstatus()) && Objects.equals(getPurorder(), grn.getPurorder()) && Objects.equals(getGrnitems(), grn.getGrnitems()) && Objects.equals(getGrnnumber(), grn.getGrnnumber());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, description, grandtotal);
+        return Objects.hash(getId(), getDate(), getDescription(), getGrandtotal(), getEmployee(), getGrnstatus(), getPurorder(), getGrnitems(), getGrnnumber());
     }
 
     public Employee getEmployee() {

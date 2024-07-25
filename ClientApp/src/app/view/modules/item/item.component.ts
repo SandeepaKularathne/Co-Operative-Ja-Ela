@@ -23,6 +23,7 @@ import { Supplier } from 'src/app/entity/supplier';
 import { SupplierService } from 'src/app/service/supplierservice';
 import { Subcategory } from 'src/app/entity/subcategory';
 import { Subcategoryservice } from 'src/app/service/subcategoryservice';
+import { NumberService } from 'src/app/service/numberservice';
 
 @Component({
   selector: 'app-item',
@@ -80,6 +81,7 @@ export class ItemComponent {
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
+    private ns: NumberService,
     public authService:AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
@@ -102,6 +104,7 @@ export class ItemComponent {
     });
 
     this.form =this.fb.group({
+      "itemnumber": new FormControl('', [Validators.required]),
       "name": new FormControl('', [Validators.required]),
       "sprice": new FormControl('', [Validators.required]),
       "pprice": new FormControl('', [Validators.required]),
@@ -164,6 +167,7 @@ export class ItemComponent {
 
   createForm() {
 
+    this.form.controls['itemnumber'].setValidators([Validators.required]);
     this.form.controls['name'].setValidators([Validators.required, Validators.pattern(this.regexes['name']['regex'])]);
     this.form.controls['sprice'].setValidators([Validators.required, Validators.pattern(this.regexes['sprice']['regex'])]);
     this.form.controls['pprice'].setValidators([Validators.required, Validators.pattern(this.regexes['pprice']['regex'])]);
@@ -215,6 +219,8 @@ export class ItemComponent {
     this.itms.getAll(query)
       .then((emps: Item[]) => {
         this.items = emps;
+        this.ns.setLastSequenceNumber(this.items[this.items.length-1].itemnumber);
+        this.generateNumber();
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
@@ -607,6 +613,11 @@ export class ItemComponent {
     const currentDate = new Date();
     return !date || date.getTime() <= currentDate.getTime();
   };
+
+  generateNumber(): void {
+    const newInvoiceNumber = this.ns.generateNumber('ITM');
+    this.form.controls['itemnumber'].setValue(newInvoiceNumber);
+  }
 
 }
 

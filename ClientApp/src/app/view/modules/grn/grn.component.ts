@@ -23,6 +23,7 @@ import { Store } from 'src/app/entity/store';
 import { ItemService } from 'src/app/service/itemservice';
 // @ts-ignore
 import { Storeservice } from 'src/app/service/Storeservice';
+import { NumberService } from 'src/app/service/numberservice';
 
 
 @Component({
@@ -34,12 +35,12 @@ import { Storeservice } from 'src/app/service/Storeservice';
 export class GrnComponent {
 
 
-  columns: string[] = ['employee', 'grnstatus', 'purorder', 'date','grandtotal', 'description'];
-  headers: string[] = ['Employee', 'Status', 'Purorder No', 'Date', 'Grand Total','Description'];
-  binders: string[] = ['employee.fullname', 'grnstatus.name', 'purorder.ponumber', 'date','grandtotal', 'description'];
+  columns: string[] = ['employee', 'grnstatus', 'purorder', 'date','grnnumber', 'description'];
+  headers: string[] = ['Employee', 'Status', 'Purorder No', 'Date', 'Number','Description'];
+  binders: string[] = ['employee.fullname', 'grnstatus.name', 'purorder.ponumber', 'date','grnnumber', 'description'];
 
-  cscolumns: string[] = ['csemployee', 'csgrnstatus', 'cspurorder', 'csdate', 'csgrandtotal', 'csdescription'];
-  csprompts: string[] = ['Search by Employee', 'Search by Status', 'Search by Purorder No', 'Search by Date', 'Search by Grand Total', 'Search by Description'];
+  cscolumns: string[] = ['csemployee', 'csgrnstatus', 'cspurorder', 'csdate', 'csgrnnumber', 'csdescription'];
+  csprompts: string[] = ['Search by Employee', 'Search by Status', 'Search by Purorder No', 'Search by Date', 'Search by Number', 'Search by Description'];
 
   incolumns: string[] = ['item', 'unitcost', 'qty', 'linecost','store', 'remove'];
   inheaders: string[] = ['Item', 'Unit Cost', 'QTY', 'Line cost','Store','Remove',];
@@ -92,6 +93,7 @@ export class GrnComponent {
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
+    private ns: NumberService,
     public authService:AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
@@ -101,7 +103,7 @@ export class GrnComponent {
       csgrnstatus: new FormControl(),
       cspurorder: new FormControl(),
       csdate: new FormControl(),
-      csgrandtotal: new FormControl(),
+      csgrnnumber: new FormControl(),
       csdescription: new FormControl(),
     });
 
@@ -111,6 +113,7 @@ export class GrnComponent {
     });
 
     this.form =this.fb.group({
+      "grnnumber": new FormControl(this.today, [Validators.required],),
       "date": new FormControl(this.today, [Validators.required],),
       "description": new FormControl('', [Validators.required]),
       "grandtotal": new FormControl('', [Validators.required]),
@@ -177,6 +180,7 @@ export class GrnComponent {
 
   createForm() {
 
+    this.form.controls['grnnumber'].setValidators([Validators.required]);
     this.form.controls['date'].setValidators([Validators.required]);
     this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
     this.form.controls['grandtotal'].setValidators([Validators.required, Validators.pattern(this.regexes['grandtotal']['regex'])]);
@@ -248,6 +252,8 @@ export class GrnComponent {
     this.grs.getAll(query)
       .then((emps: Grn[]) => {
         this.grns = emps;
+        this.ns.setLastSequenceNumber(this.grns[this.grns.length-1].grnnumber);
+        this.generateNumber();
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
@@ -268,7 +274,7 @@ export class GrnComponent {
       return (cserchdata.csdate == null || grn.date.toLowerCase().includes(cserchdata.csdate.toLowerCase())) &&
         (cserchdata.csdescription == null || grn.description.toLowerCase().includes(cserchdata.csdescription.toLowerCase())) &&
         (cserchdata.csgrnstatus == null || grn.grnstatus.name.toLowerCase().includes(cserchdata.csgrnstatus.toLowerCase())) &&
-        //(cserchdata.csgrandtotal == null || grn.grandtotal.toLowerCase().includes(cserchdata.csname.toLowerCase())) &&
+        (cserchdata.csgrnnumber == null || grn.grnnumber.toLowerCase().includes(cserchdata.csgrnnumber.toLowerCase())) &&
         (cserchdata.csemployee == null || grn.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
         (cserchdata.cspurorder == null || grn.purorder.ponumber.toLowerCase().includes(cserchdata.cspurorder.toLowerCase()));
     };
@@ -479,7 +485,7 @@ export class GrnComponent {
 
             // @ts-ignore
             this.grn.date = this.dp.transform(this.grn.date,"yyyy-MM-dd");
-            
+
 
             this.grs.update(this.grn).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
@@ -664,6 +670,10 @@ export class GrnComponent {
     this.calculateGrandTotal();
   }
 
+  generateNumber(): void {
+    const newNumber = this.ns.generateNumber('GRN');
+    this.form.controls['grnnumber'].setValue(newNumber);
+  }
 }
 
 

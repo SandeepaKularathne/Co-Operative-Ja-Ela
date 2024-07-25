@@ -8,16 +8,18 @@ export class Grn{
   public id !: number;
   public date !: string;
   public description !: string;
+  public grnnumber !: string;
   public grandtotal !: number;
   public employee !: Employee;
   public grnstatus !: Grnstatus;
   public purorder !: Purorder;
   public grnitems !: Array<Grnitem>;
 
-  constructor(id: number, date: string, description: string, grandtotal: number, employee:Employee, grnstatus:Grnstatus, purorder:Purorder, grnitems: Array<Grnitem>) {
+  constructor(id: number, date: string, description: string,grnnumber: string, grandtotal: number, employee:Employee, grnstatus:Grnstatus, purorder:Purorder, grnitems: Array<Grnitem>) {
     this.id = id;
     this.date = date;
     this.description = description;
+    this.grnnumber = grnnumber;
     this.grandtotal = grandtotal;
     this.employee = employee;
     this.grnstatus = grnstatus;

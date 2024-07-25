@@ -67,6 +67,9 @@ public class Supplier {
     @JsonIgnore
     @OneToMany(mappedBy = "supplier")
     private Collection<Item> items;
+    @JsonIgnore
+    @OneToMany(mappedBy = "supplier")
+    private Collection<Purorder> purorders;
 
     public int getId() {
         return id;
@@ -199,5 +202,13 @@ public class Supplier {
 
     public void setItems(Collection<Item> items) {
         this.items = items;
+    }
+
+    public Collection<Purorder> getPurorders() {
+        return purorders;
+    }
+
+    public void setPurorders(Collection<Purorder> purorders) {
+        this.purorders = purorders;
     }
 }

@@ -11,6 +11,11 @@
         <mat-form  [formGroup]="form" >
 
           <mat-form-field appearance="outline">
+            <mat-label>Number</mat-label>
+            <input matInput formControlName="grnnumber" readonly>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
             <mat-label>Employee</mat-label>
             <mat-select formControlName="employee">
               <mat-option [value]="null" selected>Not Selected</mat-option>

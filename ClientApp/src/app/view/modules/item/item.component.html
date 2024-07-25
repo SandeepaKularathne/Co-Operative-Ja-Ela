@@ -11,6 +11,11 @@
         <mat-form  [formGroup]="form" >
 
           <mat-form-field appearance="outline">
+            <mat-label>Number</mat-label>
+            <input matInput formControlName="itemnumber" readonly >
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name">
           </mat-form-field>

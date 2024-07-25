@@ -51,6 +51,8 @@ import {CountByVehiclestatusComponent} from "./report/view/countbyvehiclestatus/
 import { CountByCRDateComponent } from './report/view/countbycrdate/countbycrdate.component';
 import { DisrequestsComponent } from './view/modules/disrequests/disrequests.component';
 import { InvoiceComponent } from './view/modules/invoice/invoice.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatalistComponent } from './util/mat-datalist/mat-datalist.component';
 
 
 @NgModule({
@@ -77,7 +79,8 @@ import { InvoiceComponent } from './view/modules/invoice/invoice.component';
     CountByVehiclestatusComponent,
     CountByCRDateComponent,
     DisrequestsComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    MatDatalistComponent,
 
   ],
     imports: [
@@ -106,6 +109,8 @@ import { InvoiceComponent } from './view/modules/invoice/invoice.component';
         MatSlideToggleModule,
         NgOptimizedImage,
         MatMenuModule,
+        MatRadioModule,
+
     ],
   providers: [
     OperationComponent,

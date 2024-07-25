@@ -32,7 +32,7 @@ const routes: Routes = [
       {path: "employee", component: EmployeeComponent},
       {path: "dashboard/employee", component: EmployeeComponent},
       {path: "user", component: UserComponent},
-      {path:"payments",component:PaymentComponent},
+      {path:"payment",component:PaymentComponent},
       {path: "vehicle", component: VehicleComponent},
       {path: "dashboard/vehicle", component: VehicleComponent},
       {path: "supplier", component: SupplierComponent},

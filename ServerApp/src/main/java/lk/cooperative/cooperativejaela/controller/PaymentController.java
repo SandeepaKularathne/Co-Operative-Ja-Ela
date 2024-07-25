@@ -27,12 +27,12 @@ public class PaymentController {
 
         if(params.isEmpty())  return payments;
 
-        String invoiceid = params.get("invoiceid");
+        String ptypeid = params.get("ptypeid");
         String employeeid= params.get("employeeid");
 
         Stream<Payment> estream = payments.stream();
 
-        if(invoiceid!=null) estream = estream.filter(e -> e.getInvoice().getId()==Integer.parseInt(invoiceid));
+        if(ptypeid!=null) estream = estream.filter(e -> e.getPtype().getId()==Integer.parseInt(ptypeid));
         if(employeeid!=null) estream = estream.filter(e -> e.getEmployee().getId()==Integer.parseInt(employeeid));
 
 

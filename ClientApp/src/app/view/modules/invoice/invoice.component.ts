@@ -109,11 +109,11 @@ export class InvoiceComponent {
 
     this.form =this.fb.group({
       "date": new FormControl(this.today, [Validators.required],),
-      "customer": new FormControl('', [Validators.required]),
       "grandtotal": new FormControl('', [Validators.required]),
       "invnumber": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
       "shop": new FormControl('', [Validators.required]),
+      "datalistControl":new FormControl('', [Validators.required]),
 
     }, {updateOn: 'change'});
 
@@ -169,7 +169,7 @@ export class InvoiceComponent {
     this.form.controls['grandtotal'].setValidators([Validators.required]);
     this.form.controls['invnumber'];
     this.form.controls['employee'].setValidators([Validators.required]);
-    this.form.controls['customer'].setValidators([Validators.required]);
+    this.form.controls['datalistControl'].setValidators([Validators.required]);
 
     this.innerform.controls['store'].setValidators([Validators.required]);
     this.innerform.controls['qty'].setValidators([Validators.required]);
@@ -236,7 +236,7 @@ export class InvoiceComponent {
         this.invoices = emps;
         //this.setLastSequenceNumberFromInvoice(this.invoices[this.invoices.length-1].invnumber);
         this.ns.setLastSequenceNumber(this.invoices[this.invoices.length-1].invnumber);
-        this.generateInvoiceNumber();
+        this.generateNumber();
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
@@ -558,7 +558,7 @@ export class InvoiceComponent {
   }
 
 
-  generateInvoiceNumber(): void {
+  generateNumber(): void {
     const newInvoiceNumber = this.ns.generateNumber('INV');
     this.form.controls['invnumber'].setValue(newInvoiceNumber);
   }
