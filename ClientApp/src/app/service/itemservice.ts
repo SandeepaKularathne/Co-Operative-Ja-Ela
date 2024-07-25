@@ -41,6 +41,15 @@ export class ItemService {
     }
     return subcategoryes;
   }
+
+  async getItemBySupplier(id :number ): Promise<Array<Item>> {
+
+    const subcategoryes = await this.http.get<Array<Item>>('http://localhost:8080/items/supplier/'+id).toPromise();
+    if(subcategoryes == undefined){
+      return [];
+    }
+    return subcategoryes;
+  }
 }
 
 

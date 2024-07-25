@@ -35,7 +35,7 @@ public class Item {
     @Basic
     @Column(name = "quantity")
     @RegexPattern(reg = "^\\d+(,\\d+)*$", msg = "Invalid Quantity")
-    private Integer quantity;
+    private BigDecimal quantity;
     @Basic
     @Column(name = "rop")
     @RegexPattern(reg = "^\\d+(,\\d+)*$", msg = "Invalid Rop")
@@ -115,11 +115,11 @@ public class Item {
         this.poto = poto;
     }
 
-    public Integer getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 

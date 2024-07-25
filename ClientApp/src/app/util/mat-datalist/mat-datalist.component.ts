@@ -57,7 +57,7 @@ export class MatDatalistComponent implements ControlValueAccessor, Validator {
     const inputElement = event.target as HTMLInputElement;
     const selectedOption = this.options.find(option => option[this.displayValue] === inputElement.value);
     if (selectedOption) {
-      this.value = selectedOption[this.valueProperty];
+      this.value = selectedOption;
       this.displayProperty = selectedOption[this.displayValue];
       this.onChange(this.value);
     } else {

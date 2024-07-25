@@ -8,7 +8,7 @@ import { Shop } from "./shop";
 export class Disrequests{
 
   public id !: number;
-  public disnumber !: number;
+  public disnumber !: string;
   public reqdate !: string;
   public description !: string;
   public grandtotal !: number;
@@ -17,7 +17,7 @@ export class Disrequests{
   public disstatus !: Disstatus;
   public disitems !: Array<Disitem>;
 
-  constructor(id: number, disnumber: number, reqdate: string, description: string, grandtotal: number, employee:Employee, shop:Shop, disstatus:Disstatus) {
+  constructor(id: number, disnumber: string, reqdate: string, description: string, grandtotal: number, employee:Employee, shop:Shop, disstatus:Disstatus) {
     this.id = id;
     this.disnumber = disnumber;
     this.reqdate = reqdate;

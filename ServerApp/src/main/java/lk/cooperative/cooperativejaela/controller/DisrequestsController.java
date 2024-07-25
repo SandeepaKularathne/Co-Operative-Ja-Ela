@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.DisrequestsDao;
+import lk.cooperative.cooperativejaela.dao.ItemDao;
 import lk.cooperative.cooperativejaela.entity.Disitem;
 import lk.cooperative.cooperativejaela.entity.Disrequests;
 import lk.cooperative.cooperativejaela.entity.Grnitem;
@@ -21,6 +22,9 @@ public class DisrequestsController {
 
     @Autowired
     private DisrequestsDao disrequestsdao;
+
+    @Autowired
+    private ItemDao itemdao;
 
     @GetMapping(produces = "application/json")
 //    @PreAuthorize("hasAuthority('disrequests-select')")
@@ -47,18 +51,24 @@ public class DisrequestsController {
 //    @PreAuthorize("hasAuthority('Disrequests-Insert')")
     public HashMap<String,String> add(@RequestBody Disrequests disrequests){
 
+        System.out.println("Received JSON: " + disrequests.getDisItems());
+
         HashMap<String,String> responce = new HashMap<>();
-        System.out.println("Disrequests"+disrequests.getEmployee());
-        String errors="";
-        if(disrequests == null)errors = "Empty Grn Item : <br> "+errors;
+
+        String errors = "";
+        if (disrequests == null) errors = "Empty Requests Item : <br> " + errors;
 
         Optional<Disrequests> existingDisrequests = disrequestsdao.findByDisnumber(disrequests.getDisnumber());
         if (existingDisrequests.isPresent()) {
             errors += "<br> Existing Disrequests Number";
         }
 
-        for (Disitem disItem : disrequests.getDisItems()) {
-            disItem.setDisrequests(disrequests);
+        if (disrequests.getDisItems() != null) {
+            for (Disitem disItem : disrequests.getDisItems()) {
+                disItem.setDisrequests(disrequests);
+            }
+        } else {
+            errors += "DisItems is null";
         }
 
         if(errors == "")

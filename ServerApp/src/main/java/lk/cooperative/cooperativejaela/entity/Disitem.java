@@ -41,14 +41,14 @@ public class Disitem {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Disitem disItem = (Disitem) o;
-        return id == disItem.id && Objects.equals(qty, disItem.qty);
+        if (!(o instanceof Disitem)) return false;
+        Disitem disitem = (Disitem) o;
+        return getId() == disitem.getId() && Objects.equals(getQty(), disitem.getQty()) && Objects.equals(getDisrequests(), disitem.getDisrequests()) && Objects.equals(getItem(), disitem.getItem());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, qty);
+        return Objects.hash(getId(), getQty(), getDisrequests(), getItem());
     }
 
     public Disrequests getDisrequests() {

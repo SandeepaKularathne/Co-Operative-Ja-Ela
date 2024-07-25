@@ -74,13 +74,13 @@ public class GrnController {
             for (Grnitem grnItem : grn.getGrnitems()) {
                 Item item = grnItem.getItem();
                 BigDecimal unitCost = grnItem.getUnitcost();
-                int qtyToIncrease = grnItem.getQty();
+                BigDecimal qtyToIncrease = BigDecimal.valueOf(grnItem.getQty());
 
                 // Find the existing item or create a new one if not found
                 Item existingItem = itemdao.findById(item.getId()).orElse(item);
 
                 // Calculate the updated qty for the item
-                int increasedQty = existingItem.getQuantity() + qtyToIncrease;
+                BigDecimal increasedQty = existingItem.getQuantity().add(qtyToIncrease);
 
                 // Update the item's qty and unitprice
                 existingItem.setQuantity(increasedQty);
@@ -121,13 +121,13 @@ public class GrnController {
             for (Grnitem grnItem : grn.getGrnitems()) {
                 Item item = grnItem.getItem();
                 BigDecimal unitCost = grnItem.getUnitcost();
-                int qtyToIncrease = grnItem.getQty();
+                BigDecimal qtyToIncrease = BigDecimal.valueOf(grnItem.getQty());
 
                 // Find the existing item or create a new one if not found
                 Item existingItem = itemdao.findById(item.getId()).orElse(item);
 
                 // Calculate the updated qty for the item
-                int increasedQty = existingItem.getQuantity() + qtyToIncrease;
+                BigDecimal increasedQty = existingItem.getQuantity().add(qtyToIncrease);
 
                 // Update the item's qty and unitprice
                 existingItem.setQuantity(increasedQty);
@@ -169,9 +169,9 @@ public class GrnController {
             // Step 3: Update Item entities' qty
             for (Grnitem grnitem : grnitems) {
                 Item itemToUpdate = grnitem.getItem();
-                int currentQty = itemToUpdate.getQuantity();
-                int grnitemQty = grnitem.getQty();
-                int accQty =currentQty-grnitemQty;
+                BigDecimal currentQty = itemToUpdate.getQuantity();
+                BigDecimal grnitemQty = BigDecimal.valueOf(grnitem.getQty());
+                BigDecimal accQty =currentQty.subtract(grnitemQty);
                 itemToUpdate.setQuantity(accQty);
 
                 // Step 4: Save the updated Item entities to the database

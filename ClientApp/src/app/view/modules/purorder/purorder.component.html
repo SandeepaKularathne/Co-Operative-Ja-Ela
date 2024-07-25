@@ -12,7 +12,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Number</mat-label>
-            <input matInput formControlName="ponumber">
+            <input matInput formControlName="ponumber" readonly>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -28,6 +28,14 @@
             <mat-select formControlName="employee">
               <mat-option [value]="null" selected>Not Selected</mat-option>
               <mat-option *ngFor="let employee of employees" [value]="employee">{{employee.fullname}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Supplier</mat-label>
+            <mat-select formControlName="supplier" (selectionChange)="filteritem()">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let supplier of suppliers" [value]="supplier">{{supplier.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 

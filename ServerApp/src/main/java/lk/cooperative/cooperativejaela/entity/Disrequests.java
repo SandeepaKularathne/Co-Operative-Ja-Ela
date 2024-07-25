@@ -14,7 +14,6 @@ public class Disrequests {
     private int id;
     @Basic
     @Column(name = "disnumber")
-    @Pattern(regexp = "^[A-Z\\s]{1,2}\\d{3,9}$", message = "Invalid Number")
     private String disnumber;
     @Basic
     @Column(name = "reqdate")
@@ -23,7 +22,7 @@ public class Disrequests {
     @Column(name = "description")
     @Pattern(regexp = "^.*$", message = "Invalid Description")
     private String description;
-    @OneToMany(mappedBy = "disrequests")
+    @OneToMany(mappedBy = "disrequests",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Disitem> disitems;
 
     @ManyToOne
@@ -78,7 +77,7 @@ public class Disrequests {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, disnumber, reqdate, description);
+        return Objects.hash(getId(), getDisnumber(), getReqdate(), getDescription(), disitems, getDisstatus(), getShop(), getEmployee());
     }
 
     public Collection<Disitem> getDisItems() {

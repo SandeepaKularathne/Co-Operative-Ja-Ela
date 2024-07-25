@@ -18,6 +18,9 @@ import { Item } from 'src/app/entity/item';
 import { Poitem } from 'src/app/entity/poitem';
 import { ItemService } from 'src/app/service/itemservice';
 import { EmployeeService } from 'src/app/service/employeeservice';
+import { Supplier } from 'src/app/entity/supplier';
+import { SupplierService } from 'src/app/service/supplierservice';
+import { NumberService } from 'src/app/service/numberservice';
 
 @Component({
   selector: 'app-purorder',
@@ -66,6 +69,7 @@ export class PurorderComponent {
 
   postatuses: Array<Postatus> = [];
   employees: Array<Employee> = [];
+  suppliers: Array<Supplier> = [];
 
   enaadd: boolean = false;
   enaupd: boolean = false;
@@ -77,10 +81,12 @@ export class PurorderComponent {
     private poss: Postatusservice,
     private itms: ItemService,
     private emps: EmployeeService,
+    private sups: SupplierService,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
+    private ns: NumberService,
     public authService: AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
@@ -106,6 +112,7 @@ export class PurorderComponent {
       "description": new FormControl('', [Validators.required]),
       "postatus": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
+      "supplier": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
 
     this.innerform = this.fb.group({
@@ -133,6 +140,10 @@ export class PurorderComponent {
       this.employees = vsts;
     });
 
+    this.sups.getAll('').then((vsts: Supplier[]) => {
+      this.suppliers = vsts;
+    });
+
     this.itms.getAll('').then((vsts: Item[]) => {
       this.items = vsts;
     });
@@ -156,6 +167,7 @@ export class PurorderComponent {
     this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
     this.form.controls['postatus'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
+    this.form.controls['supplier'].setValidators([Validators.required]);
 
     this.innerform.controls['item'].setValidators([Validators.required]);
     this.innerform.controls['qty'].setValidators([Validators.required]);
@@ -207,6 +219,8 @@ export class PurorderComponent {
     this.pos.getAll(query)
       .then((emps: Purorder[]) => {
         this.purorders = emps;
+        this.ns.setLastSequenceNumber(this.purorders[this.purorders.length-1].ponumber);
+        this.generateNumber();
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
@@ -306,6 +320,8 @@ export class PurorderComponent {
     this.purorder.postatus = this.postatuses.find(s => s.id === this.purorder.postatus.id);
     //@ts-ignore
     this.purorder.employee = this.employees.find(e => e.id === this.purorder.employee.id);
+    //@ts-ignore
+    this.purorder.supplier = this.suppliers.find(e => e.id === this.purorder.supplier.id);
 
     this.indata = new MatTableDataSource(this.purorder.poitems);
     this.form.patchValue(this.purorder);
@@ -630,6 +646,17 @@ export class PurorderComponent {
     this.innerform.controls['explinetotal'].setValue(i);
   }
 
+  generateNumber(): void {
+    const newNumber = this.ns.generateNumber('PO');
+    this.form.controls['ponumber'].setValue(newNumber);
+  }
+
+  filteritem(){
+    let supplier = this.form.controls['supplier'].value.id;
+    this.itms.getItemBySupplier(supplier).then((msys: Item[]) => {
+      this.items = msys;
+    });
+  }
 }
 
 

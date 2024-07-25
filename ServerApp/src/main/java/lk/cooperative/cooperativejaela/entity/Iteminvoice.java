@@ -17,7 +17,7 @@ public class Iteminvoice {
     private BigDecimal linetotal;
     @Basic
     @Column(name = "qty")
-    private Integer qty;
+    private BigDecimal qty;
     @ManyToOne
     @JoinColumn(name = "Item_id", referencedColumnName = "id", nullable = false)
     private Item item;
@@ -42,11 +42,11 @@ public class Iteminvoice {
         this.linetotal = linetotal;
     }
 
-    public Integer getQty() {
+    public BigDecimal getQty() {
         return qty;
     }
 
-    public void setQty(Integer qty) {
+    public void setQty(BigDecimal qty) {
         this.qty = qty;
     }
 

@@ -20,6 +20,7 @@ import { Item } from 'src/app/entity/item';
 import { ItemService } from 'src/app/service/itemservice';
 import { Shop } from 'src/app/entity/shop';
 import { Shopservice } from 'src/app/service/shopservice';
+import { NumberService } from 'src/app/service/numberservice';
 
 
 @Component({
@@ -87,6 +88,7 @@ export class DisrequestsComponent {
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
+    private ns: NumberService,
     public authService:AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
@@ -168,7 +170,7 @@ export class DisrequestsComponent {
 
     this.form.controls['rqdate'].setValidators([Validators.required]);
     this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
-    this.form.controls['disnumber'].setValidators([Validators.required, Validators.pattern(this.regexes['disnumber']['regex'])]);
+    this.form.controls['disnumber'].setValidators([Validators.required]);
     this.form.controls['disstatuse'];
     this.form.controls['employee'].setValidators([Validators.required]);
     this.form.controls['shop'].setValidators([Validators.required]);
@@ -236,6 +238,8 @@ export class DisrequestsComponent {
     this.dis.getAll(query)
       .then((emps: Disrequests[]) => {
         this.disrequestss = emps;
+        this.ns.setLastSequenceNumber(this.disrequestss[this.disrequestss.length-1].disnumber);
+        this.generateNumber();
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
@@ -252,14 +256,14 @@ export class DisrequestsComponent {
 
     const cserchdata = this.csearch.getRawValue();
 
-    // this.data.filterPredicate = (disrequests: Disrequests, filter: string) => {
-    //   return (cserchdata.csdate == null || disrequests.date.toLowerCase().includes(cserchdata.csdate.toLowerCase())) &&
-    //     (cserchdata.csdescription == null || disrequests.description.toLowerCase().includes(cserchdata.csdescription.toLowerCase())) &&
-    //     (cserchdata.csdisrequestsstatus == null || disrequests.disrequestsstatus.name.toLowerCase().includes(cserchdata.csdisrequestsstatus.toLowerCase())) &&
-    //     //(cserchdata.csgrandtotal == null || disrequests.grandtotal.toLowerCase().includes(cserchdata.csname.toLowerCase())) &&
-    //     (cserchdata.csemployee == null || disrequests.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
-    //     (cserchdata.cspurorder == null || disrequests.purorder.ponumber.toLowerCase().includes(cserchdata.cspurorder.toLowerCase()));
-    // };
+    this.data.filterPredicate = (disrequests: Disrequests, filter: string) => {
+      return (cserchdata.csreqdate == null || disrequests.reqdate.toLowerCase().includes(cserchdata.csreqdate.toLowerCase())) &&
+        (cserchdata.csdescription == null || disrequests.description.toLowerCase().includes(cserchdata.csdescription.toLowerCase())) &&
+        (cserchdata.csdisstatus == null || disrequests.disstatus.name.toLowerCase().includes(cserchdata.csdisstatus.toLowerCase())) &&
+        (cserchdata.csdisnumber== null || disrequests.disnumber.toLowerCase().includes(cserchdata.csdisnumber.toLowerCase())) &&
+        (cserchdata.csemployee == null || disrequests.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
+        (cserchdata.csshop == null || disrequests.shop.shopnumber.toLowerCase().includes(cserchdata.csshop.toLowerCase()));
+    };
 
     this.data.filter = 'xx';
 
@@ -366,7 +370,7 @@ export class DisrequestsComponent {
       this.disrequests.disitems = this.disitems;
 
       // @ts-ignore
-      this.disrequestsitems.forEach((i )=> delete i.id);
+      this.disitems.forEach((i )=> delete i.id);
 
       let itmdata: string = "";
 
@@ -386,6 +390,7 @@ export class DisrequestsComponent {
 
       confirm.afterClosed().subscribe(async result => {
         if (result) {
+          console.log(this.disrequests);
           // @ts-ignore
           this.dis.add(this.disrequests).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
@@ -640,6 +645,10 @@ export class DisrequestsComponent {
 
   }
 
+  generateNumber(): void {
+    const newInvoiceNumber = this.ns.generateNumber('DRQ');
+    this.form.controls['disnumber'].setValue(newInvoiceNumber);
+  }
 }
 
 

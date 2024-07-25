@@ -66,14 +66,16 @@ public class InvoiceController {
             invoicedao.save(invoice);
             for (Iteminvoice iteminvoice : invoice.getIteminvoices()) {
                 Item item = iteminvoice.getItem();
-                
-                int qtyTodiscrease = iteminvoice.getQty();
+
+
+                BigDecimal qtyTodiscrease = iteminvoice.getQty();
 
                 // Find the existing item or create a new one if not found
                 Item existingItem = itemdao.findById(item.getId()).orElse(item);
 
                 // Calculate the updated qty for the item
-                int discreasedQty = existingItem.getQuantity() - qtyTodiscrease;
+
+                BigDecimal discreasedQty = existingItem.getQuantity().subtract(qtyTodiscrease);
 
                 // Update the item's qty and unitprice
                 existingItem.setQuantity(discreasedQty);
@@ -116,9 +118,10 @@ public class InvoiceController {
             // Step 3: Update Item entities' qty
             for (Iteminvoice iteminvoice : iteminvoices) {
                 Item itemToUpdate = iteminvoice.getItem();
-                int currentQty = itemToUpdate.getQuantity();
-                int iteminvoiceQty = iteminvoice.getQty();
-                int accQty =currentQty+iteminvoiceQty;
+
+                BigDecimal currentQty = itemToUpdate.getQuantity();
+                BigDecimal iteminvoiceQty = iteminvoice.getQty();
+                BigDecimal accQty =currentQty.add(iteminvoiceQty);
                 itemToUpdate.setQuantity(accQty);
 
                 // Step 4: Save the updated Item entities to the database

@@ -113,7 +113,7 @@ export class InvoiceComponent {
       "invnumber": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
       "shop": new FormControl('', [Validators.required]),
-      "datalistControl":new FormControl('', [Validators.required]),
+      "customer":new FormControl('', [Validators.required]),
 
     }, {updateOn: 'change'});
 
@@ -169,7 +169,7 @@ export class InvoiceComponent {
     this.form.controls['grandtotal'].setValidators([Validators.required]);
     this.form.controls['invnumber'];
     this.form.controls['employee'].setValidators([Validators.required]);
-    this.form.controls['datalistControl'].setValidators([Validators.required]);
+    this.form.controls['customer'].setValidators([Validators.required]);
 
     this.innerform.controls['store'].setValidators([Validators.required]);
     this.innerform.controls['qty'].setValidators([Validators.required]);
@@ -258,7 +258,7 @@ export class InvoiceComponent {
       return (cserchdata.csdate == null || invoice.date.toLowerCase().includes(cserchdata.csdate.toLowerCase())) &&
         (cserchdata.csinvnumber == null || invoice.invnumber.toLowerCase().includes(cserchdata.csinvnumber.toLowerCase())) &&
         (cserchdata.csshop == null || invoice.shop.shopnumber.toLowerCase().includes(cserchdata.csshop.toLowerCase())) &&
-        //(cserchdata.csgrandtotal == null || invoice.grandtotal.includes(cserchdata.csgrandtotal.toLowerCase())) &&
+        (cserchdata.csgrandtotal == null || invoice.grandtotal.toString().includes(cserchdata.csgrandtotal.toLowerCase())) &&
         (cserchdata.csemployee == null || invoice.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
         (cserchdata.cscustomer == null || invoice.customer.phonenumber.toLowerCase().includes(cserchdata.cscustomer.toLowerCase()));
     };

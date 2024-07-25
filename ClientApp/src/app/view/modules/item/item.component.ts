@@ -615,8 +615,8 @@ export class ItemComponent {
   };
 
   generateNumber(): void {
-    const newInvoiceNumber = this.ns.generateNumber('ITM');
-    this.form.controls['itemnumber'].setValue(newInvoiceNumber);
+    const newNumber = this.ns.generateNumber('ITM');
+    this.form.controls['itemnumber'].setValue(newNumber);
   }
 
 }
