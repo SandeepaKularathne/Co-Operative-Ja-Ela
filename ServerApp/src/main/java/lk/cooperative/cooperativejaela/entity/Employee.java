@@ -98,7 +98,10 @@ public class Employee {
     private Collection<Invoice> invoices;
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
-    private Collection<Payment> paymentsById;
+    private Collection<Supreturn> supreturns;
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private Collection<Supayment> supayments;
 
     public Employee(){}
 
@@ -344,11 +347,19 @@ public class Employee {
         this.invoices = invoices;
     }
 
-    public Collection<Payment> getPaymentsById() {
-        return paymentsById;
+    public Collection<Supreturn> getSupreturns() {
+        return supreturns;
     }
 
-    public void setPaymentsById(Collection<Payment> paymentsById) {
-        this.paymentsById = paymentsById;
+    public void setSupreturns(Collection<Supreturn> supreturns) {
+        this.supreturns = supreturns;
+    }
+
+    public Collection<Supayment> getSupayments() {
+        return supayments;
+    }
+
+    public void setSupayments(Collection<Supayment> supayments) {
+        this.supayments = supayments;
     }
 }

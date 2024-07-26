@@ -70,6 +70,12 @@ public class Supplier {
     @JsonIgnore
     @OneToMany(mappedBy = "supplier")
     private Collection<Purorder> purorders;
+    @JsonIgnore
+    @OneToMany(mappedBy = "supplier")
+    private Collection<Supreturn> supreturns;
+    @JsonIgnore
+    @OneToMany(mappedBy = "supplier")
+    private Collection<Supayment> supayments;
 
     public int getId() {
         return id;
@@ -210,5 +216,21 @@ public class Supplier {
 
     public void setPurorders(Collection<Purorder> purorders) {
         this.purorders = purorders;
+    }
+
+    public Collection<Supreturn> getSupreturns() {
+        return supreturns;
+    }
+
+    public void setSupreturns(Collection<Supreturn> supreturns) {
+        this.supreturns = supreturns;
+    }
+
+    public Collection<Supayment> getSupayments() {
+        return supayments;
+    }
+
+    public void setSupayments(Collection<Supayment> supayments) {
+        this.supayments = supayments;
     }
 }

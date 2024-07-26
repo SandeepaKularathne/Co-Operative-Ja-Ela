@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Ptype {
+public class Pstatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -16,10 +16,7 @@ public class Ptype {
     @Column(name = "name")
     private String name;
     @JsonIgnore
-    @OneToMany(mappedBy = "ptype")
-    private Collection<Payment> payments;
-    @JsonIgnore
-    @OneToMany(mappedBy = "ptype")
+    @OneToMany(mappedBy = "pstatus")
     private Collection<Supayment> supayments;
 
     public int getId() {
@@ -42,21 +39,13 @@ public class Ptype {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Ptype ptype = (Ptype) o;
-        return id == ptype.id && Objects.equals(name, ptype.name);
+        Pstatus pstatus = (Pstatus) o;
+        return id == pstatus.id && Objects.equals(name, pstatus.name);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
-    }
-
-    public Collection<Payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(Collection<Payment> payments) {
-        this.payments = payments;
     }
 
     public Collection<Supayment> getSupayments() {

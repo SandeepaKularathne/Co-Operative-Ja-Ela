@@ -50,6 +50,15 @@ export class ItemService {
     }
     return subcategoryes;
   }
+
+  async getItemByGrn(id :number ): Promise<Array<Item>> {
+
+    const subcategoryes = await this.http.get<Array<Item>>('http://localhost:8080/items/grn/'+id).toPromise();
+    if(subcategoryes == undefined){
+      return [];
+    }
+    return subcategoryes;
+  }
 }
 
 

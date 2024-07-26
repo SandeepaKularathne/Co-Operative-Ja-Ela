@@ -34,12 +34,14 @@ export class MatDatalistComponent implements ControlValueAccessor, Validator {
   value: string = '';
   displayProperty: string = '';
 
-  private onChange = (value: string) => {};
+  private onChange = (value: string) => {
+    this.options.forEach((op) => {this.displayValue=op})
+  };
   private onTouched = () => {};
 
-  writeValue(value: string): void {
+  writeValue(value: any): void {
     this.value = value;
-    const selectedOption = this.options.find(option => option[this.valueProperty] === value);
+    const selectedOption = this.options.find(option => option[this.valueProperty] === value[this.valueProperty]);
     if (selectedOption) {
       this.displayProperty = selectedOption[this.displayValue];
     }

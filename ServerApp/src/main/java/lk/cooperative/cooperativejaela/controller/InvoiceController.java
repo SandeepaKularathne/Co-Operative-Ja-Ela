@@ -58,6 +58,8 @@ public class InvoiceController {
         String errors = "";
         if(invoice==null)errors = "Empty Invoice Item : <br> "+errors;
 
+        System.out.println(invoice.getIteminvoices());
+
         for (Iteminvoice iteminvoice : invoice.getIteminvoices()) {
             iteminvoice.setInvoice(invoice);
         }

@@ -20,6 +20,7 @@ import { CustomerComponent } from './view/modules/customer/customer.component';
 import { CountByCRDateComponent } from './report/view/countbycrdate/countbycrdate.component';
 import { DisrequestsComponent } from './view/modules/disrequests/disrequests.component';
 import { InvoiceComponent } from './view/modules/invoice/invoice.component';
+import { SupreturnComponent } from './view/modules/supreturn/supreturn.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -52,7 +53,8 @@ const routes: Routes = [
       {path: "disrequests", component: DisrequestsComponent},
       {path: "invoice", component: InvoiceComponent},
       {path: "privilege", component: PrivilageComponent},
-      {path: "operation", component: OperationComponent}
+      {path: "operation", component: OperationComponent},
+      {path: "supreturn", component: SupreturnComponent}
     ]
   }];
 

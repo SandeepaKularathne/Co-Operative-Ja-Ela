@@ -8,6 +8,6 @@
     [placeholder]="placeholder"
   />
   <datalist id="datalist-options">
-    <option *ngFor="let option of options" [value]="option[displayValue]"></option>
+    <option *ngFor="let option of options" [value]="option[displayValue]">{{option[displayValue]}}</option>
   </datalist>
 </mat-form-field>

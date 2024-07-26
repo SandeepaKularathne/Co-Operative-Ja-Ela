@@ -5,6 +5,7 @@ import lk.cooperative.cooperativejaela.dao.ItemDao;
 import lk.cooperative.cooperativejaela.entity.Disitem;
 import lk.cooperative.cooperativejaela.entity.Disrequests;
 import lk.cooperative.cooperativejaela.entity.Grnitem;
+import lk.cooperative.cooperativejaela.entity.Supreitem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +52,7 @@ public class DisrequestsController {
 //    @PreAuthorize("hasAuthority('Disrequests-Insert')")
     public HashMap<String,String> add(@RequestBody Disrequests disrequests){
 
-        System.out.println("Received JSON: " + disrequests.getDisItems());
+        System.out.println("Received JSON: " + disrequests);
 
         HashMap<String,String> responce = new HashMap<>();
 
@@ -63,13 +64,11 @@ public class DisrequestsController {
             errors += "<br> Existing Disrequests Number";
         }
 
-        if (disrequests.getDisItems() != null) {
-            for (Disitem disItem : disrequests.getDisItems()) {
+
+            for (Disitem disItem : disrequests.getDisitems()) {
                 disItem.setDisrequests(disrequests);
             }
-        } else {
-            errors += "DisItems is null";
-        }
+
 
         if(errors == "")
         disrequestsdao.save(disrequests);
@@ -89,9 +88,18 @@ public class DisrequestsController {
 
         HashMap<String,String> responce = new HashMap<>();
 
+        Disrequests disreqitem1 = disrequestsdao.findByMyId(disrequests.getId());
+
         String errors="";
 
-        Disrequests emp1 = disrequestsdao.findByMyId(disrequests.getId());
+        if(disreqitem1!=null && disrequests.getId()!=disreqitem1.getId())
+            errors = errors+"<br> SUPRETURN Not Found";
+
+
+
+        for (Disitem disItem : disrequests.getDisitems()) {
+            disItem.setDisrequests(disrequests);
+        }
 
         if(errors=="") disrequestsdao.save(disrequests);
         else errors = "Server Validation Errors : <br> "+errors;

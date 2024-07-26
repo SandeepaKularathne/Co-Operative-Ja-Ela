@@ -9,36 +9,37 @@ import {ConfirmComponent} from "../../../util/dialog/confirm/confirm.component";
 import {RegexService} from "../../../service/regexservice";
 import {DatePipe} from "@angular/common";
 import {AuthorizationManager} from "../../../service/authorizationmanager";
-import { Disrequests } from 'src/app/entity/disrequests';
-import { DisrequestsService } from 'src/app/service/disrequestsservice';
-import { Disstatusservice } from 'src/app/service/disstatusservice';
-import { Disstatus } from 'src/app/entity/disstatus';
+import { Supreturn } from 'src/app/entity/supreturn';
+import { SupreturnService } from 'src/app/service/supreturnservice';
 import { Employee } from 'src/app/entity/employee';
 import { EmployeeService } from 'src/app/service/employeeservice';
-import { Disitem } from 'src/app/entity/disitem';
+import { Supreitem } from 'src/app/entity/supreitem';
 import { Item } from 'src/app/entity/item';
+import { Store } from 'src/app/entity/store';
 import { ItemService } from 'src/app/service/itemservice';
-import { Shop } from 'src/app/entity/shop';
-import { Shopservice } from 'src/app/service/shopservice';
 import { NumberService } from 'src/app/service/numberservice';
-import { ChangeDetectorRef } from '@angular/core';
+import { Grn } from 'src/app/entity/grn';
+import { Supplier } from 'src/app/entity/supplier';
+import { SupplierService } from 'src/app/service/supplierservice';
+import { GrnService } from 'src/app/service/grnservice';
 
 
 @Component({
-  selector: 'app-disrequests',
-  templateUrl: './disrequests.component.html',
-  styleUrls: ['./disrequests.component.css']
+  selector: 'app-supreturn',
+  templateUrl: './supreturn.component.html',
+  styleUrls: ['./supreturn.component.css']
 })
 
-export class DisrequestsComponent {
+export class SupreturnComponent {
 
+  changedItems: Array<Supreitem> = [];
 
-  columns: string[] = ['disnumber', 'disstatus', 'shop', 'reqdate','employee', 'description'];
-  headers: string[] = ['Number', 'Status', 'Shop', 'Date', 'Employee No','Description'];
-  binders: string[] = ['disnumber', 'disstatus.name', 'shop.shopnumber', 'reqdate','employee.number', 'description'];
+  columns: string[] = ['supplier', 'registernumber', 'grandtotal', 'date','grn','employee'];
+  headers: string[] = ['Supplier', 'Register Number', 'Grand total', 'Date', 'GRN','Employee'];
+  binders: string[] = ['supplier.name', 'supplier.registernumber', 'grandtotal', 'date','grn.grnnumber','employee.fullname'];
 
-  cscolumns: string[] = ['csdisnumber', 'csdisstatus', 'csshop', 'csreqdate', 'csemployee', 'csdescription'];
-  csprompts: string[] = ['Search by Number', 'Search by Status', 'Search by Shop', 'Search by Date', 'Search by Employee', 'Search by Description'];
+  cscolumns: string[] = ['cssupplier', 'csregisternumber', 'csgrandtotal', 'csdate', 'csgrn','csemployee'];
+  csprompts: string[] = ['Search by Supplier', 'Search by Reg Number', 'Search by Grand Total', 'Search by Date', 'Search by GRN','Search by Employee'];
 
   incolumns: string[] = ['item', 'qty', 'remove'];
   inheaders: string[] = ['Item', 'QTY','Remove',];
@@ -47,23 +48,23 @@ export class DisrequestsComponent {
   innerdata:any;
   oldinnerdata:any;
 
-  indata!:MatTableDataSource<Disitem>;
+  indata!:MatTableDataSource<Supreitem>
   innerform!:FormGroup;
   items:Array<Item> = [];
-  shops:Array<Shop> = [];
-  disitems:Array<Disitem> = [];
+  stores:Array<Store> = [];
+  supreitems:Array<Supreitem> = [];
 
   public csearch!: FormGroup;
   public ssearch!: FormGroup;
   public form!: FormGroup;
 
-  disrequests!: Disrequests;
-  olddisrequests!: Disrequests;
+  supreturn!: Supreturn;
+  oldsupreturn!: Supreturn;
 
   today = new Date();
 
-  disrequestss: Array<Disrequests> = [];
-  data!: MatTableDataSource<Disrequests>;
+  supreturns: Array<Supreturn> = [];
+  data!: MatTableDataSource<Supreturn>;
   imageurl: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   imageempurl: string = 'assets/default.png'
@@ -72,60 +73,57 @@ export class DisrequestsComponent {
   regexes: any;
   selectedrow: any;
 
-  disstatuses: Array<Disstatus> = [];
+  grns: Array<Grn> = [];
+  suppliers: Array<Supplier> = [];
   employees: Array<Employee> = [];
-
-  changedItems: Array<Disitem> = [];
 
   enaadd:boolean = true;
   enaupd:boolean = false;
   enadel:boolean = false;
 
   constructor(
-    private dis: DisrequestsService,
+    private surs: SupreturnService,
     private itms: ItemService,
-    private shos: Shopservice,
+    private sups: SupplierService,
     private emps: EmployeeService,
-    private diss: Disstatusservice,
+    private grs: GrnService,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
     private ns: NumberService,
-    public authService:AuthorizationManager,
-    private cdr: ChangeDetectorRef) {
+    public authService:AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
 
     this.csearch = this.fb.group({
-      csdisnumber: new FormControl(),
-      csdisstatus: new FormControl(),
-      csshop: new FormControl(),
-      csreqdate: new FormControl(),
+      cssupplier: new FormControl(),
+      csregisternumber: new FormControl(),
+      csgrandtotal: new FormControl(),
+      csdate: new FormControl(),
+      csgrn: new FormControl(),
       csemployee: new FormControl(),
-      csdescription: new FormControl(),
     });
 
     this.ssearch = this.fb.group({
-      ssdisnumber: new FormControl(),
-      ssdisstatus: new FormControl(),
+      ssgrn: new FormControl(),
+      sssupplier: new FormControl(),
     });
 
     this.form =this.fb.group({
-      "reqdate": new FormControl(this.today, [Validators.required],),
-      "description": new FormControl('', [Validators.required]),
-      "disnumber": new FormControl('', [Validators.required]),
-      "disstatus": new FormControl('', [Validators.required]),
+      "returnno": new FormControl([Validators.required],),
+      "date": new FormControl(this.today, [Validators.required],),
+      "reason": new FormControl('', [Validators.required]),
+      "grandtotal": new FormControl('', [Validators.required]),
+      "grn": new FormControl('', [Validators.required]),
+      "supplier": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
-      "shop": new FormControl('', [Validators.required]),
 
     }, {updateOn: 'change'});
 
     this.innerform =this.fb.group({
-
       "qty": new FormControl('', [Validators.required]),
       "item": new FormControl('', [Validators.required]),
-
     }, {updateOn: 'change'});
 
   }
@@ -138,23 +136,23 @@ export class DisrequestsComponent {
 
     this.createView();
 
-    this.diss.getAllList().then((vsts: Disstatus[]) => {
-      this.disstatuses = vsts;
+    this.grs.getAll('').then((vsts: Grn[]) => {
+      this.grns = vsts;
     });
 
     this.emps.getAll('').then((vtys: Employee[]) => {
       this.employees = vtys;
     });
 
-    this.shos.getAll('').then((vbrs: Shop[]) => {
-      this.shops = vbrs;
+    this.sups.getAll('').then((vbrs: Supplier[]) => {
+      this.suppliers = vbrs;
     });
 
     this.itms.getAll('').then((vbrs: Item[]) => {
       this.items = vbrs;
     });
 
-    this.rs.get('disrequests').then((regs: []) => {
+    this.rs.get('supreturn').then((regs: []) => {
       this.regexes = regs;
       this.createForm();
     });
@@ -172,13 +170,13 @@ export class DisrequestsComponent {
 
   createForm() {
 
-    this.form.controls['reqdate'].setValidators([Validators.required]);
-    this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
-    this.form.controls['disnumber'].setValidators([Validators.required]);
-    this.form.controls['disstatuse'];
+    this.form.controls['returnno'].setValidators([Validators.required]);
+    this.form.controls['date'].setValidators([Validators.required]);
+    this.form.controls['reason'].setValidators([Validators.required, Validators.pattern(this.regexes['reason']['regex'])]);
+    this.form.controls['grandtotal'].setValidators([Validators.required, Validators.pattern(this.regexes['grandtotal']['regex'])]);
     this.form.controls['employee'].setValidators([Validators.required]);
-    this.form.controls['shop'].setValidators([Validators.required]);
-
+    this.form.controls['grn'].setValidators([Validators.required]);
+    this.form.controls['supplier'].setValidators([Validators.required]);
 
     this.innerform.controls['qty'].setValidators([Validators.required]);
     this.innerform.controls['item'].setValidators([Validators.required]);
@@ -191,12 +189,12 @@ export class DisrequestsComponent {
       const control = this.form.controls[controlName];
       control.valueChanges.subscribe(value => {
           // @ts-ignore
-          if (controlName == "ssrqdate" || controlName == "ssrqdate")
+          if (controlName == "date" || controlName == "date")
             value = this.dp.transform(new Date(value), 'yyyy-MM-dd');
 
-          if (this.olddisrequests != undefined && control.valid) {
+          if (this.oldsupreturn != undefined && control.valid) {
             // @ts-ignore
-            if (value === this.disrequests[controlName]) {
+            if (value === this.supreturn[controlName]) {
               control.markAsPristine();
             } else {
               control.markAsDirty();
@@ -213,9 +211,9 @@ export class DisrequestsComponent {
       const control = this.innerform.controls[controlName];
       control.valueChanges.subscribe(value => {
           // @ts-ignore
-          if (this.olddisrequests != undefined && control.valid) {
+          if (this.oldsupreturn != undefined && control.valid) {
             // @ts-ignore
-            if (value === this.disrequests[controlName]) {
+            if (value === this.supreturn[controlName]) {
               control.markAsPristine();
             } else {
               control.markAsDirty();
@@ -239,10 +237,10 @@ export class DisrequestsComponent {
 
   loadTable(query: string) {
 
-    this.dis.getAll(query)
-      .then((emps: Disrequests[]) => {
-        this.disrequestss = emps;
-        this.ns.setLastSequenceNumber(this.disrequestss[this.disrequestss.length-1].disnumber);
+    this.surs.getAll(query)
+      .then((emps: Supreturn[]) => {
+        this.supreturns = emps;
+        this.ns.setLastSequenceNumber(this.supreturns[this.supreturns.length-1].returnno);
         this.generateNumber();
         this.imageurl = 'assets/fullfilled.png';
       })
@@ -250,7 +248,7 @@ export class DisrequestsComponent {
         this.imageurl = 'assets/rejected.png';
       })
       .finally(() => {
-        this.data = new MatTableDataSource(this.disrequestss);
+        this.data = new MatTableDataSource(this.supreturns);
         this.data.paginator = this.paginator;
       });
 
@@ -260,13 +258,13 @@ export class DisrequestsComponent {
 
     const cserchdata = this.csearch.getRawValue();
 
-    this.data.filterPredicate = (disrequests: Disrequests, filter: string) => {
-      return (cserchdata.csreqdate == null || disrequests.reqdate.toLowerCase().includes(cserchdata.csreqdate.toLowerCase())) &&
-        (cserchdata.csdescription == null || disrequests.description.toLowerCase().includes(cserchdata.csdescription.toLowerCase())) &&
-        (cserchdata.csdisstatus == null || disrequests.disstatus.name.toLowerCase().includes(cserchdata.csdisstatus.toLowerCase())) &&
-        (cserchdata.csdisnumber== null || disrequests.disnumber.toLowerCase().includes(cserchdata.csdisnumber.toLowerCase())) &&
-        (cserchdata.csemployee == null || disrequests.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
-        (cserchdata.csshop == null || disrequests.shop.shopnumber.toLowerCase().includes(cserchdata.csshop.toLowerCase()));
+    this.data.filterPredicate = (supreturn: Supreturn, filter: string) => {
+      return (cserchdata.csdate == null || supreturn.date.toLowerCase().includes(cserchdata.csdate.toLowerCase())) &&
+        (cserchdata.csregisternumber == null || supreturn.supplier.registernumber.toLowerCase().includes(cserchdata.csregisternumber.toLowerCase())) &&
+        (cserchdata.cssupplier == null || supreturn.supplier.name.toLowerCase().includes(cserchdata.cssupplier.toLowerCase())) &&
+        (cserchdata.csgrandtotal == null || supreturn.grandtotal.toString().includes(cserchdata.csgrandtotal.toLowerCase())) &&
+        (cserchdata.csemployee == null || supreturn.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
+        (cserchdata.csgrn == null || supreturn.grn.grnnumber.toLowerCase().includes(cserchdata.csgrn.toLowerCase()));
     };
 
     this.data.filter = 'xx';
@@ -278,14 +276,14 @@ export class DisrequestsComponent {
     this.csearch.reset();
     const sserchdata = this.ssearch.getRawValue();
 
-    let disnumber = sserchdata.ssdisnumber;
-    let disstatusid = sserchdata.ssdisstatus;
+    let grnid = sserchdata.ssgrn;
+    let supplierid = sserchdata.sssupplier;
 
 
     let query = "";
 
-    if (disnumber != null) query = query + "&disnumber=" + disnumber;
-    if (disstatusid != null) query = query + "&disstatusid=" + disstatusid;
+    if (supplierid != null) query = query + "&supplierid=" + supplierid;
+    if (grnid != null) query = query + "&grnid=" + grnid;
 
 
     if (query != "") query = query.replace(/^./, "?")
@@ -330,31 +328,29 @@ export class DisrequestsComponent {
     return errors;
   }
 
-  fillForm(disrequests: Disrequests){
+  fillForm(supreturn: Supreturn){
 
     this.enableButtons(false,true,true);
 
-    this.selectedrow = disrequests;
+    this.selectedrow = supreturn;
 
-    this.disrequests = JSON.parse(JSON.stringify(disrequests));
+    this.supreturn = JSON.parse(JSON.stringify(supreturn));
 
-    this.olddisrequests = JSON.parse(JSON.stringify(disrequests));
+    this.oldsupreturn = JSON.parse(JSON.stringify(supreturn));
 
     // @ts-ignore
-    this.disrequests.disstatus = this.disstatuses.find(g => g.id === this.disrequests.disstatus.id);
+    this.supreturn.supplier = this.suppliers.find(g => g.id === this.supreturn.supplier.id);
     // @ts-ignore
-    this.disrequests.employee = this.employees.find(e => e.id === this.disrequests.employee.id);
+    this.supreturn.employee = this.employees.find(e => e.id === this.supreturn.employee.id);
     // @ts-ignore
-    this.disrequests.shop = this.shops.find(e => e.id === this.disrequests.shop.id);
+    this.supreturn.grn = this.grns.find(p => p.id === this.supreturn.grn.id);
 
 
-    this.indata = new MatTableDataSource(this.disrequests.disitems);
+    this.indata = new MatTableDataSource(this.supreturn.supreitems);
 
-    this.indata.data.forEach(e => {
-      console.log(e.item);
-    });
-    this.form.patchValue(this.disrequests);
+    this.form.patchValue(this.supreturn);
     this.form.markAsPristine();
+    this.calculateGrandTotal();
 
   }
 
@@ -364,7 +360,7 @@ export class DisrequestsComponent {
     if (errors != "") {
       const errmsg = this.dg.open(MessageComponent, {
         width: '500px',
-        data: {heading: "Errors - grn Add ", message: "You have following Errors <br> " + errors}
+        data: {heading: "Errors - supreturn Add ", message: "You have following Errors <br> " + errors}
       });
       errmsg.afterClosed().subscribe(async result => {
         if (!result) {
@@ -373,22 +369,22 @@ export class DisrequestsComponent {
       });
     } else {
 
-      this.disrequests = this.form.getRawValue();
-      this.disrequests.disitems = this.disitems;
+      this.supreturn = this.form.getRawValue();
+      this.supreturn.supreitems = this.supreitems;
 
       // @ts-ignore
-      this.disitems.forEach((i )=> delete i.id);
+      this.supreitems.forEach((i )=> delete i.id);
 
       let itmdata: string = "";
 
-      itmdata = itmdata + "<br>Date is : " + this.disrequests.reqdate;
-      itmdata = itmdata + "<br>Description is : " + this.disrequests.description;
+      itmdata = itmdata + "<br>Date is : " + this.supreturn.date;
+      itmdata = itmdata + "<br>Description is : " + this.supreturn.reason;
 
       const confirm = this.dg.open(ConfirmComponent, {
         width: '500px',
         data: {
-          heading: "Confirmation - grn Add",
-          message: "Are you sure to Add the following grn? <br> <br>" + itmdata
+          heading: "Confirmation - supreturn Add",
+          message: "Are you sure to Add the following supreturn? <br> <br>" + itmdata
         }
       });
 
@@ -398,7 +394,7 @@ export class DisrequestsComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           // @ts-ignore
-          this.dis.add(this.disrequests).then((responce: [] | undefined) => {
+          this.surs.add(this.supreturn).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";
@@ -422,7 +418,7 @@ export class DisrequestsComponent {
 
             const stsmsg = this.dg.open(MessageComponent, {
               width: '500px',
-              data: {heading: "Status -grn Add", message: addmessage}
+              data: {heading: "Status -supreturn Add", message: addmessage}
             });
 
             stsmsg.afterClosed().subscribe(async result => {
@@ -435,92 +431,6 @@ export class DisrequestsComponent {
       });
     }
   }
-  // update() {
-  //
-  //   let errors = this.getErrors();
-  //
-  //   if (errors != "") {
-  //
-  //     const errmsg = this.dg.open(MessageComponent, {
-  //       width: '500px',
-  //       data: {heading: "Errors - disrequests Update ", message: "You have following Errors <br> " + errors}
-  //     });
-  //     errmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
-  //
-  //   } else {
-  //
-  //     let updates: string = this.getUpdates();
-  //
-  //     if (updates != "") {
-  //
-  //       let updstatus: boolean = false;
-  //       let updmessage: string = "Server Not Found";
-  //
-  //       const confirm = this.dg.open(ConfirmComponent, {
-  //         width: '500px',
-  //         data: {
-  //           heading: "Confirmation - disrequests Update",
-  //           message: "Are you sure to Save folowing Updates? <br> <br>" + updates
-  //         }
-  //       });
-  //       confirm.afterClosed().subscribe(async result => {
-  //         if (result) {
-  //
-  //           this.disrequests = this.form.getRawValue();
-  //           this.disrequests.disitems = this.disitems;
-  //           // @ts-ignore
-  //           this.disrequests.id =this.olddisrequests.id;
-  //
-  //           console.log(this.disrequests.id);
-  //
-  //           // @ts-ignore
-  //           this.disitems.forEach((i)=> delete (i.id));
-  //
-  //           // @ts-ignore
-  //           this.disrequests.date = this.dp.transform(this.disrequests.date,"yyyy-MM-dd");
-  //
-  //
-  //           this.dis.update(this.disrequests).then((responce: [] | undefined) => {
-  //             if (responce != undefined) { // @ts-ignore
-  //               updstatus = responce['errors'] == "";
-  //               if (!updstatus) { // @ts-ignore
-  //                 updmessage = responce['errors'];
-  //               }
-  //             } else {
-  //               updstatus = false;
-  //               updmessage = "Content Not Found"
-  //             }
-  //           } ).finally(() => {
-  //             if (updstatus) {
-  //               updmessage = "Successfully Updated";
-  //               this.form.reset();
-  //               Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
-  //               this.loadTable("");
-  //             }
-  //
-  //             const stsmsg = this.dg.open(MessageComponent, {
-  //               width: '500px',
-  //               data: {heading: "Status -disrequests Add", message: updmessage}
-  //             });
-  //             stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
-  //
-  //           });
-  //         }
-  //       });
-  //     }
-  //     else {
-  //
-  //       const updmsg = this.dg.open(MessageComponent, {
-  //         width: '500px',
-  //         data: {heading: "Confirmation - disrequests Update", message: "Nothing Changed"}
-  //       });
-  //       updmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
-  //
-  //     }
-  //   }
-  //
-  //
-  // }
 
   update() {
 
@@ -546,26 +456,26 @@ export class DisrequestsComponent {
         const confirm = this.dg.open(ConfirmComponent, {
           width: '500px',
           data: {
-            heading: "Confirmation - Dis Requests Update",
+            heading: "Confirmation - supreturn Update",
             message: "Are you sure to Save folowing Updates? <br> <br>" + updates
           }
         });
         confirm.afterClosed().subscribe(async result => {
           if (result) {
 
-            this.disrequests = this.form.getRawValue();
-            this.disrequests.disitems = this.disitems;
+            this.supreturn = this.form.getRawValue();
+            this.supreturn.supreitems = this.supreitems;
             // @ts-ignore
-            this.disrequests.id =this.olddisrequests.id;
-
-            // @ts-ignore
-            this.disitems.forEach((i)=> delete  i.id);
+            this.supreturn.id =this.oldsupreturn.id;
 
             // @ts-ignore
-            this.disrequests.date = this.dp.transform(this.disrequests.date,"yyyy-MM-dd");
+            this.supreitems.forEach((i)=> delete  i.id);
+
+            // @ts-ignore
+            this.supreturn.date = this.dp.transform(this.supreturn.date,"yyyy-MM-dd");
 
 
-            this.dis.update(this.disrequests).then((responce: [] | undefined) => {
+            this.surs.update(this.supreturn).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
                 updstatus = responce['errors'] == "";
                 if (!updstatus) { // @ts-ignore
@@ -618,9 +528,8 @@ export class DisrequestsComponent {
     }
 
     if (this.changedItems.length > 0) {
-      updates += "<br>Dis Items Changed";
+      updates += "<br>Sup Items Changed";
     }
-
     return updates;
   }
 
@@ -629,8 +538,8 @@ export class DisrequestsComponent {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - disrequests Delete",
-        message: "Are you sure to Delete following disrequests? <br> <br>" + this.disrequests.reqdate+"id "+this.disrequests.id
+        heading: "Confirmation - supreturn Delete",
+        message: "Are you sure to Delete following supreturn? <br> <br>" + this.supreturn.date+"id "+this.supreturn.id
       }
     });
 
@@ -639,7 +548,7 @@ export class DisrequestsComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.dis.delete(this.disrequests.id).then((responce: [] | undefined) => {
+        this.surs.delete(this.supreturn.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -660,7 +569,7 @@ export class DisrequestsComponent {
 
           const stsmsg = this.dg.open(MessageComponent, {
             width: '500px',
-            data: {heading: "Status - disrequests Delete ", message: delmessage}
+            data: {heading: "Status - supreturn Delete ", message: delmessage}
           });
           stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -673,7 +582,7 @@ export class DisrequestsComponent {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - disrequests Clear",
+        heading: "Confirmation - supreturn Clear",
         message: "Are you sure to Clear following Details ? <br> <br>"
       }
     });
@@ -691,8 +600,8 @@ export class DisrequestsComponent {
   }
 
   filteritem(){
-    let purorder = this.form.controls['purorder'].value.id;
-    this.itms.getItemByPurorder(purorder).then((msys: Item[]) => {
+    let e = this.form.controls['grn'].value.id;
+    this.itms.getItemByGrn(e).then((msys: Item[]) => {
       this.items = msys;
     });
   }
@@ -710,25 +619,36 @@ export class DisrequestsComponent {
 
       let linecost = this.innerdata.qty * this.innerdata.unitcost;
 
-      let disrequestsitem = new  Disitem(this.id,this.innerdata.item,this.innerdata.qty);
+      let supreitem = new  Supreitem(this.id,this.innerdata.item,this.innerdata.qty);
 
-      let tem: Disitem[] = [];
+      let tem: Supreitem[] = [];
       if(this.indata != null) this.indata.data.forEach((i) => tem.push(i));
 
-      this.disitems = [];
-      tem.forEach((t)=> this.disitems.push(t));
+      this.supreitems = [];
+      tem.forEach((t)=> this.supreitems.push(t));
 
-      this.disitems.push(disrequestsitem);
-      this.indata = new MatTableDataSource(this.disitems);
+      this.supreitems.push(supreitem);
+      this.indata = new MatTableDataSource(this.supreitems);
 
       this.id++;
+      this.updateItem(supreitem);
 
-      this.updateItem(disrequestsitem);
-
+      this.calculateGrandTotal();
       this.innerform.reset();
 
     }
 
+  }
+
+  calculateGrandTotal(){
+    let grandtotal =0;
+    //console.log(this.indata.data.forEach(e=>e.item.pprice));
+    this.indata.data.forEach(e=>{
+
+      grandtotal = grandtotal+ e.item.pprice*e.qty;
+    })
+
+    this.form.controls['grandtotal'].setValue(grandtotal);
   }
 
   deleteRaw(x:any) {
@@ -739,27 +659,22 @@ export class DisrequestsComponent {
     if (index > -1) {
       datasources.splice(index, 1);
     }
+    this.indata.data = datasources;
+    this.supreitems = this.indata.data;
 
     this.updateItem(x);
 
-    this.indata.data = datasources;
-    this.disitems = this.indata.data;
-
+    this.calculateGrandTotal();
   }
 
   generateNumber(): void {
-    const newInvoiceNumber = this.ns.generateNumber('DRQ');
-    this.form.controls['disnumber'].setValue(newInvoiceNumber);
+    const newNumber = this.ns.generateNumber('RET');
+    this.form.controls['returnno'].setValue(newNumber);
   }
 
-  updateItem(element: Disitem) {
+  updateItem(element: Supreitem) {
     this.changedItems.push(element);
   }
-
-  // handleItemChange(element: Disitem) : string {
-  //   this.cdr.markForCheck();
-  //   return "Dis Items Changed"
-  // }
 }
 
 

@@ -1,14 +1,27 @@
 <mat-grid-list [cols]="12" rowHeight="5rem">
 
-  <mat-grid-tile [colspan]="4" [rowspan]="10">
+  <mat-grid-tile [colspan]="4" [rowspan]="9">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="left">Disrequests Detail</mat-card-title>
+        <mat-card-title id="left">Supayment Detail</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content id="disrequestsform">
+      <mat-card-content id="supaymentform">
 
         <mat-form  [formGroup]="form" >
+
+          <mat-form-field appearance="outline">
+            <mat-label>Supayment Number</mat-label>
+            <input matInput formControlName="supaymentnumber">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Supayment Status</mat-label>
+            <mat-select formControlName="supaymentstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let supaymentstatus of supaymentstatuses" [value]="supaymentstatus">{{supaymentstatus.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Employee</mat-label>
@@ -18,76 +31,28 @@
             </mat-select>
           </mat-form-field>
 
+
           <mat-form-field appearance="outline">
-            <mat-label>Shop</mat-label>
-            <mat-select formControlName="shop">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let shop of shops" [value]="shop">{{shop.shopnumber}}</mat-option>
-            </mat-select>
+            <mat-label>Open Date</mat-label>
+            <input matInput [matDatepicker]="esdate" [matDatepickerFilter]="filterDates" formControlName="opdate">
+            <mat-datepicker-toggle matIconSuffix [for]="esdate"></mat-datepicker-toggle>
+            <mat-datepicker #esdate></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>DR Number</mat-label>
-            <input matInput formControlName="disnumber" readonly>
+            <mat-label>Contact Number</mat-label>
+            <input matInput formControlName="cnumber">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="date" [min]="today" [max]="today" readonly formControlName="reqdate">
-            <mat-datepicker-toggle matIconSuffix [for]="date"></mat-datepicker-toggle>
-            <mat-datepicker #date></mat-datepicker>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="disstatus">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let disstatus of disstatuses" [value]="disstatus">{{disstatus.name}}</mat-option>
-            </mat-select>
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address">
           </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description">
-          </mat-form-field>
-
-          <div id="innertable">
-
-            <mat-form [formGroup]="innerform">
-
-              <mat-form-field appearance="outline">
-                <mat-label>Item</mat-label>
-                <mat-select formControlName="item">
-                  <mat-option [value]="null" selected>Not Selected</mat-option>
-                  <mat-option *ngFor="let item of items" [value]="item">{{item.name}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Qty</mat-label>
-                <input matInput   formControlName="qty">
-              </mat-form-field>
-
-              <button mat-raised-button id="btnAdd" (click)="btnaddMc()" >Add</button>
-            </mat-form>
-
-            <mat-table [dataSource]="indata">
-              <ng-container *ngFor="let column of incolumns;let i = index;" [matColumnDef]="column">
-                <mat-header-cell *matHeaderCellDef> {{inheaders[i]}} </mat-header-cell>
-                <mat-cell *matCellDef="let element" >
-                  <div *ngIf="i<inbinders.length-1" [innerHTML]="uiassist.getProperty(element, inbinders[i])"></div>
-                  <div *ngIf="i>=inbinders.length-1">
-                    <button mat-raised-button (click)="deleteRaw(element)">Remove</button>
-                  </div>
-                </mat-cell>
-              </ng-container>
-
-              <mat-header-row *matHeaderRowDef="incolumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: incolumns" ></mat-row>
-            </mat-table>
-
-          </div>
-
 
           <div id="butpanel">
             <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
@@ -107,7 +72,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="3">
     <mat-card id="ssearch">
       <mat-card-header>
-        <mat-card-title id="right">Distribution Requests Search</mat-card-title>
+        <mat-card-title id="right">Supayment Search</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
@@ -115,15 +80,18 @@
         <mat-form [formGroup]="ssearch">
 
           <mat-form-field appearance="outline">
-            <mat-label>DR Number</mat-label>
-            <input matInput formControlName="ssdisnumber">
+            <mat-label>Supayment Status</mat-label>
+            <mat-select formControlName="sssupaymentstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let supaymentstatus of supaymentstatuses" [value]="supaymentstatus.id">{{supaymentstatus.name}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="ssdisstatus">
+            <mat-label>Employee</mat-label>
+            <mat-select formControlName="ssemployee">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let disstatus of disstatuses" [value]="disstatus.id">{{disstatus.name}}</mat-option>
+              <mat-option *ngFor="let employee of employees" [value]="employee.id">{{employee.fullname}}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -144,7 +112,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="right">Distribution Requests Table</mat-card-title>
+        <mat-card-title id="right">Supayment Table</mat-card-title>
         <div id="loading">
           <img [src]="imageurl">
         </div>

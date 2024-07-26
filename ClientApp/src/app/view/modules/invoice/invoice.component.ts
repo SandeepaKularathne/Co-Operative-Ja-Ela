@@ -15,6 +15,9 @@ import { Employee } from 'src/app/entity/employee';
 import { EmployeeService } from 'src/app/service/employeeservice';
 import { Item } from 'src/app/entity/item';
 import { ItemService } from 'src/app/service/itemservice';
+import {RegexService} from "../../../service/regexservice";
+import { Observable,map } from 'rxjs';
+
 // @ts-ignore
 import { Iteminvoice } from 'src/app/entity/iteminvoice';
 import { Customer } from 'src/app/entity/customer';
@@ -31,6 +34,7 @@ import { Customerservice } from 'src/app/service/customerservice';
 
 export class InvoiceComponent {
 
+  //private readonly localStorageInvoiceNumber = 'lastInvnumber';
 
 
   columns: string[] = ['employee', 'invnumber', 'customer', 'date','grandtotal', 'shop'];
@@ -73,6 +77,7 @@ export class InvoiceComponent {
 
   employees: Array<Employee> = [];
   customers: Array<Customer> = [];
+  filtercustomers: Array<Customer> = [];
   shops: Array<Shop> = [];
 
   enaadd:boolean = true;
@@ -85,6 +90,7 @@ export class InvoiceComponent {
     private emps: EmployeeService,
     private shos: Shopservice,
     private cuss: Customerservice,
+    private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
@@ -134,6 +140,7 @@ export class InvoiceComponent {
   initialize() {
 
     this.createView();
+    this.filter();
 
     this.cuss.getAll('').then((vsts: Customer[]) => {
       this.customers = vsts;
@@ -150,6 +157,12 @@ export class InvoiceComponent {
     this.itms.getAll('').then((vbrs: Item[]) => {
       this.items = vbrs;
     });
+
+    this.rs.get('iteminvoice').then((regs: []) => {
+      this.regexes = regs;
+      this.createForm();
+    });
+
   }
 
   filterDates = (date: Date | null): boolean => {
@@ -172,7 +185,7 @@ export class InvoiceComponent {
     this.form.controls['customer'].setValidators([Validators.required]);
 
     this.innerform.controls['store'].setValidators([Validators.required]);
-    this.innerform.controls['qty'].setValidators([Validators.required]);
+    this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(this.regexes['qty']['regex'])]);
     this.innerform.controls['unitcost'].setValidators([Validators.required]);
     this.innerform.controls['item'].setValidators([Validators.required]);
 
@@ -243,7 +256,8 @@ export class InvoiceComponent {
         this.imageurl = 'assets/rejected.png';
       })
       .finally(() => {
-        this.data = new MatTableDataSource(this.invoices);
+        const reversedInvoices = this.invoices.slice().reverse();
+        this.data = new MatTableDataSource(reversedInvoices);
         this.data.paginator = this.paginator;
       });
 
@@ -309,6 +323,7 @@ export class InvoiceComponent {
 
     let errors: string = "";
 
+    console.log(this.form.controls);
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
       if (control.errors) {
@@ -335,12 +350,14 @@ export class InvoiceComponent {
     this.oldinvoice = JSON.parse(JSON.stringify(invoice));
 
     // @ts-ignore
-    this.invoice.customer= this.customers.find(g => g.id === this.invoice.customer.id);
+    this.invoice.customers= this.customers.find(g => g.id === this.invoice.customer.id);
+    // @ts-ignore
+    // this.form.controls['customer'].se="hi";
+    // console.log(this.form.controls['customer'].value);
     // @ts-ignore
     this.invoice.employee = this.employees.find(e => e.id === this.invoice.employee.id);
     // @ts-ignore
     this.invoice.shop = this.shops.find(p => p.id === this.invoice.shop.id);
-
 
     this.indata = new MatTableDataSource(this.invoice.iteminvoices);
 
@@ -390,7 +407,7 @@ export class InvoiceComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           // @ts-ignore
-          this.grs.add(this.invoice).then((responce: [] | undefined) => {
+          this.invs.add(this.invoice).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";
@@ -441,7 +458,7 @@ export class InvoiceComponent {
     confirm.afterClosed().subscribe(async result => {
       if (result) {
         let delstatus: boolean = false;
-        let delmessage: string = "Server Not Found";
+        let delmessage: string = "This Invoice ";
 
         this.invs.delete(this.invoice.id).then((responce: [] | undefined) => {
 
@@ -484,10 +501,10 @@ export class InvoiceComponent {
 
     confirm.afterClosed().subscribe(async result => {
       if (result) {
+        window.location.reload();
         this.form.reset()
         this.enableButtons(true,false);
         this.loadTable('');
-        window.location.reload();
       }
     });
 
@@ -561,7 +578,16 @@ export class InvoiceComponent {
   generateNumber(): void {
     const newInvoiceNumber = this.ns.generateNumber('INV');
     this.form.controls['invnumber'].setValue(newInvoiceNumber);
+    //localStorage.setItem(this.localStorageInvoiceNumber,newInvoiceNumber);
   }
+
+  filter(): void {
+    console.log("1111111111");
+    this.form.controls['customer'].valueChanges.subscribe((value) => {
+      this.filtercustomers = this.customers.filter((c) => c.phonenumber.includes(value));
+    });
+  }
+
 
 }
 

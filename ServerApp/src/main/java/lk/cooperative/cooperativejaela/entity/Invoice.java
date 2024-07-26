@@ -24,7 +24,7 @@ public class Invoice {
     @Column(name = "invnumber")
     private String invnumber;
 
-    @OneToMany(mappedBy = "invoice")
+    @OneToMany(mappedBy = "invoice",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Iteminvoice> iteminvoices;
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)

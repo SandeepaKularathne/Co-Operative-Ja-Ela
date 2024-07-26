@@ -118,6 +118,8 @@ export class PaymentComponent {
     this.ptys.getAllList().then((vsts: Ptype[]) => {
       this.ptypes = vsts;
     });
+
+    this.form.controls['invoice'].setValue("67");
   }
 
   createView() {

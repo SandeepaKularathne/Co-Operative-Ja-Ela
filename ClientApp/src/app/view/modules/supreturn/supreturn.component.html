@@ -3,12 +3,17 @@
   <mat-grid-tile [colspan]="4" [rowspan]="10">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="left">Disrequests Detail</mat-card-title>
+        <mat-card-title id="left">Supreturn Detail</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content id="disrequestsform">
+      <mat-card-content id="supreturnform">
 
         <mat-form  [formGroup]="form" >
+
+          <mat-form-field appearance="outline">
+            <mat-label>Number</mat-label>
+            <input matInput formControlName="returnno" readonly>
+          </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Employee</mat-label>
@@ -19,36 +24,32 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Shop</mat-label>
-            <mat-select formControlName="shop">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let shop of shops" [value]="shop">{{shop.shopnumber}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>DR Number</mat-label>
-            <input matInput formControlName="disnumber" readonly>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
             <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="date" [min]="today" [max]="today" readonly formControlName="reqdate">
+            <input matInput [matDatepicker]="date" [min]="today" [max]="today" readonly formControlName="date">
             <mat-datepicker-toggle matIconSuffix [for]="date"></mat-datepicker-toggle>
             <mat-datepicker #date></mat-datepicker>
           </mat-form-field>
 
+
           <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="disstatus">
+            <mat-label>GRN</mat-label>
+            <mat-select formControlName="grn" (selectionChange)="filteritem()">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let disstatus of disstatuses" [value]="disstatus">{{disstatus.name}}</mat-option>
+              <mat-option *ngFor="let grn of grns" [value]="grn">{{grn.grnnumber}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description">
+            <mat-label>Supplier</mat-label>
+            <mat-select formControlName="supplier" (selectionChange)="filteritem()">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let supplier of suppliers" [value]="supplier">{{supplier.registernumber}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Reason</mat-label>
+            <input matInput formControlName="reason">
           </mat-form-field>
 
           <div id="innertable">
@@ -67,6 +68,7 @@
                 <mat-label>Qty</mat-label>
                 <input matInput   formControlName="qty">
               </mat-form-field>
+
 
               <button mat-raised-button id="btnAdd" (click)="btnaddMc()" >Add</button>
             </mat-form>
@@ -88,6 +90,10 @@
 
           </div>
 
+          <mat-form-field appearance="outline">
+            <mat-label>Grandtotal</mat-label>
+            <input matInput formControlName="grandtotal" readonly>
+          </mat-form-field>
 
           <div id="butpanel">
             <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
@@ -107,7 +113,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="3">
     <mat-card id="ssearch">
       <mat-card-header>
-        <mat-card-title id="right">Distribution Requests Search</mat-card-title>
+        <mat-card-title id="right">Supreturn Search</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
@@ -115,15 +121,18 @@
         <mat-form [formGroup]="ssearch">
 
           <mat-form-field appearance="outline">
-            <mat-label>DR Number</mat-label>
-            <input matInput formControlName="ssdisnumber">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="ssgrn">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let grn of grns" [value]="grn.id">{{grn.grnnumber}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="ssdisstatus">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let disstatus of disstatuses" [value]="disstatus.id">{{disstatus.name}}</mat-option>
+            <mat-label>Supplier</mat-label>
+            <mat-select formControlName="sssupplier">
+              <mat-option [value]="null" selected >Not Selected</mat-option>
+              <mat-option *ngFor="let supplier of suppliers" [value]="supplier.id">{{supplier.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -144,7 +153,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="right">Distribution Requests Table</mat-card-title>
+        <mat-card-title id="right">Supreturn Table</mat-card-title>
         <div id="loading">
           <img [src]="imageurl">
         </div>

@@ -74,6 +74,9 @@ public class Item {
     @Basic
     @Column(name = "itemnumber")
     private String itemnumber;
+    @JsonIgnore
+    @OneToMany(mappedBy = "item")
+    private Collection<Supreitem> supreitems;
 
     public int getId() {
         return id;
@@ -198,13 +201,13 @@ public class Item {
         return poitems;
     }
 
-    public void setPoitems(Collection<Poitem> poitems) {
-        this.poitems = poitems;
-    }
-
 //    public Collection<Disitem> getDisItems() {
 //        return disitems;
 //    }
+
+    public void setPoitems(Collection<Poitem> poitems) {
+        this.poitems = poitems;
+    }
 
     public Collection<Grnitem> getGrnitems() {
         return grnitems;
@@ -228,5 +231,13 @@ public class Item {
 
     public void setItemnumber(String itemnumber) {
         this.itemnumber = itemnumber;
+    }
+
+    public Collection<Supreitem> getSupreitems() {
+        return supreitems;
+    }
+
+    public void setSupreitems(Collection<Supreitem> supreitems) {
+        this.supreitems = supreitems;
     }
 }

@@ -53,6 +53,9 @@ import { DisrequestsComponent } from './view/modules/disrequests/disrequests.com
 import { InvoiceComponent } from './view/modules/invoice/invoice.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatalistComponent } from './util/mat-datalist/mat-datalist.component';
+import { SupreturnComponent } from './view/modules/supreturn/supreturn.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 
 @NgModule({
@@ -81,6 +84,7 @@ import { MatDatalistComponent } from './util/mat-datalist/mat-datalist.component
     DisrequestsComponent,
     InvoiceComponent,
     MatDatalistComponent,
+    SupreturnComponent,
 
   ],
     imports: [
@@ -110,6 +114,8 @@ import { MatDatalistComponent } from './util/mat-datalist/mat-datalist.component
         NgOptimizedImage,
         MatMenuModule,
         MatRadioModule,
+      MatAutocompleteModule,
+
 
     ],
   providers: [

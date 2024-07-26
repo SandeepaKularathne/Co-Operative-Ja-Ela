@@ -72,6 +72,7 @@ export class GrnComponent {
   uiassist: UiAssist;
 
   regexes: any;
+  innerregexes: any;
   selectedrow: any;
 
   grnstatuses: Array<Grnstatus> = [];
@@ -164,8 +165,12 @@ export class GrnComponent {
 
     this.rs.get('grn').then((regs: []) => {
       this.regexes = regs;
-      this.createForm();
-    });
+    })
+    
+    this.rs.get('grnitem').then((regs: []) => {
+        this.innerregexes = regs;
+        this.createForm();
+    })
   }
 
   filterDates = (date: Date | null): boolean => {

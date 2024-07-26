@@ -144,6 +144,23 @@ public class ItemController {
         return items;
 
     }
+
+    @GetMapping(path ="/grn/{id}",produces = "application/json")
+    public List<Item> filterItemByGrn(@PathVariable Integer id) {
+
+        List<Item> items = this.itemdao.findItemBySupplier(id);
+
+        items = items.stream().map(
+                item -> { Item g = new Item();
+                    g.setId(item.getId());
+                    g.setName(item.getName());
+                    g.setPprice(item.getPprice());
+                    return g; }
+        ).collect(Collectors.toList());
+
+        return items;
+
+    }
 }
 
 

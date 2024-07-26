@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lk.cooperative.cooperativejaela.util.RegexPattern;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class Iteminvoice {
     private BigDecimal linetotal;
     @Basic
     @Column(name = "qty")
+    @RegexPattern(reg = "^[0-9]+(\\.[0-9]{1,2})?$", msg = "Invalid QTY.")
     private BigDecimal qty;
     @ManyToOne
     @JoinColumn(name = "Item_id", referencedColumnName = "id", nullable = false)
