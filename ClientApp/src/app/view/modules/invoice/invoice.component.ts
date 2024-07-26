@@ -335,7 +335,10 @@ export class InvoiceComponent {
     this.oldinvoice = JSON.parse(JSON.stringify(invoice));
 
     // @ts-ignore
-    this.invoice.customer= this.customers.find(g => g.id === this.invoice.customer.id);
+    this.invoice.customers= this.customers.find(g => g.id === this.invoice.customer.id);
+    // @ts-ignore
+    // this.form.controls['customer'].se="hi";
+    // console.log(this.form.controls['customer'].value);
     // @ts-ignore
     this.invoice.employee = this.employees.find(e => e.id === this.invoice.employee.id);
     // @ts-ignore

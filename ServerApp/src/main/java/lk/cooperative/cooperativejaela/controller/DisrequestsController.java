@@ -51,7 +51,7 @@ public class DisrequestsController {
 //    @PreAuthorize("hasAuthority('Disrequests-Insert')")
     public HashMap<String,String> add(@RequestBody Disrequests disrequests){
 
-        System.out.println("Received JSON: " + disrequests.getDisItems());
+        System.out.println("Received JSON: " + disrequests);
 
         HashMap<String,String> responce = new HashMap<>();
 
@@ -63,13 +63,11 @@ public class DisrequestsController {
             errors += "<br> Existing Disrequests Number";
         }
 
-        if (disrequests.getDisItems() != null) {
-            for (Disitem disItem : disrequests.getDisItems()) {
+
+            for (Disitem disItem : disrequests.getDisitems()) {
                 disItem.setDisrequests(disrequests);
             }
-        } else {
-            errors += "DisItems is null";
-        }
+
 
         if(errors == "")
         disrequestsdao.save(disrequests);

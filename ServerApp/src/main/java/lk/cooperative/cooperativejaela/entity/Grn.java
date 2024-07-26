@@ -1,5 +1,6 @@
 package lk.cooperative.cooperativejaela.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lk.cooperative.cooperativejaela.util.RegexPattern;
 
 import javax.persistence.*;
@@ -40,6 +41,9 @@ public class Grn {
     @Basic
     @Column(name = "grnnumber")
     private String grnnumber;
+    @JsonIgnore
+    @OneToMany(mappedBy = "grn")
+    private Collection<Supreturn> supreturns;
 
     public int getId() {
         return id;
@@ -72,7 +76,6 @@ public class Grn {
     public void setGrandtotal(BigDecimal grandtotal) {
         this.grandtotal = grandtotal;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -125,5 +128,13 @@ public class Grn {
 
     public void setGrnnumber(String grnnumber) {
         this.grnnumber = grnnumber;
+    }
+
+    public Collection<Supreturn> getSupreturns() {
+        return supreturns;
+    }
+
+    public void setSupreturns(Collection<Supreturn> supreturns) {
+        this.supreturns = supreturns;
     }
 }

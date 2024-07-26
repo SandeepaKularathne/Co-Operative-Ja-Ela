@@ -17,7 +17,7 @@ export class Disrequests{
   public disstatus !: Disstatus;
   public disitems !: Array<Disitem>;
 
-  constructor(id: number, disnumber: string, reqdate: string, description: string, grandtotal: number, employee:Employee, shop:Shop, disstatus:Disstatus) {
+  constructor(id: number, disnumber: string, reqdate: string, description: string, grandtotal: number, employee:Employee, shop:Shop, disstatus:Disstatus,disitems: Array<Disitem>) {
     this.id = id;
     this.disnumber = disnumber;
     this.reqdate = reqdate;
@@ -26,6 +26,7 @@ export class Disrequests{
     this.employee = employee;
     this.shop = shop;
     this.disstatus = disstatus;
+    this.disitems = disitems;
   }
 
 

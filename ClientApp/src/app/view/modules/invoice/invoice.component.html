@@ -25,16 +25,8 @@
             <mat-datepicker #date></mat-datepicker>
           </mat-form-field>
 
-<!--          <mat-form-field appearance="outline">-->
-<!--            <mat-label>Employee</mat-label>-->
-<!--            <mat-select formControlName="customer">-->
-<!--              <mat-option [value]="null" selected>Not Selected</mat-option>-->
-<!--              <mat-option *ngFor="let e of customers" [value]="e">{{e.name}}</mat-option>-->
-<!--            </mat-select>-->
-<!--          </mat-form-field>-->
-
           <mat-datalist [options]="customers"
-                        valueProperty="customer"
+                        valueProperty="id"
                         displayValue="phonenumber"
                         formControlName="customer"
                         placeholder="Select a customer">

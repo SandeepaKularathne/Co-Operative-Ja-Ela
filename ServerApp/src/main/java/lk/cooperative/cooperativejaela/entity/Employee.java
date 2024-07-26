@@ -99,6 +99,12 @@ public class Employee {
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private Collection<Payment> paymentsById;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "employee")
+//    private Collection<Supayment> supayments;
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private Collection<Supreturn> supreturnsById;
 
     public Employee(){}
 
@@ -350,5 +356,21 @@ public class Employee {
 
     public void setPaymentsById(Collection<Payment> paymentsById) {
         this.paymentsById = paymentsById;
+    }
+
+//    public Collection<Supayment> getSupayments() {
+//        return supayments;
+//    }
+//
+//    public void setSupayments(Collection<Supayment> supayments) {
+//        this.supayments = supayments;
+//    }
+
+    public Collection<Supreturn> getSupreturnsById() {
+        return supreturnsById;
+    }
+
+    public void setSupreturnsById(Collection<Supreturn> supreturnsById) {
+        this.supreturnsById = supreturnsById;
     }
 }
