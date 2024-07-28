@@ -32,7 +32,7 @@ export class PaymentComponent {
   headers: string[] = ['Employee', 'Number', 'Invoice', 'Payment Type'];
   binders: string[] = ['employee.fullname', 'pnumber', 'invoice.invnumber', 'ptype.name'];
 
-  cscolumns: string[] = ['csemployee', 'cspnumber', 'cspayment', 'csptype'];
+  cscolumns: string[] = ['csemployee', 'cspnumber', 'csinvoice', 'csptype'];
   csprompts: string[] = ['Search by Employee', 'Search by Number', 'Search by Payment', 'Search by Type'];
 
 
@@ -80,7 +80,7 @@ export class PaymentComponent {
     this.csearch = this.fb.group({
       csemployee: new FormControl(),
       cspnumber: new FormControl(),
-      cspayment: new FormControl(),
+      csinvoice: new FormControl(),
       csptype: new FormControl(),
     });
 
@@ -194,12 +194,10 @@ export class PaymentComponent {
 
     // @ts-ignore
     this.data.filterPredicate = (payment: Payment, filter: string) => {
-      // return (cserchdata.csdate == null || payment.date.toLowerCase().includes(cserchdata.csdate.toLowerCase())) &&
-      //   (cserchdata.csinvnumber == null || payment.invnumber.toLowerCase().includes(cserchdata.csinvnumber.toLowerCase())) &&
-      //   (cserchdata.csshop == null || payment.shop.shopnumber.toLowerCase().includes(cserchdata.csshop.toLowerCase())) &&
-      //   //(cserchdata.csgrandtotal == null || payment.grandtotal.includes(cserchdata.csgrandtotal.toLowerCase())) &&
-      //   (cserchdata.csemployee == null || payment.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
-      //   (cserchdata.cscustomer == null || payment.customer.phonenumber.toLowerCase().includes(cserchdata.cscustomer.toLowerCase()));
+      return(cserchdata.cspnumber == null || payment.pnumber.toLowerCase().includes(cserchdata.cspnumber.toLowerCase())) &&
+        (cserchdata.csinvoice == null || payment.invoice.invnumber.toLowerCase().includes(cserchdata.csinvoice.toLowerCase())) &&
+        (cserchdata.csptype == null || payment.ptype.name.toLowerCase().includes(cserchdata.csptype.toLowerCase())) &&
+        (cserchdata.csemployee == null || payment.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase()));
     };
 
     this.data.filter = 'xx';
@@ -322,7 +320,7 @@ export class PaymentComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           // @ts-ignore
-          this.grs.add(this.payment).then((responce: [] | undefined) => {
+          this.pays.add(this.payment).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";
