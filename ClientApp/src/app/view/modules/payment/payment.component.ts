@@ -322,7 +322,7 @@ export class PaymentComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           // @ts-ignore
-          this.grs.add(this.payment).then((responce: [] | undefined) => {
+          this.pays.add(this.payment).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";

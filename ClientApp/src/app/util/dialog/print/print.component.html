@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-title>{{ data.heading }}<hr></mat-card-title>
+  <mat-card-content>
+    <ng-container *ngFor="let line of data.lines">
+      <span>{{ line }}</span><br/>
+    </ng-container>
+  </mat-card-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onPrint()">Print</button>
+    <button mat-raised-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</mat-card>
