@@ -55,7 +55,8 @@ public class RegexController {
     @GetMapping(path ="/supreturn", produces = "application/json")
     public HashMap<String, HashMap<String, String>> supreturn() {return RegexProvider.get(new Supreturn());}
 
-
+    @GetMapping(path ="/iteminvoice", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> iteminvoice() {return RegexProvider.get(new Iteminvoice());}
 }
 
 

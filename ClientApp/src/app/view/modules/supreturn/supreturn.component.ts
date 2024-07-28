@@ -32,6 +32,7 @@ import { GrnService } from 'src/app/service/grnservice';
 
 export class SupreturnComponent {
 
+  changedItems: Array<Supreitem> = [];
 
   columns: string[] = ['supplier', 'registernumber', 'grandtotal', 'date','grn','employee'];
   headers: string[] = ['Supplier', 'Register Number', 'Grand total', 'Date', 'GRN','Employee'];
@@ -393,7 +394,7 @@ export class SupreturnComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           // @ts-ignore
-          this.grs.add(this.supreturn).then((responce: [] | undefined) => {
+          this.surs.add(this.supreturn).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               // @ts-ignore
               addstatus = responce['errors'] == "";
@@ -525,6 +526,10 @@ export class SupreturnComponent {
         updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1)+" Changed";
       }
     }
+
+    if (this.changedItems.length > 0) {
+      updates += "<br>Sup Items Changed";
+    }
     return updates;
   }
 
@@ -595,8 +600,8 @@ export class SupreturnComponent {
   }
 
   filteritem(){
-    let purorder = this.form.controls['purorder'].value.id;
-    this.itms.getItemByPurorder(purorder).then((msys: Item[]) => {
+    let e = this.form.controls['grn'].value.id;
+    this.itms.getItemByGrn(e).then((msys: Item[]) => {
       this.items = msys;
     });
   }
@@ -626,6 +631,7 @@ export class SupreturnComponent {
       this.indata = new MatTableDataSource(this.supreitems);
 
       this.id++;
+      this.updateItem(supreitem);
 
       this.calculateGrandTotal();
       this.innerform.reset();
@@ -636,8 +642,10 @@ export class SupreturnComponent {
 
   calculateGrandTotal(){
     let grandtotal =0;
-    this.indata.data.forEach((m)=>{
-      grandtotal = grandtotal+0
+    //console.log(this.indata.data.forEach(e=>e.item.pprice));
+    this.indata.data.forEach(e=>{
+
+      grandtotal = grandtotal+ e.item.pprice*e.qty;
     })
 
     this.form.controls['grandtotal'].setValue(grandtotal);
@@ -654,12 +662,18 @@ export class SupreturnComponent {
     this.indata.data = datasources;
     this.supreitems = this.indata.data;
 
+    this.updateItem(x);
+
     this.calculateGrandTotal();
   }
 
   generateNumber(): void {
-    const newNumber = this.ns.generateNumber('SUPRETURN');
-    this.form.controls['supreturnnumber'].setValue(newNumber);
+    const newNumber = this.ns.generateNumber('RET');
+    this.form.controls['returnno'].setValue(newNumber);
+  }
+
+  updateItem(element: Supreitem) {
+    this.changedItems.push(element);
   }
 }
 

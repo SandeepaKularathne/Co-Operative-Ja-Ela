@@ -1,9 +1,6 @@
 package lk.cooperative.cooperativejaela.entity;
 
-import lk.cooperative.cooperativejaela.util.RegexPattern;
-
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Collection;
@@ -23,13 +20,11 @@ public class Supreturn {
     private String returnno;
     @Basic
     @Column(name = "reason")
-    @Pattern(regexp = "^.*$", message = "Invalid Reason")
     private String reason;
     @Basic
     @Column(name = "grandtotal")
-    @RegexPattern(reg = "^[0-9]+(\\.[0-9]{1,2})?$", msg = "Invalid price format.")
     private BigDecimal grandtotal;
-    @OneToMany(mappedBy = "supreturn")
+    @OneToMany(mappedBy = "supreturn",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Supreitem> supreitems;
     @ManyToOne
     @JoinColumn(name = "grn_id", referencedColumnName = "id", nullable = false)
