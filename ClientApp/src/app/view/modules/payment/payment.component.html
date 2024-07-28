@@ -31,7 +31,7 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-radio-group formControlName="ptype">
+          <mat-radio-group formControlName="ptype" appearance="outline">
             <mat-radio-button *ngFor="let ptype of ptypes" [value]="ptype.id">
                 {{ ptype.name }}
             </mat-radio-button>

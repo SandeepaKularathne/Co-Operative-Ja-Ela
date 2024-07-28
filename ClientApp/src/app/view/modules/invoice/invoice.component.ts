@@ -77,7 +77,7 @@ export class InvoiceComponent {
 
   employees: Array<Employee> = [];
   customers: Array<Customer> = [];
-  filtercustomers: Array<Customer> = [];
+  filtercustomers: Observable<Customer[]>  | any;
   shops: Array<Shop> = [];
 
   enaadd:boolean = true;
@@ -184,9 +184,8 @@ export class InvoiceComponent {
     this.form.controls['employee'].setValidators([Validators.required]);
     this.form.controls['customer'].setValidators([Validators.required]);
 
-    this.innerform.controls['store'].setValidators([Validators.required]);
     this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(this.regexes['qty']['regex'])]);
-    this.innerform.controls['unitcost'].setValidators([Validators.required]);
+    this.innerform.controls['linetotal'].setValidators([Validators.required]);
     this.innerform.controls['item'].setValidators([Validators.required]);
 
 

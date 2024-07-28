@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lk.cooperative.cooperativejaela.util.RegexPattern;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,9 +15,11 @@ public class Grnitem {
     private int id;
     @Basic
     @Column(name = "unitcost")
+    @RegexPattern(reg = "^[0-9]+(\\.[0-9]{1,2})?$", msg = "Invalid price format.")
     private BigDecimal unitcost;
     @Basic
     @Column(name = "qty")
+    @RegexPattern(reg = "^[0-9]+$", msg = "Invalid Qty.")
     private Integer qty;
     @Basic
     @Column(name = "linecost")

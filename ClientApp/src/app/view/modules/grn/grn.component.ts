@@ -163,15 +163,19 @@ export class GrnComponent {
       this.stores = vbrs;
     });
 
+
     this.rs.get('grn').then((regs: []) => {
       this.regexes = regs;
-    })
-    
-    this.rs.get('grnitem').then((regs: []) => {
+      this.rs.get('grnitem').then((regs: []) => {
         this.innerregexes = regs;
         this.createForm();
-    })
+      })
+    });
+
+
+
   }
+
 
   filterDates = (date: Date | null): boolean => {
     const currentDate = new Date();
@@ -194,8 +198,8 @@ export class GrnComponent {
     this.form.controls['purorder'].setValidators([Validators.required]);
 
     this.innerform.controls['store'].setValidators([Validators.required]);
-    this.innerform.controls['qty'].setValidators([Validators.required]);
-    this.innerform.controls['unitcost'].setValidators([Validators.required]);
+    this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(this.innerregexes['qty']['regex'])]);
+    this.innerform.controls['unitcost'].setValidators([Validators.required, Validators.pattern(this.innerregexes['unitcost']['regex'])]);
     this.innerform.controls['item'].setValidators([Validators.required]);
 
 
