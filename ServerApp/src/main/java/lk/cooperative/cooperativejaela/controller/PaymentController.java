@@ -48,8 +48,6 @@ public class PaymentController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
-        if(paymentdao.findByPnumber(payment.getPnumber())!=null)
-            errors = errors+"<br> Existing Phone Number";
 
         if(errors=="")
         paymentdao.save(payment);
