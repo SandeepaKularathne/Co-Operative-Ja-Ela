@@ -21,7 +21,6 @@ import { ItemService } from 'src/app/service/itemservice';
 import { Shop } from 'src/app/entity/shop';
 import { Shopservice } from 'src/app/service/shopservice';
 import { NumberService } from 'src/app/service/numberservice';
-import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -47,7 +46,7 @@ export class DisrequestsComponent {
   innerdata:any;
   oldinnerdata:any;
 
-  indata!:MatTableDataSource<Disitem>;
+  indata!:MatTableDataSource<Disitem>
   innerform!:FormGroup;
   items:Array<Item> = [];
   shops:Array<Shop> = [];
@@ -75,8 +74,6 @@ export class DisrequestsComponent {
   disstatuses: Array<Disstatus> = [];
   employees: Array<Employee> = [];
 
-  changedItems: Array<Disitem> = [];
-
   enaadd:boolean = true;
   enaupd:boolean = false;
   enadel:boolean = false;
@@ -92,8 +89,7 @@ export class DisrequestsComponent {
     private dg: MatDialog,
     private dp: DatePipe,
     private ns: NumberService,
-    public authService:AuthorizationManager,
-    private cdr: ChangeDetectorRef) {
+    public authService:AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
 
@@ -350,9 +346,6 @@ export class DisrequestsComponent {
 
     this.indata = new MatTableDataSource(this.disrequests.disitems);
 
-    this.indata.data.forEach(e => {
-      console.log(e.item);
-    });
     this.form.patchValue(this.disrequests);
     this.form.markAsPristine();
 
@@ -435,93 +428,6 @@ export class DisrequestsComponent {
       });
     }
   }
-  // update() {
-  //
-  //   let errors = this.getErrors();
-  //
-  //   if (errors != "") {
-  //
-  //     const errmsg = this.dg.open(MessageComponent, {
-  //       width: '500px',
-  //       data: {heading: "Errors - disrequests Update ", message: "You have following Errors <br> " + errors}
-  //     });
-  //     errmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
-  //
-  //   } else {
-  //
-  //     let updates: string = this.getUpdates();
-  //
-  //     if (updates != "") {
-  //
-  //       let updstatus: boolean = false;
-  //       let updmessage: string = "Server Not Found";
-  //
-  //       const confirm = this.dg.open(ConfirmComponent, {
-  //         width: '500px',
-  //         data: {
-  //           heading: "Confirmation - disrequests Update",
-  //           message: "Are you sure to Save folowing Updates? <br> <br>" + updates
-  //         }
-  //       });
-  //       confirm.afterClosed().subscribe(async result => {
-  //         if (result) {
-  //
-  //           this.disrequests = this.form.getRawValue();
-  //           this.disrequests.disitems = this.disitems;
-  //           // @ts-ignore
-  //           this.disrequests.id =this.olddisrequests.id;
-  //
-  //           console.log(this.disrequests.id);
-  //
-  //           // @ts-ignore
-  //           this.disitems.forEach((i)=> delete (i.id));
-  //
-  //           // @ts-ignore
-  //           this.disrequests.date = this.dp.transform(this.disrequests.date,"yyyy-MM-dd");
-  //
-  //
-  //           this.dis.update(this.disrequests).then((responce: [] | undefined) => {
-  //             if (responce != undefined) { // @ts-ignore
-  //               updstatus = responce['errors'] == "";
-  //               if (!updstatus) { // @ts-ignore
-  //                 updmessage = responce['errors'];
-  //               }
-  //             } else {
-  //               updstatus = false;
-  //               updmessage = "Content Not Found"
-  //             }
-  //           } ).finally(() => {
-  //             if (updstatus) {
-  //               updmessage = "Successfully Updated";
-  //               this.form.reset();
-  //               Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
-  //               this.loadTable("");
-  //             }
-  //
-  //             const stsmsg = this.dg.open(MessageComponent, {
-  //               width: '500px',
-  //               data: {heading: "Status -disrequests Add", message: updmessage}
-  //             });
-  //             stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
-  //
-  //           });
-  //         }
-  //       });
-  //     }
-  //     else {
-  //
-  //       const updmsg = this.dg.open(MessageComponent, {
-  //         width: '500px',
-  //         data: {heading: "Confirmation - disrequests Update", message: "Nothing Changed"}
-  //       });
-  //       updmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
-  //
-  //     }
-  //   }
-  //
-  //
-  // }
-
   update() {
 
     let errors = this.getErrors();
@@ -530,7 +436,7 @@ export class DisrequestsComponent {
 
       const errmsg = this.dg.open(MessageComponent, {
         width: '500px',
-        data: {heading: "Errors - supreturn Update ", message: "You have following Errors <br> " + errors}
+        data: {heading: "Errors - disrequests Update ", message: "You have following Errors <br> " + errors}
       });
       errmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -546,7 +452,7 @@ export class DisrequestsComponent {
         const confirm = this.dg.open(ConfirmComponent, {
           width: '500px',
           data: {
-            heading: "Confirmation - Dis Requests Update",
+            heading: "Confirmation - disrequests Update",
             message: "Are you sure to Save folowing Updates? <br> <br>" + updates
           }
         });
@@ -559,7 +465,7 @@ export class DisrequestsComponent {
             this.disrequests.id =this.olddisrequests.id;
 
             // @ts-ignore
-            this.disitems.forEach((i)=> delete  i.id);
+            this.disrequestsitems.forEach((i)=> delete  i.id);
 
             // @ts-ignore
             this.disrequests.date = this.dp.transform(this.disrequests.date,"yyyy-MM-dd");
@@ -585,7 +491,7 @@ export class DisrequestsComponent {
 
               const stsmsg = this.dg.open(MessageComponent, {
                 width: '500px',
-                data: {heading: "Status -supreturn Add", message: updmessage}
+                data: {heading: "Status -disrequests Add", message: updmessage}
               });
               stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -597,7 +503,7 @@ export class DisrequestsComponent {
 
         const updmsg = this.dg.open(MessageComponent, {
           width: '500px',
-          data: {heading: "Confirmation - supreturn Update", message: "Nothing Changed"}
+          data: {heading: "Confirmation - disrequests Update", message: "Nothing Changed"}
         });
         updmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -616,11 +522,6 @@ export class DisrequestsComponent {
         updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1)+" Changed";
       }
     }
-
-    if (this.changedItems.length > 0) {
-      updates += "<br>Dis Items Changed";
-    }
-
     return updates;
   }
 
@@ -723,8 +624,6 @@ export class DisrequestsComponent {
 
       this.id++;
 
-      this.updateItem(disrequestsitem);
-
       this.innerform.reset();
 
     }
@@ -739,9 +638,6 @@ export class DisrequestsComponent {
     if (index > -1) {
       datasources.splice(index, 1);
     }
-
-    this.updateItem(x);
-
     this.indata.data = datasources;
     this.disitems = this.indata.data;
 
@@ -751,15 +647,6 @@ export class DisrequestsComponent {
     const newInvoiceNumber = this.ns.generateNumber('DRQ');
     this.form.controls['disnumber'].setValue(newInvoiceNumber);
   }
-
-  updateItem(element: Disitem) {
-    this.changedItems.push(element);
-  }
-
-  // handleItemChange(element: Disitem) : string {
-  //   this.cdr.markForCheck();
-  //   return "Dis Items Changed"
-  // }
 }
 
 

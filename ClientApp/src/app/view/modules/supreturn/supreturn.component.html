@@ -33,23 +33,15 @@
 
           <mat-form-field appearance="outline">
             <mat-label>GRN</mat-label>
-            <mat-select formControlName="grn" (selectionChange)="filteritem()">
+            <mat-select formControlName="purorder" (selectionChange)="filteritem()">
               <mat-option [value]="null" selected>Not Selected</mat-option>
               <mat-option *ngFor="let grn of grns" [value]="grn">{{grn.grnnumber}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Supplier</mat-label>
-            <mat-select formControlName="supplier" (selectionChange)="filteritem()">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let supplier of suppliers" [value]="supplier">{{supplier.registernumber}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Reason</mat-label>
-            <input matInput formControlName="reason">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description">
           </mat-form-field>
 
           <div id="innertable">
@@ -65,10 +57,22 @@
               </mat-form-field>
 
               <mat-form-field appearance="outline">
+                <mat-label>unit Cost</mat-label>
+                <input matInput   formControlName="unitcost">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
                 <mat-label>Qty</mat-label>
                 <input matInput   formControlName="qty">
               </mat-form-field>
 
+              <mat-form-field appearance="outline">
+                <mat-label>Store</mat-label>
+                <mat-select formControlName="store">
+                  <mat-option [value]="null" selected>Not Selected</mat-option>
+                  <mat-option *ngFor="let store of stores" [value]="store">{{store.storenumber}}</mat-option>
+                </mat-select>
+              </mat-form-field>
 
               <button mat-raised-button id="btnAdd" (click)="btnaddMc()" >Add</button>
             </mat-form>
@@ -92,7 +96,15 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Grandtotal</mat-label>
-            <input matInput formControlName="grandtotal" readonly>
+            <input matInput formControlName="grandtotal">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="supreturnstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let supreturnstatus of supreturnstatuses" [value]="supreturnstatus">{{supreturnstatus.name}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <div id="butpanel">
@@ -122,17 +134,17 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Status</mat-label>
-            <mat-select formControlName="ssgrn">
+            <mat-select formControlName="sssupreturnstatus">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let grn of grns" [value]="grn.id">{{grn.grnnumber}}</mat-option>
+              <mat-option *ngFor="let supreturnstatus of supreturnstatuses" [value]="supreturnstatus.id">{{supreturnstatus.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Supplier</mat-label>
-            <mat-select formControlName="sssupplier">
+            <mat-label>Purorder</mat-label>
+            <mat-select formControlName="sspurorder">
               <mat-option [value]="null" selected >Not Selected</mat-option>
-              <mat-option *ngFor="let supplier of suppliers" [value]="supplier.id">{{supplier.name}}</mat-option>
+              <mat-option *ngFor="let purorder of purorders" [value]="purorder.id">{{purorder.ponumber}}</mat-option>
             </mat-select>
           </mat-form-field>
 

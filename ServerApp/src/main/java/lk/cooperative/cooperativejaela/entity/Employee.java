@@ -98,10 +98,13 @@ public class Employee {
     private Collection<Invoice> invoices;
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
-    private Collection<Supreturn> supreturns;
+    private Collection<Payment> paymentsById;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "employee")
+//    private Collection<Supayment> supayments;
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
-    private Collection<Supayment> supayments;
+    private Collection<Supreturn> supreturnsById;
 
     public Employee(){}
 
@@ -347,19 +350,27 @@ public class Employee {
         this.invoices = invoices;
     }
 
-    public Collection<Supreturn> getSupreturns() {
-        return supreturns;
+    public Collection<Payment> getPaymentsById() {
+        return paymentsById;
     }
 
-    public void setSupreturns(Collection<Supreturn> supreturns) {
-        this.supreturns = supreturns;
+    public void setPaymentsById(Collection<Payment> paymentsById) {
+        this.paymentsById = paymentsById;
     }
 
-    public Collection<Supayment> getSupayments() {
-        return supayments;
+//    public Collection<Supayment> getSupayments() {
+//        return supayments;
+//    }
+//
+//    public void setSupayments(Collection<Supayment> supayments) {
+//        this.supayments = supayments;
+//    }
+
+    public Collection<Supreturn> getSupreturnsById() {
+        return supreturnsById;
     }
 
-    public void setSupayments(Collection<Supayment> supayments) {
-        this.supayments = supayments;
+    public void setSupreturnsById(Collection<Supreturn> supreturnsById) {
+        this.supreturnsById = supreturnsById;
     }
 }
