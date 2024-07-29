@@ -1,4 +1,5 @@
 import { Employee } from "./employee";
+import {Route} from "./route";
 
 export class Store{
 
@@ -9,8 +10,9 @@ export class Store{
   public cnumber !: string;
   public email !: string;
   public employee !: Employee;
+  public route !: Route;
 
-  constructor(id: number, storenumber: string, location: string, esdate: string, cnumber: string, email: string, employee:Employee) {
+  constructor(id: number, storenumber: string, location: string, esdate: string, cnumber: string, email: string, employee:Employee,route:Route) {
     this.id = id;
     this.storenumber = storenumber;
     this.location = location;
@@ -18,6 +20,7 @@ export class Store{
     this.cnumber = cnumber;
     this.email = email;
     this.employee = employee;
+    this.route = route;
   }
 
 }

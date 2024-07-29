@@ -54,6 +54,14 @@
             <input matInput formControlName="address">
           </mat-form-field>
 
+          <mat-form-field appearance="outline">
+            <mat-label>Route</mat-label>
+            <mat-select formControlName="route">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let route of routes" [value]="route">{{route.routenumber}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <div id="butpanel">
             <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
             <button mat-raised-button (click)="clear()">Clear</button>

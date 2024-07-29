@@ -44,6 +44,9 @@ public class Shop {
     @JsonIgnore
     @OneToMany(mappedBy = "shop")
     private Collection<Invoice> invoices;
+    @ManyToOne
+    @JoinColumn(name = "route_id", referencedColumnName = "id", nullable = false)
+    private Route route;
 
     public int getId() {
         return id;
@@ -136,5 +139,13 @@ public class Shop {
 
     public void setInvoices(Collection<Invoice> invoices) {
         this.invoices = invoices;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 }

@@ -60,6 +60,9 @@ public class RegexController {
 
     @GetMapping(path ="/grnitem", produces = "application/json")
     public HashMap<String, HashMap<String, String>> grnitem() {return RegexProvider.get(new Grnitem());}
+
+    @GetMapping(path ="/route", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> route() {return RegexProvider.get(new Route());}
 }
 
 

@@ -13,8 +13,19 @@ import { Supayment } from 'src/app/entity/supayment';
 import { Employee } from 'src/app/entity/employee';
 import { EmployeeService } from 'src/app/service/employeeservice';
 import { Supaymentservice } from 'src/app/service/supaymentservice';
-import { Supaymentstatus } from 'src/app/entity/supaymentstatus';
-import { Supaymentstatusservice } from 'src/app/service/supaymentstatusservice';
+import { Pstatus } from 'src/app/entity/pstatus';
+import { Pstatusservice } from 'src/app/service/pstatusservice';
+import {Grn} from "../../../entity/grn";
+import {Ptype} from "../../../entity/ptype";
+import {GrnService} from "../../../service/grnservice";
+import {Ptypeservice} from "../../../service/ptypeservice";
+import {Vehicle} from "../../../entity/vehicle";
+import {Supplier} from "../../../entity/supplier";
+import {SupplierService} from "../../../service/supplierservice";
+import {Supreitem} from "../../../entity/supreitem";
+import {Supreturn} from "../../../entity/supreturn";
+import {SupreturnService} from "../../../service/supreturnservice";
+import {NumberService} from "../../../service/numberservice";
 
 
 
@@ -28,7 +39,7 @@ export class SupaymentComponent {
 
   columns: string[] = ['suppayno', 'supplier', 'grn', 'employee','modi'];
   headers: string[] = ['Payment Number', 'Supplier', 'Grn', 'Employee', 'Date'];
-  binders: string[] = ['suppayno', 'supplier.supnumber', 'grn.grnnumber', 'employee.fullname','getModi()'];
+  binders: string[] = ['suppayno', 'supplier.registernumber', 'grn.grnnumber', 'employee.fullname','getModi()'];
 
   cscolumns: string[] = ['cssuppayno', 'cssupplier', 'csgrn', 'csemployee', 'csmodi'];
   csprompts: string[] = ['Search by Payment Number', 'Search by Grn', 'Search by Date', 'Search by Employee', 'Search by Date'];
@@ -54,6 +65,8 @@ export class SupaymentComponent {
   pstatuses: Array<Pstatus> = [];
   grns: Array<Grn> = [];
   ptypes: Array<Ptype> = [];
+  suppliers: Array<Supplier> = [];
+  supreturns: Array<Supreturn> = [];
 
 
   enaadd:boolean = true;
@@ -61,39 +74,42 @@ export class SupaymentComponent {
   enadel:boolean = false;
 
   constructor(
-    private shs: Supaymentservice,
+    private spays: Supaymentservice,
+    private grs: GrnService,
     private emps: EmployeeService,
-    private shss: Supaymentstatusservice,
-    private rs: RegexService,
+    private psts: Pstatusservice,
+    private surs: SupreturnService,
+    private ptys: Ptypeservice,
+    private sups: SupplierService,
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
+    private ns: NumberService,
     public authService:AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
 
     this.csearch = this.fb.group({
-      cssupaymentnumber: new FormControl(),
-      csaddress: new FormControl(),
-      csopdate: new FormControl(),
-      cscnumber: new FormControl(),
+      cssuppayno: new FormControl(),
+      cssupplier: new FormControl(),
+      csgrn: new FormControl(),
       csemployee: new FormControl(),
-      csemail: new FormControl(),
+      csmodi: new FormControl(),
     });
 
     this.ssearch = this.fb.group({
-      sssupaymentstatus: new FormControl(),
-      ssemployee: new FormControl(),
+      sssuppayno: new FormControl(),
+      sspstatus: new FormControl(),
     });
 
     this.form =this.fb.group({
-      "supaymentnumber": new FormControl('', [Validators.required]),
-      "address": new FormControl('', [Validators.required]),
-      "opdate": new FormControl('', [Validators.required]),
-      "cnumber": new FormControl('', [Validators.required]),
-      "email": new FormControl('', [Validators.required]),
-      "supaymentstatus": new FormControl('', [Validators.required]),
+      "suppayno": new FormControl('', [Validators.required]),
+      "grandtotal": new FormControl('', [Validators.required]),
+      "supplier": new FormControl('', [Validators.required]),
+      "grn": new FormControl('', [Validators.required]),
+      "ptype": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
+      "pstatus": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
 
   }
@@ -110,14 +126,27 @@ export class SupaymentComponent {
       this.employees = vsts;
     });
 
-    this.shss.getAllList().then((vsts: Supaymentstatus[]) => {
-      this.supaymentstatuses = vsts;
+    this.surs.getAll('').then((vsts: Supreturn[]) => {
+      this.supreturns = vsts;
     });
 
-    this.rs.get('supayment').then((regs: []) => {
-      this.regexes = regs;
-      this.createForm();
+    this.grs.getAll('').then((vsts: Grn[]) => {
+      this.grns = vsts;
     });
+
+    this.sups.getAll('').then((vsts: Supplier[]) => {
+      this.suppliers = vsts;
+    });
+
+    this.psts.getAllList().then((vsts: Pstatus[]) => {
+      this.pstatuses = vsts;
+    });
+
+    this.ptys.getAllList().then((vsts: Ptype[]) => {
+      this.ptypes = vsts;
+    });
+
+    this.createForm();
   }
 
   createView() {
@@ -127,13 +156,13 @@ export class SupaymentComponent {
 
   createForm() {
 
-    this.form.controls['supaymentnumber'].setValidators([Validators.required, Validators.pattern(this.regexes['supaymentnumber']['regex'])]);
-    this.form.controls['address'].setValidators([Validators.required, Validators.pattern(this.regexes['address']['regex'])]);
-    this.form.controls['opdate'].setValidators([Validators.required]);
-    this.form.controls['cnumber'].setValidators([Validators.required, Validators.pattern(this.regexes['cnumber']['regex'])]);
-    this.form.controls['email'].setValidators([Validators.required, Validators.pattern(this.regexes['email']['regex'])]);
-    this.form.controls['supaymentstatus'].setValidators([Validators.required]);
+    this.form.controls['suppayno'].setValidators([Validators.required]);
+    this.form.controls['grandtotal'].setValidators([Validators.required]);
+    this.form.controls['supplier'].setValidators([Validators.required]);
+    this.form.controls['grn'].setValidators([Validators.required]);
+    this.form.controls['ptype'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
+    this.form.controls['pstatus'].setValidators([Validators.required]);
 
     Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
 
@@ -170,9 +199,11 @@ export class SupaymentComponent {
 
   loadTable(query: string) {
 
-    this.shs.getAll(query)
+    this.spays.getAll(query)
       .then((emps: Supayment[]) => {
         this.supayments = emps;
+        this.ns.setLastSequenceNumber(this.supayments[this.supayments.length-1].suppayno);
+        this.generateNumber();
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
@@ -185,17 +216,26 @@ export class SupaymentComponent {
 
   }
 
+  getModi(element: Supayment): string {
+
+    const year = element.suppayno.slice(3, 7);
+    const month = element.suppayno.slice(7, 9);
+    const day = element.suppayno.slice(9, 11);
+    const newDate = `${year} - ${month} - ${day}`;
+    return newDate;
+
+  }
+
   filterTable(): void {
 
     const cserchdata = this.csearch.getRawValue();
 
     this.data.filterPredicate = (supayment: Supayment, filter: string) => {
-      return (cserchdata.cssupaymentnumber == null || supayment.supaymentnumber.toLowerCase().includes(cserchdata.cssupaymentnumber.toLowerCase())) &&
-        (cserchdata.cslocation == null || supayment.address.toLowerCase().includes(cserchdata.cslocation.toLowerCase())) &&
-        (cserchdata.csesdate == null || supayment.opdate.toLowerCase().includes(cserchdata.csesdate.toLowerCase())) &&
+      return (cserchdata.cssuppayno == null || supayment.suppayno.toLowerCase().includes(cserchdata.cssuppayno.toLowerCase())) &&
+        (cserchdata.csgrn == null || supayment.grn.grnnumber.toLowerCase().includes(cserchdata.csgrn.toLowerCase())) &&
+        (cserchdata.csmodi == null || this.getModi(supayment).toLowerCase().includes(cserchdata.csmodi.toLowerCase())) &&
         (cserchdata.csemployee== null || supayment.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
-        (cserchdata.cscnumber == null || supayment.cnumber.toLowerCase().includes(cserchdata.cscnumber.toLowerCase())) &&
-        (cserchdata.csemail == null || supayment.email.toLowerCase().includes(cserchdata.csemail.toLowerCase()));
+        (cserchdata.cssupplier == null || supayment.supplier.registernumber.toLowerCase().includes(cserchdata.cssupplier.toLowerCase()));
     };
 
     this.data.filter = 'xx';
@@ -207,13 +247,13 @@ export class SupaymentComponent {
     this.csearch.reset();
     const sserchdata = this.ssearch.getRawValue();
 
-    let supaymentstatusid = sserchdata.sssupaymentstatus;
-    let employeeid = sserchdata.ssemployee;
+    let suppayno = sserchdata.sssuppayno;
+    let pstatusid = sserchdata.sspstatus;
 
     let query = "";
 
-    if (supaymentstatusid != null) query = query + "&supaymentstatusid=" + supaymentstatusid;
-    if (employeeid != null) query = query + "&employeeid=" + employeeid;
+    if (suppayno != null) query = query + "&suppayno=" + suppayno;
+    if (pstatusid != null) query = query + "&pstatusid=" + pstatusid;
 
     if (query != "") query = query.replace(/^./, "?")
 
@@ -269,6 +309,18 @@ export class SupaymentComponent {
     //@ts-ignore
     this.supayment.employee = this.employees.find(s => s.id === this.supayment.employee.id);
 
+    //@ts-ignore
+    this.supayment.grn = this.grns.find(s => s.id === this.supayment.grn.id);
+
+    //@ts-ignore
+    this.supayment.ptype = this.ptypes.find(s => s.id === this.supayment.ptype.id);
+
+    //@ts-ignore
+    this.supayment.pstatus = this.pstatuses.find(s => s.id === this.supayment.pstatus.id);
+
+    //@ts-ignore
+    this.supayment.supplier = this.suppliers.find(s => s.id === this.supayment.supplier.id);
+
     this.form.patchValue(this.supayment);
     this.form.markAsPristine();
 
@@ -294,7 +346,7 @@ export class SupaymentComponent {
 
       let shdata: string = "";
 
-      shdata = shdata + "<br> Supayment Number is : " + this.supayment.supaymentnumber;
+      shdata = shdata + "<br> Supayment Number is : " + this.supayment.suppayno;
 
       const confirm = this.dg.open(ConfirmComponent, {
         width: '500px',
@@ -309,8 +361,8 @@ export class SupaymentComponent {
 
       confirm.afterClosed().subscribe(async result => {
         if (result) {
-          this.shs.add(this.supayment).then((responce: [] | undefined) => {
-            if (responce != undefined) { // @ts-ignore
+          this.spays.add(this.supayment).then((responce: [] | undefined) => {
+            if (responce != undefined) {
               // @ts-ignore
               addstatus = responce['errors'] == "";
               if (!addstatus) { // @ts-ignore
@@ -381,7 +433,7 @@ export class SupaymentComponent {
 
             this.supayment.id = this.oldsupayment.id;
 
-            this.shs.update(this.supayment).then((responce: [] | undefined) => {
+            this.spays.update(this.supayment).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
                 updstatus = responce['errors'] == "";
                 if (!updstatus) { // @ts-ignore
@@ -442,7 +494,7 @@ export class SupaymentComponent {
       width: '500px',
       data: {
         heading: "Confirmation - Supayment Delete",
-        message: "Are you sure to Delete following Supayment? <br> <br>" + this.supayment.supaymentnumber
+        message: "Are you sure to Delete following Supayment? <br> <br>" + this.supayment.suppayno
       }
     });
 
@@ -451,7 +503,7 @@ export class SupaymentComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.shs.delete(this.supayment.id).then((responce: [] | undefined) => {
+        this.spays.delete(this.supayment.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -504,6 +556,28 @@ export class SupaymentComponent {
     const currentDate = new Date();
     return !date || date.getTime() <= currentDate.getTime();
   };
+
+
+  setGrandTotal() {
+    let grn = this.form.controls['grn'].value;
+
+    let gnumber = grn.grnnumber;
+    let gpayment: number = this.grns.find(s => s.grnnumber === gnumber)?.grandtotal ?? 0;
+    let greturn: number = this.supreturns.find(s => s.grn.grnnumber === gnumber)?.grandtotal ?? 0;
+    let gpaied: number = parseFloat(this.supayments.find(s => s.grn.grnnumber === gnumber)?.grandtotal ?? '0');
+    let total: number = gpayment - greturn - gpaied;
+    this.form.controls['grandtotal'].setValue(total);
+
+    let supplier = grn.purorder?.supplier ?? null;
+    this.form.controls['supplierl'].setValue(supplier);
+  }
+
+
+
+  generateNumber(): void {
+    const newNumber = this.ns.generateNumber('SAY');
+    this.form.controls['suppayno'].setValue(newNumber);
+  }
 }
 
 

@@ -1,56 +1,35 @@
 <mat-grid-list [cols]="12" rowHeight="5rem">
 
-  <mat-grid-tile [colspan]="4" [rowspan]="9">
+  <mat-grid-tile [colspan]="4" [rowspan]="5">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="left">Store Detail</mat-card-title>
+        <mat-card-title id="left">Route Detail</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content id="storeform">
+      <mat-card-content id="routeform">
 
         <mat-form  [formGroup]="form" >
 
           <mat-form-field appearance="outline">
-            <mat-label>Store Number</mat-label>
-            <input matInput formControlName="storenumber">
+            <mat-label>Route Number</mat-label>
+            <input matInput formControlName="routenumber">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Employee</mat-label>
-            <mat-select formControlName="employee">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Distance</mat-label>
+            <input matInput formControlName="distance">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Route Class</mat-label>
+            <mat-select formControlName="grade">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let employee of employees" [value]="employee">{{employee.fullname}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-
-          <mat-form-field appearance="outline">
-            <mat-label>Establish Date</mat-label>
-            <input matInput [matDatepicker]="esdate" [matDatepickerFilter]="filterDates" formControlName="esdate">
-            <mat-datepicker-toggle matIconSuffix [for]="esdate"></mat-datepicker-toggle>
-            <mat-datepicker #esdate></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Contact Number</mat-label>
-            <input matInput formControlName="cnumber">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Location</mat-label>
-            <input matInput formControlName="location">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Route</mat-label>
-            <mat-select formControlName="route">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let route of routes" [value]="route">{{route.routenumber}}</mat-option>
+              <mat-option *ngFor="let grade of grades" [value]="grade">{{grade.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -72,7 +51,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="3">
     <mat-card id="ssearch">
       <mat-card-header>
-        <mat-card-title id="right">Store Search</mat-card-title>
+        <mat-card-title id="right">Route Search</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
@@ -80,15 +59,15 @@
         <mat-form [formGroup]="ssearch">
 
           <mat-form-field appearance="outline">
-            <mat-label>Search by Number</mat-label>
-            <input matInput formControlName="ssstorenumber">
+            <mat-label>Route Number</mat-label>
+            <input matInput formControlName="ssroutenumber">
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Employee</mat-label>
-            <mat-select formControlName="ssemployee">
+            <mat-label>Route Class</mat-label>
+            <mat-select formControlName="ssgrade">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let employee of employees" [value]="employee.id">{{employee.fullname}}</mat-option>
+              <mat-option *ngFor="let grade of grades" [value]="grade.id">{{grade.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -109,7 +88,7 @@
   <mat-grid-tile [colspan]="8" [rowspan]="6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title id="right">Store Table</mat-card-title>
+        <mat-card-title id="right">Route Table</mat-card-title>
         <div id="loading">
           <img [src]="imageurl">
         </div>

@@ -9,39 +9,39 @@ import {ConfirmComponent} from "../../../util/dialog/confirm/confirm.component";
 import {RegexService} from "../../../service/regexservice";
 import {DatePipe} from "@angular/common";
 import {AuthorizationManager} from "../../../service/authorizationmanager";
-import { Store } from 'src/app/entity/store';
+import { Route } from 'src/app/entity/route';
 import { Employee } from 'src/app/entity/employee';
 import { EmployeeService } from 'src/app/service/employeeservice';
-import { Storeservice } from 'src/app/service/Storeservice';
-import {Route} from "../../../entity/route";
-import {Routeservice} from "../../../service/routeservice";
-
+import { Routeservice } from 'src/app/service/routeservice';
+import {Grade} from "../../../entity/grade";
+// @ts-ignore
+import { GradeService } from "../../../service/gradeservice";
 
 @Component({
-  selector: 'app-store',
-  templateUrl: './store.component.html',
-  styleUrls: ['./store.component.css']
+  selector: 'app-route',
+  templateUrl: './route.component.html',
+  styleUrls: ['./route.component.css']
 })
 
-export class StoreComponent {
+export class RouteComponent {
 
 
-  columns: string[] = ['storenumber', 'location', 'esdate', 'employee','cnumber', 'mail'];
-  headers: string[] = ['Store Number', 'Location', 'Date', 'A.Employee', 'Contact Number','Email'];
-  binders: string[] = ['storenumber', 'location', 'esdate', 'employee.fullname','cnumber', 'email'];
+  columns: string[] = ['routenumber', 'name', 'distance', 'Grade'];
+  headers: string[] = ['Route Number', 'Name', 'Distance', 'Grade'];
+  binders: string[] = ['routenumber', 'name', 'distance', 'grade.name'];
 
-  cscolumns: string[] = ['csstorenumber', 'cslocation', 'csesdate', 'csemployee', 'cscnumber', 'csemail'];
-  csprompts: string[] = ['Search by Store Number', 'Search by Location', 'Search by Date', 'Search by Employee', 'Search by C.No', 'Search by Email'];
+  cscolumns: string[] = ['csroutenumber', 'csname', 'csdistance', 'csgrade'];
+  csprompts: string[] = ['Search by Route Number', 'Search by Name', 'Search by Distance', 'Search by Grade'];
 
   public csearch!: FormGroup;
   public ssearch!: FormGroup;
   public form!: FormGroup;
 
-  store!: Store;
-  oldstore!: Store;
+  route!: Route;
+  oldroute!: Route;
 
-  stores: Array<Store> = [];
-  data!: MatTableDataSource<Store>;
+  routes: Array<Route> = [];
+  data!: MatTableDataSource<Route>;
   imageurl: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   imageempurl: string = 'assets/default.png'
@@ -50,16 +50,15 @@ export class StoreComponent {
   regexes: any;
   selectedrow: any;
 
-  employees: Array<Employee> = [];
-  routes: Array<Route> = [];
+  grades: Array<Grade> = [];
+
 
   enaadd:boolean = true;
   enaupd:boolean = false;
   enadel:boolean = false;
 
   constructor(
-    private sts: Storeservice,
-    private emps: EmployeeService,
+    private grds: GradeService,
     private rous: Routeservice,
     private rs: RegexService,
     private fb: FormBuilder,
@@ -70,27 +69,22 @@ export class StoreComponent {
     this.uiassist = new UiAssist(this);
 
     this.csearch = this.fb.group({
-      csstorenumber: new FormControl(),
-      cslocation: new FormControl(),
-      csesdate: new FormControl(),
-      cscnumber: new FormControl(),
-      csemployee: new FormControl(),
-      csemail: new FormControl(),
+      csroutenumber: new FormControl(),
+      csname: new FormControl(),
+      csdistance: new FormControl(),
+      csgrade: new FormControl(),
     });
 
     this.ssearch = this.fb.group({
-      ssstorenumber: new FormControl(),
-      ssemployee: new FormControl(),
+      ssgrade: new FormControl(),
+      ssroutenumber: new FormControl(),
     });
 
     this.form =this.fb.group({
-      "storenumber": new FormControl('', [Validators.required]),
-      "location": new FormControl('', [Validators.required]),
-      "esdate": new FormControl('', [Validators.required]),
-      "cnumber": new FormControl('', [Validators.required]),
-      "email": new FormControl('', [Validators.required]),
-      "employee": new FormControl('', [Validators.required]),
-      "route": new FormControl('', [Validators.required]),
+      "routenumber": new FormControl('', [Validators.required]),
+      "name": new FormControl('', [Validators.required]),
+      "distance": new FormControl('', [Validators.required]),
+      "grade": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
 
   }
@@ -103,15 +97,15 @@ export class StoreComponent {
 
     this.createView();
 
-    this.emps.getAll('').then((vsts: Employee[]) => {
-      this.employees = vsts;
-    });
-
     this.rous.getAll('').then((vsts: Route[]) => {
       this.routes = vsts;
     });
 
-    this.rs.get('store').then((regs: []) => {
+    this.grds.getAllList().then((vsts: Grade[]) => {
+      this.grades = vsts;
+    });
+
+    this.rs.get('route').then((regs: []) => {
       this.regexes = regs;
       this.createForm();
     });
@@ -124,13 +118,10 @@ export class StoreComponent {
 
   createForm() {
 
-    this.form.controls['storenumber'].setValidators([Validators.required, Validators.pattern(this.regexes['storenumber']['regex'])]);
-    this.form.controls['location'].setValidators([Validators.required]);
-    this.form.controls['esdate'].setValidators([Validators.required]);
-    this.form.controls['cnumber'].setValidators([Validators.required, Validators.pattern(this.regexes['cnumber']['regex'])]);
-    this.form.controls['email'].setValidators([Validators.required, Validators.pattern(this.regexes['email']['regex'])]);
-    this.form.controls['employee'].setValidators([Validators.required]);
-    this.form.controls['route'].setValidators([Validators.required]);
+    this.form.controls['routenumber'].setValidators([Validators.required, Validators.pattern(this.regexes['routenumber']['regex'])]);
+    this.form.controls['name'].setValidators([Validators.required, Validators.pattern(this.regexes['name']['regex'])]);
+    this.form.controls['distance'].setValidators([Validators.required, Validators.pattern(this.regexes['distance']['regex'])]);
+    this.form.controls['grade'].setValidators([Validators.required]);
 
     Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
 
@@ -138,12 +129,12 @@ export class StoreComponent {
       const control = this.form.controls[controlName];
       control.valueChanges.subscribe(value => {
           // @ts-ignore
-          if (controlName == "esdate" || controlName == "date")
+          if (controlName == "opdate" || controlName == "date")
             value = this.dp.transform(new Date(value), 'yyyy-MM-dd');
 
-          if (this.oldstore != undefined && control.valid) {
+          if (this.oldroute != undefined && control.valid) {
             // @ts-ignore
-            if (value === this.store[controlName]) {
+            if (value === this.route[controlName]) {
               control.markAsPristine();
             } else {
               control.markAsDirty();
@@ -167,16 +158,16 @@ export class StoreComponent {
 
   loadTable(query: string) {
 
-    this.sts.getAll(query)
-      .then((emps: Store[]) => {
-        this.stores = emps;
+    this.rous.getAll(query)
+      .then((emps: Route[]) => {
+        this.routes = emps;
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
         this.imageurl = 'assets/rejected.png';
       })
       .finally(() => {
-        this.data = new MatTableDataSource(this.stores);
+        this.data = new MatTableDataSource(this.routes);
         this.data.paginator = this.paginator;
       });
 
@@ -186,13 +177,11 @@ export class StoreComponent {
 
     const cserchdata = this.csearch.getRawValue();
 
-    this.data.filterPredicate = (store: Store, filter: string) => {
-      return (cserchdata.csstorenumber == null || store.storenumber.toLowerCase().includes(cserchdata.csstorenumber.toLowerCase())) &&
-        (cserchdata.cslocation == null || store.location.toLowerCase().includes(cserchdata.cslocation.toLowerCase())) &&
-        (cserchdata.csesdate == null || store.esdate.toLowerCase().includes(cserchdata.csesdate.toLowerCase())) &&
-        (cserchdata.csemployee== null || store.employee.fullname.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
-        (cserchdata.cscnumber == null || store.cnumber.toLowerCase().includes(cserchdata.cscnumber.toLowerCase())) &&
-        (cserchdata.csemail == null || store.email.toLowerCase().includes(cserchdata.csemail.toLowerCase()));
+    this.data.filterPredicate = (route: Route, filter: string) => {
+      return (cserchdata.csroutenumber == null || route.routenumber.toLowerCase().includes(cserchdata.csroutenumber.toLowerCase())) &&
+        (cserchdata.csname == null || route.name.toLowerCase().includes(cserchdata.csname.toLowerCase())) &&
+        (cserchdata.csdistance == null || route.distance.toLowerCase().includes(cserchdata.csdistance.toLowerCase())) &&
+        (cserchdata.csgrade== null || route.grade.name.toLowerCase().includes(cserchdata.csgrade.toLowerCase()));
     };
 
     this.data.filter = 'xx';
@@ -204,13 +193,13 @@ export class StoreComponent {
     this.csearch.reset();
     const sserchdata = this.ssearch.getRawValue();
 
-    let storenumber = sserchdata.ssstorenumber;
-    let employeeid = sserchdata.ssemployee;
+    let routenumber = sserchdata.ssroutenumber;
+    let gradeid = sserchdata.ssgrade;
 
     let query = "";
 
-    if (storenumber != null && storenumber.trim() != "") query = query + "&storenumber=" + storenumber;
-    if (employeeid != null) query = query + "&employeeid=" + employeeid;
+    if (routenumber != null) query = query + "&routenumber=" + routenumber;
+    if (gradeid != null) query = query + "&employeeid=" + gradeid;
 
     if (query != "") query = query.replace(/^./, "?")
 
@@ -254,22 +243,20 @@ export class StoreComponent {
     return errors;
   }
 
-  fillForm(store: Store) {
+  fillForm(route: Route) {
 
     this.enableButtons(false,true,true);
 
-    this.selectedrow=store;
+    this.selectedrow=route;
 
-    this.store = JSON.parse(JSON.stringify(store));
-    this.oldstore = JSON.parse(JSON.stringify(store));
+    this.route = JSON.parse(JSON.stringify(route));
+    this.oldroute = JSON.parse(JSON.stringify(route));
 
-    //@ts-ignore
-    this.store.employee = this.employees.find(s => s.id === this.store.employee.id);
 
     //@ts-ignore
-    this.store.route = this.routes.find(s => s.id === this.store.route.id);
+    this.route.grade = this.grades.find(s => s.id === this.route.grade.id);
 
-    this.form.patchValue(this.store);
+    this.form.patchValue(this.route);
     this.form.markAsPristine();
 
   }
@@ -281,7 +268,7 @@ export class StoreComponent {
     if (errors != "") {
       const errmsg = this.dg.open(MessageComponent, {
         width: '500px',
-        data: {heading: "Errors - Store Add ", message: "You have following Errors <br> " + errors}
+        data: {heading: "Errors - Route Add ", message: "You have following Errors <br> " + errors}
       });
       errmsg.afterClosed().subscribe(async result => {
         if (!result) {
@@ -290,17 +277,17 @@ export class StoreComponent {
       });
     } else {
 
-      this.store = this.form.getRawValue();
+      this.route = this.form.getRawValue();
 
-      let vehdata: string = "";
+      let shdata: string = "";
 
-      vehdata = vehdata + "<br>Number is : " + this.store.storenumber;
+      shdata = shdata + "<br> Route Number is : " + this.route.routenumber;
 
       const confirm = this.dg.open(ConfirmComponent, {
         width: '500px',
         data: {
-          heading: "Confirmation - Store Add",
-          message: "Are you sure to Add the following Store? <br> <br>" + vehdata
+          heading: "Confirmation - Route Add",
+          message: "Are you sure to Add the following Route? <br> <br>" + shdata
         }
       });
 
@@ -308,10 +295,9 @@ export class StoreComponent {
       let addmessage: string = "Server Not Found";
 
       confirm.afterClosed().subscribe(async result => {
-        console.log(this.store)
         if (result) {
-          this.sts.add(this.store).then((responce: [] | undefined) => {
-            if (responce != undefined) { // @ts-ignore
+          this.rous.add(this.route).then((responce: [] | undefined) => {
+            if (responce != undefined) {
               // @ts-ignore
               addstatus = responce['errors'] == "";
               if (!addstatus) { // @ts-ignore
@@ -334,7 +320,7 @@ export class StoreComponent {
 
             const stsmsg = this.dg.open(MessageComponent, {
               width: '500px',
-              data: {heading: "Status -Store Add", message: addmessage}
+              data: {heading: "Status -Route Add", message: addmessage}
             });
 
             stsmsg.afterClosed().subscribe(async result => {
@@ -378,11 +364,11 @@ export class StoreComponent {
         });
         confirm.afterClosed().subscribe(async result => {
           if (result) {
-            this.store = this.form.getRawValue();
+            this.route = this.form.getRawValue();
 
-            this.store.id = this.oldstore.id;
+            this.route.id = this.oldroute.id;
 
-            this.sts.update(this.store).then((responce: [] | undefined) => {
+            this.rous.update(this.route).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
                 updstatus = responce['errors'] == "";
                 if (!updstatus) { // @ts-ignore
@@ -398,6 +384,7 @@ export class StoreComponent {
                 this.form.reset();
                 Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
                 this.loadTable("");
+                this.enableButtons(true,false,false);
               }
 
               const stsmsg = this.dg.open(MessageComponent, {
@@ -441,8 +428,8 @@ export class StoreComponent {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - Store Delete",
-        message: "Are you sure to Delete following Store? <br> <br>" + this.store.storenumber
+        heading: "Confirmation - Route Delete",
+        message: "Are you sure to Delete following Route? <br> <br>" + this.route.routenumber
       }
     });
 
@@ -451,7 +438,7 @@ export class StoreComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.sts.delete(this.store.id).then((responce: [] | undefined) => {
+        this.rous.delete(this.route.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -466,13 +453,14 @@ export class StoreComponent {
           if (delstatus) {
             delmessage = "Successfully Deleted";
             this.form.reset();
+            this.enableButtons(true,false,false);
             Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
             this.loadTable("");
           }
 
           const stsmsg = this.dg.open(MessageComponent, {
             width: '500px',
-            data: {heading: "Status - Store Delete ", message: delmessage}
+            data: {heading: "Status - Route Delete ", message: delmessage}
           });
           stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -485,7 +473,7 @@ export class StoreComponent {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - Store Clear",
+        heading: "Confirmation - Route Clear",
         message: "Are you sure to Clear following Details ? <br> <br>"
       }
     });
@@ -494,15 +482,12 @@ export class StoreComponent {
       if (result) {
         this.form.reset();
         this.loadTable('');
+        this.enableButtons(true,false,false);
       }
     });
-    this.enableButtons(true,false,false);
+
   }
 
-  filterDates = (date: Date | null): boolean => {
-    const currentDate = new Date();
-    return !date || date.getTime() <= currentDate.getTime();
-  };
 }
 
 

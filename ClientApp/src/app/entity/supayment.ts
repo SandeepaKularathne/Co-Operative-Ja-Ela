@@ -7,7 +7,7 @@ import { Supplier } from "./supplier";
 export class Supayment{
 
   public id !: number;
-  public ssuppayno !: string;
+  public suppayno !: string;
   public grandtotal !: string;
   public supplier !: Supplier;
   public grn !: Grn;
@@ -15,9 +15,9 @@ export class Supayment{
   public employee !: Employee;
   public pstatus !: Pstatus;
 
-  constructor(id: number, ssuppayno: string, grandtotal: string, supplier:Supplier, grn:Grn, ptype:Ptype, employee:Employee, pstatus:Pstatus) {
+  constructor(id: number, suppayno: string, grandtotal: string, supplier:Supplier, grn:Grn, ptype:Ptype, employee:Employee, pstatus:Pstatus) {
     this.id = id;
-    this.ssuppayno = ssuppayno;
+    this.suppayno = suppayno;
     this.grandtotal = grandtotal;
     this.supplier = supplier;
     this.grn = grn;

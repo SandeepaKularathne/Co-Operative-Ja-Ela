@@ -26,7 +26,7 @@ export class AuthorizationManager {
 
   purMenuItems = [
     { name: 'Purchase Order', accessFlag: true, routerLink: 'purorder' },
-    { name: 'Supplier Payment', accessFlag: true, routerLink: 'supplierpayment' },
+    { name: 'Supplier Payment', accessFlag: true, routerLink: 'supayment' },
     { name: 'Supplier Return', accessFlag: true, routerLink: 'supreturn' },
     { name: 'Supplier', accessFlag: true, routerLink: 'supplier' }
   ];
@@ -42,7 +42,7 @@ export class AuthorizationManager {
   disMenuItems = [
     { name: 'Vehicle', accessFlag: true, routerLink: 'vehicle' },
     { name: 'Shop', accessFlag: true, routerLink: 'shop' },
-    { name: 'Root', accessFlag: true, routerLink: 'root' },
+    { name: 'Route', accessFlag: true, routerLink: 'route' },
     { name: 'Distribution Order', accessFlag: true, routerLink: 'distributionorder' },
     { name: 'Distribution Receives', accessFlag: true, routerLink: 'distributionreceives' },
     { name: 'Distribution Request', accessFlag: true, routerLink: 'disrequests' }

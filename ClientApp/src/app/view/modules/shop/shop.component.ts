@@ -16,7 +16,8 @@ import { Shopservice } from 'src/app/service/shopservice';
 import { Shopstatus } from 'src/app/entity/shopstatus';
 import { Shopstatusservice } from 'src/app/service/shopstatusservice';
 
-
+import {Routeservice} from "../../../service/routeservice";
+import {Route} from "../../../entity/route";
 
 @Component({
   selector: 'app-shop',
@@ -53,6 +54,7 @@ export class ShopComponent {
 
   employees: Array<Employee> = [];
   shopstatuses: Array<Shopstatus> = [];
+  routes: Array<Route> = [];
 
 
   enaadd:boolean = true;
@@ -63,6 +65,7 @@ export class ShopComponent {
     private shs: Shopservice,
     private emps: EmployeeService,
     private shss: Shopstatusservice,
+    private rous: Routeservice,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
@@ -93,6 +96,7 @@ export class ShopComponent {
       "email": new FormControl('', [Validators.required]),
       "shopstatus": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
+      "route": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
 
   }
@@ -107,6 +111,10 @@ export class ShopComponent {
 
     this.emps.getAll('').then((vsts: Employee[]) => {
       this.employees = vsts;
+    });
+
+    this.rous.getAll('').then((vsts: Route[]) => {
+      this.routes = vsts;
     });
 
     this.shss.getAllList().then((vsts: Shopstatus[]) => {
@@ -133,6 +141,7 @@ export class ShopComponent {
     this.form.controls['email'].setValidators([Validators.required, Validators.pattern(this.regexes['email']['regex'])]);
     this.form.controls['shopstatus'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
+    this.form.controls['route'].setValidators([Validators.required]);
 
     Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
 
@@ -268,6 +277,9 @@ export class ShopComponent {
     //@ts-ignore
     this.shop.employee = this.employees.find(s => s.id === this.shop.employee.id);
 
+    //@ts-ignore
+    this.shop.route = this.routes.find(s => s.id === this.shop.route.id);
+
     this.form.patchValue(this.shop);
     this.form.markAsPristine();
 
@@ -309,7 +321,7 @@ export class ShopComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           this.shs.add(this.shop).then((responce: [] | undefined) => {
-            if (responce != undefined) { // @ts-ignore
+            if (responce != undefined) {
               // @ts-ignore
               addstatus = responce['errors'] == "";
               if (!addstatus) { // @ts-ignore

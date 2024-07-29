@@ -21,6 +21,8 @@ import { CountByCRDateComponent } from './report/view/countbycrdate/countbycrdat
 import { DisrequestsComponent } from './view/modules/disrequests/disrequests.component';
 import { InvoiceComponent } from './view/modules/invoice/invoice.component';
 import { SupreturnComponent } from './view/modules/supreturn/supreturn.component';
+import {SupaymentComponent} from "./view/modules/supayment/supayment.component";
+import {RouteComponent} from "./view/modules/route/route.component";
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -54,7 +56,10 @@ const routes: Routes = [
       {path: "invoice", component: InvoiceComponent},
       {path: "privilege", component: PrivilageComponent},
       {path: "operation", component: OperationComponent},
-      {path: "supreturn", component: SupreturnComponent}
+      {path: "supreturn", component: SupreturnComponent},
+      {path: "supayment", component: SupaymentComponent},
+      {path: "route", component: RouteComponent}
+
     ]
   }];
 

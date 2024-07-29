@@ -56,7 +56,7 @@ public class UserAuthorityController {
 
                     "vehicle-select","vehicle-delete","vehicle-update","vehicle-insert",
                     "shop-select","shop-delete","shop-update","shop-insert",
-                    "root-select","root-delete","root-update","root-insert",
+                    "route-select","route-delete","route-update","route-insert",
                     "distribution order-select","distribution order-delete","distribution order-update","distribution order-insert",
                     "distribution receives-select","distribution receives-delete","distribution receives-update","distribution receives-insert",
                     "distribution request-select","distribution request-delete","distribution request-update","distribution request-insert",

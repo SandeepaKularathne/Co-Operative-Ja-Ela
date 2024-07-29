@@ -11,16 +11,8 @@
         <mat-form  [formGroup]="form" >
 
           <mat-form-field appearance="outline">
-            <mat-label>Supayment Number</mat-label>
-            <input matInput formControlName="supaymentnumber">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Supayment Status</mat-label>
-            <mat-select formControlName="supaymentstatus">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let supaymentstatus of supaymentstatuses" [value]="supaymentstatus">{{supaymentstatus.name}}</mat-option>
-            </mat-select>
+            <mat-label>Payment Number</mat-label>
+            <input matInput formControlName="suppayno" readonly>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -31,27 +23,42 @@
             </mat-select>
           </mat-form-field>
 
-
           <mat-form-field appearance="outline">
-            <mat-label>Open Date</mat-label>
-            <input matInput [matDatepicker]="esdate" [matDatepickerFilter]="filterDates" formControlName="opdate">
-            <mat-datepicker-toggle matIconSuffix [for]="esdate"></mat-datepicker-toggle>
-            <mat-datepicker #esdate></mat-datepicker>
+            <mat-label>GRN Number</mat-label>
+            <mat-select formControlName="grn" (selectionChange)="setGrandTotal()">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let grn of grns" [value]="grn">{{grn.grnnumber}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Contact Number</mat-label>
-            <input matInput formControlName="cnumber">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="ptype">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let ptype of ptypes" [value]="ptype">{{ptype.name}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="pstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let pstatus of pstatuses" [value]="pstatus">{{pstatus.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+          <mat-form-field appearance="outline">
+            <mat-label>Supplier</mat-label>
+            <mat-select formControlName="supplier">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let supplier of suppliers" [value]="supplier">{{supplier.name}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Address</mat-label>
-            <input matInput formControlName="address">
+            <mat-label>Total</mat-label>
+            <input matInput formControlName="grandtotal" readonly>
           </mat-form-field>
 
           <div id="butpanel">
@@ -80,20 +87,18 @@
         <mat-form [formGroup]="ssearch">
 
           <mat-form-field appearance="outline">
-            <mat-label>Supayment Status</mat-label>
-            <mat-select formControlName="sssupaymentstatus">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="sspstatus">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let supaymentstatus of supaymentstatuses" [value]="supaymentstatus.id">{{supaymentstatus.name}}</mat-option>
+              <mat-option *ngFor="let pstatus of pstatuses" [value]="pstatus.id">{{pstatus.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Employee</mat-label>
-            <mat-select formControlName="ssemployee">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let employee of employees" [value]="employee.id">{{employee.fullname}}</mat-option>
-            </mat-select>
+            <mat-label>Payment Number</mat-label>
+            <input matInput formControlName="sssuppayno">
           </mat-form-field>
+
 
 
           <div>

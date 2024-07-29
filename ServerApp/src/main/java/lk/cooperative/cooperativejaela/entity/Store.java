@@ -39,6 +39,9 @@ public class Store {
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
     private Employee employee;
+    @ManyToOne
+    @JoinColumn(name = "route_id", referencedColumnName = "id", nullable = false)
+    private Route route;
 
     public int getId() {
         return id;
@@ -115,5 +118,13 @@ public class Store {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 }

@@ -55,6 +55,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatalistComponent } from './util/mat-datalist/mat-datalist.component';
 import { SupreturnComponent } from './view/modules/supreturn/supreturn.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {SupaymentComponent} from "./view/modules/supayment/supayment.component";
+import {RouteComponent} from "./view/modules/route/route.component";
 
 
 
@@ -85,6 +87,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     InvoiceComponent,
     MatDatalistComponent,
     SupreturnComponent,
+    SupaymentComponent,
+    RouteComponent,
 
   ],
     imports: [
@@ -114,7 +118,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         NgOptimizedImage,
         MatMenuModule,
         MatRadioModule,
-      MatAutocompleteModule,
+        MatAutocompleteModule,
 
 
     ],

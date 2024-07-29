@@ -5,7 +5,7 @@ mat-card-content { overflow: auto; height: 100%; }
 #loading img{
   width: 30px;
   height: 25px;
-  margin-left: -185px;
+  margin-left: -175px;
   position: relative;
   margin-top: 3px;
 }
@@ -88,7 +88,7 @@ button:disabled {
   opacity: 0.5;
 }
 
-#supaymentform mat-form-field .ng-valid,
+#routeform mat-form-field .ng-valid,
 .ng-valid.required {
   background-color: lightgreen;
 }
