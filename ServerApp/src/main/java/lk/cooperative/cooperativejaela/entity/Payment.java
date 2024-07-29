@@ -2,6 +2,7 @@ package lk.cooperative.cooperativejaela.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +26,9 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
     private Employee employee;
+    @Basic
+    @Column(name = "date")
+    private Date date;
 
     public int getId() {
         return id;
@@ -85,5 +89,13 @@ public class Payment {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

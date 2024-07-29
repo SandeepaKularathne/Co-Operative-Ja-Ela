@@ -95,6 +95,7 @@ export class PaymentComponent {
       "invoice": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
       "ptype": new FormControl('', [Validators.required]),
+      "date": new FormControl(this.today, [Validators.required]),
     }, {updateOn: 'change'});
 
   }
@@ -134,6 +135,7 @@ export class PaymentComponent {
     this.form.controls['invoice'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
     this.form.controls['ptype'].setValidators([Validators.required]);
+    this.form.controls['date'].setValidators([Validators.required]);
 
 
     Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
@@ -272,11 +274,11 @@ export class PaymentComponent {
     this.oldpayment = JSON.parse(JSON.stringify(payment));
 
     // @ts-ignore
-    this.payment.customer= this.customers.find(g => g.id === this.payment.customer.id);
+    this.payment.ptype= this.ptypes.find(g => g.id === this.payment.ptype.id);
     // @ts-ignore
     this.payment.employee = this.employees.find(e => e.id === this.payment.employee.id);
     // @ts-ignore
-    this.payment.shop = this.shops.find(p => p.id === this.payment.shop.id);
+    this.payment.invoice = this.invoices.find(p => p.id === this.payment.invoice.id);
 
 
     this.form.patchValue(this.payment);

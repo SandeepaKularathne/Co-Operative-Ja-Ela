@@ -114,7 +114,7 @@ export class GrnComponent {
     });
 
     this.form =this.fb.group({
-      "grnnumber": new FormControl(this.today, [Validators.required],),
+      "grnnumber": new FormControl('', [Validators.required],),
       "date": new FormControl(this.today, [Validators.required],),
       "description": new FormControl('', [Validators.required]),
       "grandtotal": new FormControl('', [Validators.required]),
