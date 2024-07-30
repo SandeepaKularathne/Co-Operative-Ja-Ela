@@ -38,6 +38,9 @@ public class Invoice {
     @JsonIgnore
     @OneToMany(mappedBy = "invoice")
     private Collection<Payment> payments;
+    @JsonIgnore
+    @OneToMany(mappedBy = "invoice")
+    private Collection<Customerreturn> customerreturnsById;
 
     public int getId() {
         return id;
@@ -122,5 +125,13 @@ public class Invoice {
 
     public void setPayments(Collection<Payment> payments) {
         this.payments = payments;
+    }
+
+    public Collection<Customerreturn> getCustomerreturnsById() {
+        return customerreturnsById;
+    }
+
+    public void setCustomerreturnsById(Collection<Customerreturn> customerreturnsById) {
+        this.customerreturnsById = customerreturnsById;
     }
 }

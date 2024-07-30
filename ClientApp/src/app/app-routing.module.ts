@@ -27,6 +27,7 @@ import {DisorderComponent} from "./view/modules/disorder/disorder.component";
 import {DisreceiveComponent} from "./view/modules/disreceive/disreceive.component";
 import {DepositsComponent} from "./view/modules/deposits/deposits.component";
 import {StorereturnComponent} from "./view/modules/storereturn/storereturn.component";
+import {CustomerreturnComponent} from "./view/modules/customerreturn/customerreturn.component";
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -66,6 +67,7 @@ const routes: Routes = [
       {path: "disorder", component: DisorderComponent},
       {path: "disreceive", component: DisreceiveComponent},
       {path: "deposits", component: DepositsComponent},
+      {path: "customerreturn", component: CustomerreturnComponent},
       {path: "storereturn", component: StorereturnComponent}
 
 

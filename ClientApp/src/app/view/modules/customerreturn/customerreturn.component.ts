@@ -9,38 +9,37 @@ import {ConfirmComponent} from "../../../util/dialog/confirm/confirm.component";
 import {RegexService} from "../../../service/regexservice";
 import {DatePipe} from "@angular/common";
 import {AuthorizationManager} from "../../../service/authorizationmanager";
-import { Storereturn } from 'src/app/entity/storereturn';
-import { StorereturnService } from 'src/app/service/storereturnservice';
+import { Customerreturn } from 'src/app/entity/customerreturn';
+import { CustomerreturnService } from 'src/app/service/customerreturnservice';
 import { Employee } from 'src/app/entity/employee';
 import { EmployeeService } from 'src/app/service/employeeservice';
-import { Sritem } from 'src/app/entity/sritem';
+import { Critem } from 'src/app/entity/critem';
 import { Item } from 'src/app/entity/item';
 import { ItemService } from 'src/app/service/itemservice';
-import { Store } from 'src/app/entity/store';
 import { ChangeDetectorRef } from '@angular/core';
 import {Postatus} from "../../../entity/postatus";
 import {Disrequests} from "../../../entity/disrequests";
-// @ts-ignore
-import {Storeservice} from "../../../service/storeservice";
+import {Invoice} from "../../../entity/invoice";
+import {InvoiceService} from "../../../service/invoiceservice";
 
 
 
 
 @Component({
-  selector: 'app-storereturn',
-  templateUrl: './storereturn.component.html',
-  styleUrls: ['./storereturn.component.css']
+  selector: 'app-customerreturn',
+  templateUrl: './customerreturn.component.html',
+  styleUrls: ['./customerreturn.component.css']
 })
 
-export class StorereturnComponent {
+export class CustomerreturnComponent {
 
 
-  columns: string[] = [ 'store', 'date','employee', 'description'];
-  headers: string[] = [ 'Store', 'Date', 'Employee No','Description'];
-  binders: string[] = [ 'store.storenumber', 'date','employee.number', 'description'];
+  columns: string[] = [ 'invoice', 'date','employee', 'grandtotal'];
+  headers: string[] = [ 'Invoice', 'Date', 'Employee No','Grandtotal'];
+  binders: string[] = [ 'invoice.invnumber', 'date','employee.number', 'grandtotal'];
 
-  cscolumns: string[] = [ 'csstore', 'csdate', 'csemployee', 'csdescription'];
-  csprompts: string[] = [ 'Search by Store', 'Search by Date', 'Search by Employee', 'Search by Description'];
+  cscolumns: string[] = [ 'csinvoice', 'csdate', 'csemployee', 'csgrandtotal'];
+  csprompts: string[] = [ 'Search by Invoice', 'Search by Date', 'Search by Employee', 'Search by Grandtotal'];
 
   incolumns: string[] = ['item', 'qty', 'remove'];
   inheaders: string[] = ['Item', 'QTY','Remove',];
@@ -49,23 +48,23 @@ export class StorereturnComponent {
   innerdata:any;
   oldinnerdata:any;
 
-  indata!:MatTableDataSource<Sritem>;
+  indata!:MatTableDataSource<Critem>;
   innerform!:FormGroup;
   items:Array<Item> = [];
-  stores:Array<Store> = [];
-  sritems:Array<Sritem> = [];
+  invoices:Array<Invoice> = [];
+  critems:Array<Critem> = [];
 
   public csearch!: FormGroup;
   public ssearch!: FormGroup;
   public form!: FormGroup;
 
-  storereturn!: Storereturn;
-  oldstorereturn!: Storereturn;
+  customerreturn!: Customerreturn;
+  oldcustomerreturn!: Customerreturn;
 
   today = new Date();
 
-  storereturns: Array<Storereturn> = [];
-  data!: MatTableDataSource<Storereturn>;
+  customerreturns: Array<Customerreturn> = [];
+  data!: MatTableDataSource<Customerreturn>;
   imageurl: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   imageempurl: string = 'assets/default.png'
@@ -78,7 +77,7 @@ export class StorereturnComponent {
   employees: Array<Employee> = [];
   disrequestses: Array<Disrequests> = [];
   postatuses: Array<Postatus> = [];
-  changedItems: Array<Sritem> = [];
+  changedItems: Array<Critem> = [];
 
 
   enaadd:boolean = true;
@@ -87,9 +86,9 @@ export class StorereturnComponent {
 
 
   constructor(
-    private dios: StorereturnService,
+    private dios: CustomerreturnService,
     private itms: ItemService,
-    private vehs: Storeservice,
+    private vehs: InvoiceService,
     private emps: EmployeeService,
     private rs: RegexService,
     private fb: FormBuilder,
@@ -101,22 +100,22 @@ export class StorereturnComponent {
     this.uiassist = new UiAssist(this);
 
     this.csearch = this.fb.group({
-      csstore: new FormControl(),
+      csinvoice: new FormControl(),
       csdate: new FormControl(),
       csemployee: new FormControl(),
-      csdescription: new FormControl(),
+      csgrandtotal: new FormControl(),
     });
 
     this.ssearch = this.fb.group({
-      sspostatus: new FormControl(),
-      ssdisonumber: new FormControl(),
+      ssinvoice: new FormControl(),
+      ssemployee: new FormControl(),
     });
 
     this.form =this.fb.group({
       "date": new FormControl(this.today, [Validators.required]),
-      "description": new FormControl('', [Validators.required]),
+      "grandtotal": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
-      "store": new FormControl('', [Validators.required]),
+      "invoice": new FormControl('', [Validators.required]),
 
     }, {updateOn: 'change'});
 
@@ -141,17 +140,17 @@ export class StorereturnComponent {
       this.employees = vtys;
     });
 
-    this.vehs.getAll('').then((vbrs: Store[]) => {
-      this.stores = vbrs;
+    this.vehs.getAll('').then((vbrs: Invoice[]) => {
+      this.invoices = vbrs;
     });
 
     this.itms.getAll('').then((vbrs: Item[]) => {
       this.items = vbrs;
     });
 
-    this.rs.get('storereturn').then((regs: []) => {
+    this.rs.get('customerreturn').then((regs: []) => {
       this.regexes = regs;
-      this.rs.get('sritem').then((regs: []) => {
+      this.rs.get('critem').then((regs: []) => {
         this.innerregexes = regs;
         this.createForm();
       })
@@ -170,10 +169,10 @@ export class StorereturnComponent {
 
   createForm() {
 
-    this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
+    this.form.controls['grandtotal'].setValidators([Validators.required]);
     this.form.controls['date'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
-    this.form.controls['store'].setValidators([Validators.required]);
+    this.form.controls['invoice'].setValidators([Validators.required]);
 
     this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(this.innerregexes['qty']['regex'])]);
     this.innerform.controls['item'].setValidators([Validators.required]);
@@ -189,9 +188,9 @@ export class StorereturnComponent {
           if (controlName == "ssrqdate" || controlName == "ssrqdate")
             value = this.dp.transform(new Date(value), 'yyyy-MM-dd');
 
-          if (this.oldstorereturn != undefined && control.valid) {
+          if (this.oldcustomerreturn != undefined && control.valid) {
             // @ts-ignore
-            if (value === this.storereturn[controlName]) {
+            if (value === this.customerreturn[controlName]) {
               control.markAsPristine();
             } else {
               control.markAsDirty();
@@ -208,9 +207,9 @@ export class StorereturnComponent {
       const control = this.innerform.controls[controlName];
       control.valueChanges.subscribe(value => {
           // @ts-ignore
-          if (this.oldstorereturn != undefined && control.valid) {
+          if (this.oldcustomerreturn != undefined && control.valid) {
             // @ts-ignore
-            if (value === this.storereturn[controlName]) {
+            if (value === this.customerreturn[controlName]) {
               control.markAsPristine();
             } else {
               control.markAsDirty();
@@ -235,15 +234,15 @@ export class StorereturnComponent {
   loadTable(query: string) {
 
     this.dios.getAll(query)
-      .then((emps: Storereturn[]) => {
-        this.storereturns = emps;
+      .then((emps: Customerreturn[]) => {
+        this.customerreturns = emps;
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
         this.imageurl = 'assets/rejected.png';
       })
       .finally(() => {
-        this.data = new MatTableDataSource(this.storereturns);
+        this.data = new MatTableDataSource(this.customerreturns);
         this.data.paginator = this.paginator;
       });
 
@@ -253,11 +252,11 @@ export class StorereturnComponent {
 
     const cserchdata = this.csearch.getRawValue();
 
-    this.data.filterPredicate = (storereturn: Storereturn, filter: string) => {
-      return (cserchdata.csdate == null || storereturn.date.toLowerCase().includes(cserchdata.csdate.toLowerCase())) &&
-        (cserchdata.csdescription == null || storereturn.description.toLowerCase().includes(cserchdata.csdescription.toLowerCase())) &&
-        (cserchdata.csemployee == null || storereturn.employee.number.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
-        (cserchdata.csstore == null || storereturn.store.storenumber.toLowerCase().includes(cserchdata.csstore.toLowerCase()));
+    this.data.filterPredicate = (customerreturn: Customerreturn, filter: string) => {
+      return (cserchdata.csdate == null || customerreturn.date.toLowerCase().includes(cserchdata.csdate.toLowerCase())) &&
+        (cserchdata.csgrandtotal == null || customerreturn.grandtotal.toString().toLowerCase().includes(cserchdata.csgrandtotal.toLowerCase())) &&
+        (cserchdata.csemployee == null || customerreturn.employee.number.toLowerCase().includes(cserchdata.csemployee.toLowerCase())) &&
+        (cserchdata.csinvoice == null || customerreturn.invoice.invnumber.toLowerCase().includes(cserchdata.csstore.toLowerCase()));
     };
 
     this.data.filter = 'xx';
@@ -269,14 +268,14 @@ export class StorereturnComponent {
     this.csearch.reset();
     const sserchdata = this.ssearch.getRawValue();
 
-    let disonumber = sserchdata.ssdisonumber;
-    let postatusid = sserchdata.sspostatus;
+    let invoiceid = sserchdata.ssinvoice;
+    let employeeid = sserchdata.ssemployee;
 
 
     let query = "";
 
-    if (disonumber != null) query = query + "&disonumber=" + disonumber;
-    if (postatusid != null) query = query + "&postatusid=" + postatusid;
+    if (invoiceid != null) query = query + "&invoiceid=" + invoiceid;
+    if (employeeid != null) query = query + "&postatusid=" + employeeid;
 
 
     if (query != "") query = query.replace(/^./, "?")
@@ -321,29 +320,29 @@ export class StorereturnComponent {
     return errors;
   }
 
-  fillForm(storereturn: Storereturn){
+  fillForm(customerreturn: Customerreturn){
 
     this.enableButtons(false,true,true);
 
-    this.selectedrow = storereturn;
+    this.selectedrow = customerreturn;
 
-    this.storereturn = JSON.parse(JSON.stringify(storereturn));
+    this.customerreturn = JSON.parse(JSON.stringify(customerreturn));
 
-    this.oldstorereturn = JSON.parse(JSON.stringify(storereturn));
+    this.oldcustomerreturn = JSON.parse(JSON.stringify(customerreturn));
 
     // @ts-ignore
-    this.storereturn.employee = this.employees.find(e => e.id === this.storereturn.employee.id);
+    this.customerreturn.employee = this.employees.find(e => e.id === this.customerreturn.employee.id);
     // @ts-ignore
-    this.storereturn.store = this.stores.find(e => e.id === this.storereturn.store.id);
+    this.customerreturn.invoice = this.invoices.find(e => e.id === this.customerreturn.invoice.id);
 
 
 
-    this.indata = new MatTableDataSource(this.storereturn.sritems);
+    this.indata = new MatTableDataSource(this.customerreturn.critems);
 
     this.indata.data.forEach(e => {
       console.log(e.item);
     });
-    this.form.patchValue(this.storereturn);
+    this.form.patchValue(this.customerreturn);
     this.form.markAsPristine();
 
   }
@@ -363,16 +362,16 @@ export class StorereturnComponent {
       });
     } else {
 
-      this.storereturn = this.form.getRawValue();
-      this.storereturn.sritems = this.sritems;
+      this.customerreturn = this.form.getRawValue();
+      this.customerreturn.critems = this.critems;
 
       // @ts-ignore
-      this.sritems.forEach((i )=> delete i.id);
+      this.critems.forEach((i )=> delete i.id);
 
       let itmdata: string = "";
 
-      itmdata = itmdata + "<br>Date is : " + this.storereturn.date;
-      itmdata = itmdata + "<br>Description is : " + this.storereturn.description;
+      itmdata = itmdata + "<br>Date is : " + this.customerreturn.date;
+      itmdata = itmdata + "<br>Grandtotal is : " + this.customerreturn.grandtotal;
 
       const confirm = this.dg.open(ConfirmComponent, {
         width: '500px',
@@ -388,7 +387,7 @@ export class StorereturnComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           // @ts-ignore
-          this.dios.add(this.storereturn).then((responce: [] | undefined) => {
+          this.dios.add(this.customerreturn).then((responce: [] | undefined) => {
             if (responce != undefined) {
               // @ts-ignore
               addstatus = responce['errors'] == "";
@@ -457,19 +456,19 @@ export class StorereturnComponent {
         confirm.afterClosed().subscribe(async result => {
           if (result) {
 
-            this.storereturn = this.form.getRawValue();
-            this.storereturn.sritems = this.sritems;
+            this.customerreturn = this.form.getRawValue();
+            this.customerreturn.critems = this.critems;
             // @ts-ignore
-            this.storereturn.id =this.oldstorereturn.id;
-
-            // @ts-ignore
-            this.sritems.forEach((i)=> delete  i.id);
+            this.customerreturn.id =this.oldcustomerreturn.id;
 
             // @ts-ignore
-            this.storereturn.date = this.dp.transform(this.storereturn.date,"yyyy-MM-dd");
+            this.critems.forEach((i)=> delete  i.id);
+
+            // @ts-ignore
+            this.customerreturn.date = this.dp.transform(this.customerreturn.date,"yyyy-MM-dd");
 
 
-            this.dios.update(this.storereturn).then((responce: [] | undefined) => {
+            this.dios.update(this.customerreturn).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
                 updstatus = responce['errors'] == "";
                 if (!updstatus) { // @ts-ignore
@@ -533,8 +532,8 @@ export class StorereturnComponent {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - storereturn Delete",
-        message: "Are you sure to Delete following storereturn? <br> <br>" + this.storereturn.date+"id "+this.storereturn.id
+        heading: "Confirmation - customerreturn Delete",
+        message: "Are you sure to Delete following customerreturn? <br> <br>" + this.customerreturn.date+"id "+this.customerreturn.id
       }
     });
 
@@ -543,7 +542,7 @@ export class StorereturnComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.dios.delete(this.storereturn.id).then((responce: [] | undefined) => {
+        this.dios.delete(this.customerreturn.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -564,7 +563,7 @@ export class StorereturnComponent {
 
           const stsmsg = this.dg.open(MessageComponent, {
             width: '500px',
-            data: {heading: "Status - storereturn Delete ", message: delmessage}
+            data: {heading: "Status - customerreturn Delete ", message: delmessage}
           });
           stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -577,7 +576,7 @@ export class StorereturnComponent {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - storereturn Clear",
+        heading: "Confirmation - customerreturn Clear",
         message: "Are you sure to Clear following Details ? <br> <br>"
       }
     });
@@ -614,20 +613,20 @@ export class StorereturnComponent {
 
       let linecost = this.innerdata.qty * this.innerdata.unitcost;
 
-      let sritem = new  Sritem(this.id,this.innerdata.item,this.innerdata.qty);
+      let critem = new  Critem(this.id,this.innerdata.item,this.innerdata.qty);
 
-      let tem: Sritem[] = [];
+      let tem: Critem[] = [];
       if(this.indata != null) this.indata.data.forEach((i) => tem.push(i));
 
-      this.sritems = [];
-      tem.forEach((t)=> this.sritems.push(t));
+      this.critems = [];
+      tem.forEach((t)=> this.critems.push(t));
 
-      this.sritems.push(sritem);
-      this.indata = new MatTableDataSource(this.sritems);
+      this.critems.push(critem);
+      this.indata = new MatTableDataSource(this.critems);
 
       this.id++;
 
-      this.updateItem(sritem);
+      this.updateItem(critem);
 
       this.innerform.reset();
 
@@ -647,11 +646,11 @@ export class StorereturnComponent {
     this.updateItem(x);
 
     this.indata.data = datasources;
-    this.sritems = this.indata.data;
+    this.critems = this.indata.data;
 
   }
 
-  updateItem(element: Sritem) {
+  updateItem(element: Critem) {
     this.changedItems.push(element);
   }
 

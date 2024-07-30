@@ -61,6 +61,7 @@ import {DisorderComponent} from "./view/modules/disorder/disorder.component";
 import {DisreceiveComponent} from "./view/modules/disreceive/disreceive.component";
 import {DepositsComponent} from "./view/modules/deposits/deposits.component";
 import {StorereturnComponent} from "./view/modules/storereturn/storereturn.component";
+import {CustomerreturnComponent} from "./view/modules/customerreturn/customerreturn.component";
 
 
 
@@ -97,6 +98,7 @@ import {StorereturnComponent} from "./view/modules/storereturn/storereturn.compo
     DisreceiveComponent,
     DepositsComponent,
     StorereturnComponent,
+    CustomerreturnComponent,
 
   ],
     imports: [

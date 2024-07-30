@@ -115,6 +115,10 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private Collection<Storereturn> storereturns;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private Collection<Customerreturn> customerreturns;
+
     public Employee(){}
 
     public Employee(Integer id, String callingname){
@@ -405,5 +409,13 @@ public class Employee {
 
     public void setStorereturns(Collection<Storereturn> storereturns) {
         this.storereturns = storereturns;
+    }
+
+    public Collection<Customerreturn> getCustomerreturns() {
+        return customerreturns;
+    }
+
+    public void setCustomerreturns(Collection<Customerreturn> customerreturns) {
+        this.customerreturns = customerreturns;
     }
 }

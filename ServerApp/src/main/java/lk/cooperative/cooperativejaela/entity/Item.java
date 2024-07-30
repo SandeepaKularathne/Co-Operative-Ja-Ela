@@ -83,6 +83,9 @@ public class Item {
     @JsonIgnore
     @OneToMany(mappedBy = "item")
     private Collection<Sritem> sritemsById;
+    @JsonIgnore
+    @OneToMany(mappedBy = "item")
+    private Collection<Critem> critems;
 
     public int getId() {
         return id;
@@ -195,13 +198,13 @@ public class Item {
         this.unittype = unittype;
     }
 
-    public Supplier getSupplier() {
-        return supplier;
-    }
-
 //    public Collection<Disitem> getDisItems() {
 //        return disitems;
 //    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
@@ -261,5 +264,13 @@ public class Item {
 
     public void setSritemsById(Collection<Sritem> sritemsById) {
         this.sritemsById = sritemsById;
+    }
+
+    public Collection<Critem> getCritems() {
+        return critems;
+    }
+
+    public void setCritems(Collection<Critem> critems) {
+        this.critems = critems;
     }
 }
