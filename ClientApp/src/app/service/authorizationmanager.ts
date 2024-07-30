@@ -43,7 +43,7 @@ export class AuthorizationManager {
     { name: 'Vehicle', accessFlag: true, routerLink: 'vehicle' },
     { name: 'Shop', accessFlag: true, routerLink: 'shop' },
     { name: 'Route', accessFlag: true, routerLink: 'route' },
-    { name: 'Distribution Order', accessFlag: true, routerLink: 'distributionorder' },
+    { name: 'Distribution Order', accessFlag: true, routerLink: 'disorder' },
     { name: 'Distribution Receives', accessFlag: true, routerLink: 'distributionreceives' },
     { name: 'Distribution Request', accessFlag: true, routerLink: 'disrequests' }
   ];

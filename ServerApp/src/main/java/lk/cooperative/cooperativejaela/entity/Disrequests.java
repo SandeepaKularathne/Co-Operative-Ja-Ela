@@ -1,5 +1,7 @@
 package lk.cooperative.cooperativejaela.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.sql.Date;
@@ -33,6 +35,9 @@ public class Disrequests {
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
     private Employee employee;
+    @JsonIgnore
+    @OneToMany(mappedBy = "disrequests")
+    private Collection<Disorder> disorders;
 
     public int getId() {
         return id;
@@ -109,5 +114,13 @@ public class Disrequests {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Collection<Disorder> getDisorders() {
+        return disorders;
+    }
+
+    public void setDisorders(Collection<Disorder> disorders) {
+        this.disorders = disorders;
     }
 }

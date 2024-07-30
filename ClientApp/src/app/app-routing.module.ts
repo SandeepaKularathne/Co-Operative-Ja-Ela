@@ -23,6 +23,7 @@ import { InvoiceComponent } from './view/modules/invoice/invoice.component';
 import { SupreturnComponent } from './view/modules/supreturn/supreturn.component';
 import {SupaymentComponent} from "./view/modules/supayment/supayment.component";
 import {RouteComponent} from "./view/modules/route/route.component";
+import {DisorderComponent} from "./view/modules/disorder/disorder.component";
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -58,7 +59,9 @@ const routes: Routes = [
       {path: "operation", component: OperationComponent},
       {path: "supreturn", component: SupreturnComponent},
       {path: "supayment", component: SupaymentComponent},
-      {path: "route", component: RouteComponent}
+      {path: "route", component: RouteComponent},
+      {path: "disorder", component: DisorderComponent}
+
 
     ]
   }];

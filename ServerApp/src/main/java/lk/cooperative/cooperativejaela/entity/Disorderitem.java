@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Disitem {
+public class Disorderitem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -15,11 +15,11 @@ public class Disitem {
     @Basic
     @Column(name = "qty")
     @RegexPattern(reg = "^[0-9]+(\\.[0-9]{1,2})?$", msg = "Invalid QTY.")
-    private Integer qty;
+    private String qty;
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "disrequests_id", referencedColumnName = "id", nullable = false)
-    private Disrequests disrequests;
+    @JoinColumn(name = "disorder_id", referencedColumnName = "id", nullable = false)
+    private Disorder disorder;
     @ManyToOne
     @JoinColumn(name = "Item_id", referencedColumnName = "id", nullable = false)
     private Item item;
@@ -32,33 +32,33 @@ public class Disitem {
         this.id = id;
     }
 
-    public Integer getQty() {
+    public String getQty() {
         return qty;
     }
 
-    public void setQty(Integer qty) {
+    public void setQty(String qty) {
         this.qty = qty;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Disitem)) return false;
-        Disitem disitem = (Disitem) o;
-        return getId() == disitem.getId() && Objects.equals(getQty(), disitem.getQty()) && Objects.equals(getDisrequests(), disitem.getDisrequests()) && Objects.equals(getItem(), disitem.getItem());
+        if (o == null || getClass() != o.getClass()) return false;
+        Disorderitem that = (Disorderitem) o;
+        return id == that.id && Objects.equals(qty, that.qty);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getQty(), getDisrequests(), getItem());
+        return Objects.hash(id, qty);
     }
 
-    public Disrequests getDisrequests() {
-        return disrequests;
+    public Disorder getDisorder() {
+        return disorder;
     }
 
-    public void setDisrequests(Disrequests disrequests) {
-        this.disrequests = disrequests;
+    public void setDisorder(Disorder disorder) {
+        this.disorder = disorder;
     }
 
     public Item getItem() {

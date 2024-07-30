@@ -18,6 +18,9 @@ public class Postatus {
     @JsonIgnore
     @OneToMany(mappedBy = "postatus")
     private Collection<Purorder> purorders;
+    @JsonIgnore
+    @OneToMany(mappedBy = "postatus")
+    private Collection<Disorder> disorders;
 
     public int getId() {
         return id;
@@ -54,5 +57,13 @@ public class Postatus {
 
     public void setPurorders(Collection<Purorder> purorders) {
         this.purorders = purorders;
+    }
+
+    public Collection<Disorder> getDisorders() {
+        return disorders;
+    }
+
+    public void setDisorders(Collection<Disorder> disorders) {
+        this.disorders = disorders;
     }
 }

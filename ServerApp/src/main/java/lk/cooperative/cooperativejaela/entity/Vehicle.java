@@ -1,11 +1,13 @@
 package lk.cooperative.cooperativejaela.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lk.cooperative.cooperativejaela.util.RegexPattern;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.Collection;
 
 @Entity
 public class Vehicle {
@@ -57,6 +59,9 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "vehiclemodel_id", referencedColumnName = "id", nullable = false)
     private Vehiclemodel vehiclemodel;
+    @JsonIgnore
+    @OneToMany(mappedBy = "vehicle")
+    private Collection<Disorder> disorders;
 
     public int getId() {
         return id;
@@ -197,5 +202,13 @@ public class Vehicle {
 
     public void setVehiclemodel(Vehiclemodel vehiclemodel) {
         this.vehiclemodel = vehiclemodel;
+    }
+
+    public Collection<Disorder> getDisorders() {
+        return disorders;
+    }
+
+    public void setDisorders(Collection<Disorder> disorders) {
+        this.disorders = disorders;
     }
 }

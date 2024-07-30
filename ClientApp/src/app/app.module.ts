@@ -57,6 +57,7 @@ import { SupreturnComponent } from './view/modules/supreturn/supreturn.component
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {SupaymentComponent} from "./view/modules/supayment/supayment.component";
 import {RouteComponent} from "./view/modules/route/route.component";
+import {DisorderComponent} from "./view/modules/disorder/disorder.component";
 
 
 
@@ -89,6 +90,7 @@ import {RouteComponent} from "./view/modules/route/route.component";
     SupreturnComponent,
     SupaymentComponent,
     RouteComponent,
+    DisorderComponent,
 
   ],
     imports: [

@@ -77,6 +77,9 @@ public class Item {
     @JsonIgnore
     @OneToMany(mappedBy = "item")
     private Collection<Supreitem> supreitems;
+    @JsonIgnore
+    @OneToMany(mappedBy = "item")
+    private Collection<Disorderitem> disorderitems;
 
     public int getId() {
         return id;
@@ -197,13 +200,13 @@ public class Item {
         this.supplier = supplier;
     }
 
-    public Collection<Poitem> getPoitems() {
-        return poitems;
-    }
-
 //    public Collection<Disitem> getDisItems() {
 //        return disitems;
 //    }
+
+    public Collection<Poitem> getPoitems() {
+        return poitems;
+    }
 
     public void setPoitems(Collection<Poitem> poitems) {
         this.poitems = poitems;
@@ -239,5 +242,13 @@ public class Item {
 
     public void setSupreitems(Collection<Supreitem> supreitems) {
         this.supreitems = supreitems;
+    }
+
+    public Collection<Disorderitem> getDisorderitems() {
+        return disorderitems;
+    }
+
+    public void setDisorderitems(Collection<Disorderitem> disorderitems) {
+        this.disorderitems = disorderitems;
     }
 }
