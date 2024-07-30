@@ -1,7 +1,7 @@
 import {Store} from "../entity/store";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Gender} from "../entity/gender";
+;
 
 @Injectable({
   providedIn: 'root'

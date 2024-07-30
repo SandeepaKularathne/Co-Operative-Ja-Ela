@@ -407,7 +407,7 @@ export class InvoiceComponent {
         if (result) {
           // @ts-ignore
           this.invs.add(this.invoice).then((responce: [] | undefined) => {
-            if (responce != undefined) { // @ts-ignore
+            if (responce != undefined) {
               // @ts-ignore
               addstatus = responce['errors'] == "";
               if (!addstatus) { // @ts-ignore

@@ -45,7 +45,7 @@ export class PurorderComponent {
   innerdata: any;
   oldinnerdata: any;
 
-  indata!: MatTableDataSource<Poitem>
+  indata!: MatTableDataSource<Poitem>;
   innerform!: FormGroup;
   items: Array<Item> = [];
   poitems: Array<Poitem> = [];
@@ -125,7 +125,6 @@ export class PurorderComponent {
 
   ngOnInit() {
     this.initialize();
-    console.log(this.poitems)
   }
 
   initialize() {
@@ -161,7 +160,7 @@ export class PurorderComponent {
 
   createForm() {
 
-    this.form.controls['ponumber'].setValidators([Validators.required, Validators.pattern(this.regexes['ponumber']['regex'])]);
+    this.form.controls['ponumber'].setValidators([Validators.required]);
     this.form.controls['date'].setValidators([Validators.required]);
     this.form.controls['expectedcost'].setValidators([Validators.required, Validators.pattern(this.regexes['expectedcost']['regex'])]);
     this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
@@ -170,8 +169,8 @@ export class PurorderComponent {
     this.form.controls['supplier'].setValidators([Validators.required]);
 
     this.innerform.controls['item'].setValidators([Validators.required]);
-    this.innerform.controls['qty'].setValidators([Validators.required]);
-    this.innerform.controls['explinetotal'].setValidators([Validators.required, Validators.pattern(this.regexes['expectedcost']['regex'])]);
+    this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(/^\d+$/)]);
+    this.innerform.controls['explinetotal'].setValidators([Validators.required]);
 
 
     Object.values(this.form.controls).forEach(control => {
@@ -227,7 +226,7 @@ export class PurorderComponent {
         this.imageurl = 'assets/rejected.png';
       })
       .finally(() => {
-        this.data = new MatTableDataSource(this.purorders);
+        this.data = new MatTableDataSource(this.purorders.slice().reverse());
         this.data.paginator = this.paginator;
       });
 
@@ -370,7 +369,7 @@ export class PurorderComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           this.pos.add(this.purorder).then((responce: [] | undefined) => {
-            if (responce != undefined) { // @ts-ignore
+            if (responce != undefined) {
               // @ts-ignore
               addstatus = responce['errors'] == "";
               if (!addstatus) { // @ts-ignore
@@ -389,13 +388,13 @@ export class PurorderComponent {
                 control.markAsTouched();
               });
               this.loadTable("");
+              this.indata.data = [];
             }
 
             const stsmsg = this.dg.open(MessageComponent, {
               width: '500px',
               data: {heading: "Status -Purorder Add", message: addmessage}
             });
-
             stsmsg.afterClosed().subscribe(async result => {
               if (!result) {
                 return;
@@ -467,11 +466,12 @@ export class PurorderComponent {
               if (updstatus) {
                 updmessage = "Successfully Updated";
                 this.form.reset();
+                this.innerform.reset();
                 this.loadTable("");
+                this.indata.data = [];
                 Object.values(this.form.controls).forEach(control => {
                   control.markAsTouched();
                 });
-                this.loadTable("");
               }
 
               const stsmsg = this.dg.open(MessageComponent, {
@@ -551,6 +551,7 @@ export class PurorderComponent {
               control.markAsTouched();
             });
             this.loadTable("");
+            this.indata.data = [];
           }
 
           const stsmsg = this.dg.open(MessageComponent, {
@@ -580,6 +581,7 @@ export class PurorderComponent {
     confirm.afterClosed().subscribe(async result => {
       if (result) {
         this.form.reset()
+        window.location.reload();
       }
     });
     this.enableButtons(true, false, false);
@@ -623,8 +625,8 @@ export class PurorderComponent {
     this.indata.data.forEach((m) => {
       expectedcost = expectedcost + m.explinetotal
     })
-
-    this.form.controls['expectedcost'].setValue(expectedcost);
+    let roundedValue = parseFloat(expectedcost.toString()).toFixed(2);
+    this.form.controls['expectedcost'].setValue(roundedValue);
   }
 
   deleteRaw(x: any) {
@@ -643,11 +645,12 @@ export class PurorderComponent {
 
   filterlinecost(){
     let i = this.innerform.controls['item'].value.pprice;
-    this.innerform.controls['explinetotal'].setValue(i);
+    let roundedValue = parseFloat(i).toFixed(2);
+    this.innerform.controls['explinetotal'].setValue(roundedValue);
   }
 
   generateNumber(): void {
-    const newNumber = this.ns.generateNumber('PO');
+    const newNumber = this.ns.generateNumber('POR');
     this.form.controls['ponumber'].setValue(newNumber);
   }
 
@@ -657,6 +660,7 @@ export class PurorderComponent {
       this.items = msys;
     });
   }
+
 }
 
 

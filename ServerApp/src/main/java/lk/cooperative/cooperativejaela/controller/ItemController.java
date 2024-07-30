@@ -138,6 +138,7 @@ public class ItemController {
                 item -> { Item g = new Item();
                     g.setId(item.getId());
                     g.setName(item.getName());
+                    g.setPprice(item.getPprice());
                     return g; }
         ).collect(Collectors.toList());
 
