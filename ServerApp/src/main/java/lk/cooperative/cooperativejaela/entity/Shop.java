@@ -47,6 +47,9 @@ public class Shop {
     @ManyToOne
     @JoinColumn(name = "route_id", referencedColumnName = "id", nullable = false)
     private Route route;
+    @JsonIgnore
+    @OneToMany(mappedBy = "shop")
+    private Collection<Deposits> depositsById;
 
     public int getId() {
         return id;
@@ -147,5 +150,13 @@ public class Shop {
 
     public void setRoute(Route route) {
         this.route = route;
+    }
+
+    public Collection<Deposits> getDepositsById() {
+        return depositsById;
+    }
+
+    public void setDepositsById(Collection<Deposits> depositsById) {
+        this.depositsById = depositsById;
     }
 }

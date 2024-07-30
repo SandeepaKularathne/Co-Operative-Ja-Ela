@@ -43,6 +43,10 @@ public class Store {
     @JoinColumn(name = "route_id", referencedColumnName = "id", nullable = false)
     private Route route;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "store")
+    private Collection<Storereturn> storereturnsById;
+
     public int getId() {
         return id;
     }
@@ -126,5 +130,13 @@ public class Store {
 
     public void setRoute(Route route) {
         this.route = route;
+    }
+
+    public Collection<Storereturn> getStorereturnsById() {
+        return storereturnsById;
+    }
+
+    public void setStorereturnsById(Collection<Storereturn> storereturnsById) {
+        this.storereturnsById = storereturnsById;
     }
 }

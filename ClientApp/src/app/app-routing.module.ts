@@ -24,6 +24,9 @@ import { SupreturnComponent } from './view/modules/supreturn/supreturn.component
 import {SupaymentComponent} from "./view/modules/supayment/supayment.component";
 import {RouteComponent} from "./view/modules/route/route.component";
 import {DisorderComponent} from "./view/modules/disorder/disorder.component";
+import {DisreceiveComponent} from "./view/modules/disreceive/disreceive.component";
+import {DepositsComponent} from "./view/modules/deposits/deposits.component";
+import {StorereturnComponent} from "./view/modules/storereturn/storereturn.component";
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -60,7 +63,10 @@ const routes: Routes = [
       {path: "supreturn", component: SupreturnComponent},
       {path: "supayment", component: SupaymentComponent},
       {path: "route", component: RouteComponent},
-      {path: "disorder", component: DisorderComponent}
+      {path: "disorder", component: DisorderComponent},
+      {path: "disreceive", component: DisreceiveComponent},
+      {path: "deposits", component: DepositsComponent},
+      {path: "storereturn", component: StorereturnComponent}
 
 
     ]

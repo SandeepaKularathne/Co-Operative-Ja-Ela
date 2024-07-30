@@ -80,6 +80,9 @@ public class Item {
     @JsonIgnore
     @OneToMany(mappedBy = "item")
     private Collection<Disorderitem> disorderitems;
+    @JsonIgnore
+    @OneToMany(mappedBy = "item")
+    private Collection<Sritem> sritemsById;
 
     public int getId() {
         return id;
@@ -196,13 +199,13 @@ public class Item {
         return supplier;
     }
 
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
 //    public Collection<Disitem> getDisItems() {
 //        return disitems;
 //    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
 
     public Collection<Poitem> getPoitems() {
         return poitems;
@@ -250,5 +253,13 @@ public class Item {
 
     public void setDisorderitems(Collection<Disorderitem> disorderitems) {
         this.disorderitems = disorderitems;
+    }
+
+    public Collection<Sritem> getSritemsById() {
+        return sritemsById;
+    }
+
+    public void setSritemsById(Collection<Sritem> sritemsById) {
+        this.sritemsById = sritemsById;
     }
 }

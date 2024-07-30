@@ -58,6 +58,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {SupaymentComponent} from "./view/modules/supayment/supayment.component";
 import {RouteComponent} from "./view/modules/route/route.component";
 import {DisorderComponent} from "./view/modules/disorder/disorder.component";
+import {DisreceiveComponent} from "./view/modules/disreceive/disreceive.component";
+import {DepositsComponent} from "./view/modules/deposits/deposits.component";
+import {StorereturnComponent} from "./view/modules/storereturn/storereturn.component";
 
 
 
@@ -91,6 +94,9 @@ import {DisorderComponent} from "./view/modules/disorder/disorder.component";
     SupaymentComponent,
     RouteComponent,
     DisorderComponent,
+    DisreceiveComponent,
+    DepositsComponent,
+    StorereturnComponent,
 
   ],
     imports: [

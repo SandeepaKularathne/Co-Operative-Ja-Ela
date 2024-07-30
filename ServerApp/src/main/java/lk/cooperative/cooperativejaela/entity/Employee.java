@@ -108,6 +108,12 @@ public class Employee {
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private Collection<Disreceive> disreceives;
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private Collection<Deposits> deposits;
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private Collection<Storereturn> storereturns;
 
     public Employee(){}
 
@@ -383,5 +389,21 @@ public class Employee {
 
     public void setDisreceives(Collection<Disreceive> disreceives) {
         this.disreceives = disreceives;
+    }
+
+    public Collection<Deposits> getDeposits() {
+        return deposits;
+    }
+
+    public void setDeposits(Collection<Deposits> deposits) {
+        this.deposits = deposits;
+    }
+
+    public Collection<Storereturn> getStorereturns() {
+        return storereturns;
+    }
+
+    public void setStorereturns(Collection<Storereturn> storereturns) {
+        this.storereturns = storereturns;
     }
 }

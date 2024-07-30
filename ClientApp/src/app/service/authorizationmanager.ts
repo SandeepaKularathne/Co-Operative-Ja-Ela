@@ -36,7 +36,7 @@ export class AuthorizationManager {
     { name: 'Customer Payment', accessFlag: true, routerLink: 'payment' },
     { name: 'Customer Return', accessFlag: true, routerLink: 'customerreturn' },
     { name: 'Invoice', accessFlag: true, routerLink: 'invoice' },
-    { name: 'Income Deposits', accessFlag: true, routerLink: 'incomedeposits' }
+    { name: 'Income Deposits', accessFlag: true, routerLink: 'deposits' }
   ];
 
   disMenuItems = [
@@ -44,7 +44,7 @@ export class AuthorizationManager {
     { name: 'Shop', accessFlag: true, routerLink: 'shop' },
     { name: 'Route', accessFlag: true, routerLink: 'route' },
     { name: 'Distribution Order', accessFlag: true, routerLink: 'disorder' },
-    { name: 'Distribution Receives', accessFlag: true, routerLink: 'distributionreceives' },
+    { name: 'Distribution Receives', accessFlag: true, routerLink: 'disreceive' },
     { name: 'Distribution Request', accessFlag: true, routerLink: 'disrequests' }
   ];
 
