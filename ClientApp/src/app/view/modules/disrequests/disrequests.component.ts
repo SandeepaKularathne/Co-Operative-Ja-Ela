@@ -422,6 +422,9 @@ export class DisrequestsComponent {
                 control.markAsTouched();
               });
               this.loadTable("");
+              this.indata.data=[];
+              this.innerform.reset();
+              //setTimeout(() => {window.location.reload();}, 2000);
             }
 
             const stsmsg = this.dg.open(MessageComponent, {
@@ -585,6 +588,7 @@ export class DisrequestsComponent {
                 this.form.reset();
                 Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
                 this.loadTable("");
+                this.indata.data=[];
               }
 
               const stsmsg = this.dg.open(MessageComponent, {

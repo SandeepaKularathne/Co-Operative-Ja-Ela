@@ -66,7 +66,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Create Date</mat-label>
-            <input matInput [matDatepicker]="crdate" formControlName="docreated">
+            <input matInput [matDatepicker]="crdate" formControlName="docreated" [min]="today" [max]="today">
             <mat-datepicker-toggle matIconSuffix [for]="crdate"></mat-datepicker-toggle>
             <mat-datepicker #crdate min="new Date()"></mat-datepicker>
           </mat-form-field>
@@ -141,35 +141,35 @@
           <img [src]="imageurl">
         </div>
       </mat-card-header>
-<!--      <mat-card-content>-->
-<!--        <mat-table [dataSource]="data">-->
+      <mat-card-content>
+        <mat-table [dataSource]="data">
 
-<!--          <ng-container *ngFor="let column of columns;let i = index;" [matColumnDef]="column">-->
-<!--            <mat-header-cell *matHeaderCellDef> {{headers[i]}} </mat-header-cell>-->
-<!--            <mat-cell *matCellDef="let element">{{ uiassist.getProperty(element, binders[i]) }} </mat-cell>-->
-<!--          </ng-container>-->
+          <ng-container *ngFor="let column of columns;let i = index;" [matColumnDef]="column">
+            <mat-header-cell *matHeaderCellDef> {{headers[i]}} </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ uiassist.getProperty(element, binders[i]) }} </mat-cell>
+          </ng-container>
 
-<!--          <ng-container *ngFor="let cscolumn of cscolumns;let i = index;" [matColumnDef]="cscolumn">-->
-<!--            <mat-header-cell *matHeaderCellDef>-->
-<!--              <mat-form [formGroup]="csearch" class="csearch">-->
-<!--                <mat-form-field appearance="outline">-->
-<!--                  <mat-label>{{csprompts[i]}}</mat-label>-->
-<!--                  <input matInput [formControlName]="cscolumn"-->
-<!--                         (keyup)="filterTable()">-->
-<!--                </mat-form-field>-->
-<!--              </mat-form>-->
-<!--            </mat-header-cell>-->
-<!--          </ng-container>-->
+          <ng-container *ngFor="let cscolumn of cscolumns;let i = index;" [matColumnDef]="cscolumn">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-form [formGroup]="csearch" class="csearch">
+                <mat-form-field appearance="outline">
+                  <mat-label>{{csprompts[i]}}</mat-label>
+                  <input matInput [formControlName]="cscolumn"
+                         (keyup)="filterTable()">
+                </mat-form-field>
+              </mat-form>
+            </mat-header-cell>
+          </ng-container>
 
-<!--          <mat-header-row *matHeaderRowDef="columns"></mat-header-row>-->
-<!--          <mat-header-row *matHeaderRowDef="cscolumns"></mat-header-row>-->
-<!--          <mat-row *matRowDef="let row; columns: columns;" (click)="fillForm(row)" [ngClass]="{'selected-row': row === selectedrow}"></mat-row>-->
+          <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+          <mat-header-row *matHeaderRowDef="cscolumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columns;" (click)="fillForm(row)" [ngClass]="{'selected-row': row === selectedrow}"></mat-row>
 
-<!--        </mat-table>-->
+        </mat-table>
 
-<!--        <mat-paginator [length]="20" [pageSize]="3" [pageSizeOptions]="[3,5,10,20]" showFirstLastButtons></mat-paginator>-->
+        <mat-paginator [length]="20" [pageSize]="3" [pageSizeOptions]="[3,5,10,20]" showFirstLastButtons></mat-paginator>
 
-<!--      </mat-card-content>-->
+      </mat-card-content>
     </mat-card>
   </mat-grid-tile>
 

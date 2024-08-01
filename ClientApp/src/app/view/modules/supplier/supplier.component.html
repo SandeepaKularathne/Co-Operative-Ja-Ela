@@ -1,6 +1,6 @@
 <mat-grid-list [cols]="12" rowHeight="4.5rem">
 
-  <mat-grid-tile [colspan]="4" [rowspan]="10">
+  <mat-grid-tile [colspan]="5" [rowspan]="10">
     <mat-card>
       <mat-card-header>
         <mat-card-title id="right">Supplier Detail</mat-card-title>
@@ -81,6 +81,29 @@
             <input matInput formControlName="description">
           </mat-form-field>
 
+          <div id="listtrnasfer">
+
+            <div class="list">
+              <mat-selection-list  #availablelist>
+                <mat-list-option  multiple  *ngFor="let category of categorys" [value]="category" >{{category.name}}</mat-list-option>
+              </mat-selection-list>
+            </div>
+
+            <div id="pnlmiddle">
+              <button mat-raised-button (click)="rightSelected()">&gt;</button>
+              <button mat-raised-button (click)="leftSelected()">&lt;</button>
+              <button mat-raised-button (click)="rightAll()">&gt;&gt;</button>
+              <button mat-raised-button (click)="leftAll()">&lt;&lt;</button>
+            </div>
+
+            <div class="list">
+              <mat-selection-list  formControlName="userroles" #selectedlist>
+                <mat-list-option  *ngFor="let supply of supplys" [value]="supply">{{supply.category.name}}</mat-list-option>
+              </mat-selection-list>
+            </div>
+
+          </div>
+
           <mat-form-field appearance="outline">
             <mat-label>Date Of Enter</mat-label>
             <input matInput [matDatepicker]="doenter" formControlName="doenter">
@@ -103,7 +126,7 @@
   </mat-grid-tile>
 
 
-  <mat-grid-tile [colspan]="8" [rowspan]="4">
+  <mat-grid-tile [colspan]="7" [rowspan]="3">
     <mat-card id="ssearch">
       <mat-card-header>
         <mat-card-title id="left">Supplier Search</mat-card-title>
@@ -144,7 +167,7 @@
   </mat-grid-tile>
 
 
-  <mat-grid-tile [colspan]="8" [rowspan]="6">
+  <mat-grid-tile [colspan]="7" [rowspan]="6">
     <mat-card>
       <mat-card-header>
         <mat-card-title id="left">Supplier Table</mat-card-title>

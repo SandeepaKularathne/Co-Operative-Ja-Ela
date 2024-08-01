@@ -7,6 +7,7 @@ import lk.cooperative.cooperativejaela.entity.Userrole;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class UserController {
     @Autowired
     private UserDao userdao;
 
+    @PreAuthorize("hasAnyAuthority('user-select')")
     @GetMapping(produces = "application/json")
     public List<User> get(@RequestParam HashMap<String, String> params) {
         List<User> users = this.userdao.findAll();

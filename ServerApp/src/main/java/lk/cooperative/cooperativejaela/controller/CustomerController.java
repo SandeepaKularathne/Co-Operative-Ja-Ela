@@ -2,9 +2,9 @@ package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.CustomerDao;
 import lk.cooperative.cooperativejaela.entity.Customer;
-import lk.cooperative.cooperativejaela.entity.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class CustomerController {
     private CustomerDao customerdao;
 
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('customer-select')")
+    @PreAuthorize("hasAuthority('customer registration-select')")
     public List<Customer> get(@RequestParam HashMap<String, String> params) {
 
         List<Customer> customers = this.customerdao.findAll();
@@ -45,7 +45,7 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Customer-Insert')")
+    @PreAuthorize("hasAuthority('customer-insert')")
     public HashMap<String,String> add(@RequestBody Customer customer){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -67,7 +67,7 @@ public class CustomerController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Customer-Update')")
+     @PreAuthorize("hasAuthority('Customer-Update')")
     public HashMap<String,String> update(@RequestBody Customer customer){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -91,6 +91,7 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('customer-update')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

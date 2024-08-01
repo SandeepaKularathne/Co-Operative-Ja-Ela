@@ -3,6 +3,7 @@ import lk.cooperative.cooperativejaela.dao.EmployeeDao;
 import lk.cooperative.cooperativejaela.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class EmployeeController {
     private EmployeeDao employeedao;
 
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('employee-select')")
+    @PreAuthorize("hasAuthority('employee-select')")
     public List<Employee> get(@RequestParam HashMap<String, String> params) {
 
         List<Employee> employees = this.employeedao.findAll();
@@ -64,7 +65,7 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Employee-Insert')")
+//    @PreAuthorize("hasAuthority('employee-Insert')")
     public HashMap<String,String> add(@RequestBody Employee employee){
 
         HashMap<String,String> responce = new HashMap<>();

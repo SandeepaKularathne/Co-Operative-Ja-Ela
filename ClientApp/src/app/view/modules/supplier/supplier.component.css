@@ -115,3 +115,19 @@ mat-card-title{
 #left{
   margin-left: 300px;
 }
+
+#listtrnasfer {
+  display: inline-flex;
+  margin-bottom: 30px;
+  margin-left: 10px;
+  height: 200px;
+  width: 500px;
+  overflow: auto;
+
+}
+
+#pnlmiddle{
+  width: 30px;
+  margin-right: 40px;
+  position: unset;
+}

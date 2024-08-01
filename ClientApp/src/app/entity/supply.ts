@@ -1,16 +1,10 @@
 import {Category} from "./category";
-import {Supplier} from "./supplier";
 
-export class Supplierstatus {
+export class Supply {
 
-  public id !: number;
   public category !: Category;
-  public supplier !: Supplier;
 
-
-  constructor(id: number, category: Category, supplier: Supplier) {
-    this.id = id;
+  constructor( category: Category) {
     this.category = category;
-    this.supplier = supplier;
   }
 }

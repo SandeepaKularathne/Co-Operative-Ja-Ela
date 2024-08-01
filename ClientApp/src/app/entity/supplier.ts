@@ -1,5 +1,7 @@
 import {Supplierstatus} from "./supplierstatus";
 import {Supplierstype} from "./supplierstype";
+import {Userrole} from "./userrole";
+import {Supply} from "./supply";
 
 
 export class Supplier {
@@ -17,24 +19,24 @@ export class Supplier {
   public doenter !: string;
   public supplierstatus !: Supplierstatus;
   public supplierstype !: Supplierstype;
+  public supplys!:Array<Supply>;
 
-
-  constructor(id: number, name: string, registernumber: string, doregister: string, address: string, description: string,
-              officetp: string, email: string, contactperson: string, contactnumber: string,
-              doenter: string, supplierstatus: Supplierstatus, supplierstype: Supplierstype) {
+  constructor(id: number, name: string, registernumber: string, doregister: string, address: string, officetp: string, email: string, contactperson: string, contactnumber: string, description: string, doenter: string, supplierstatus: Supplierstatus, supplierstype: Supplierstype, supplys: Array<Supply>) {
     this.id = id;
     this.name = name;
     this.registernumber = registernumber;
     this.doregister = doregister;
     this.address = address;
-    this.description = description;
     this.officetp = officetp;
-    this.email = email
+    this.email = email;
     this.contactperson = contactperson;
     this.contactnumber = contactnumber;
+    this.description = description;
     this.doenter = doenter;
     this.supplierstatus = supplierstatus;
     this.supplierstype = supplierstype;
+    this.supplys = supplys;
   }
+
 
 }

@@ -35,7 +35,7 @@ export class OperationComponent {
 
   columns: string[] = ['operation', 'module','opetype'];
   headers: string[] = ['Operation','Module','Operation Type'];
-  binders: string[] = ['name','name'];
+  binders: string[] = ['name','module.name','opetype.name'];
 
   data!:MatTableDataSource<Operation>
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -158,6 +158,7 @@ export class OperationComponent {
     this.ps.getAll(query)
       .then((oprns: Operation[]) => {
         this.operations = oprns;
+        this.operations.forEach(op => console.log(op.name + " - " + op.module.name + " - " + op.opetype.name))
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {

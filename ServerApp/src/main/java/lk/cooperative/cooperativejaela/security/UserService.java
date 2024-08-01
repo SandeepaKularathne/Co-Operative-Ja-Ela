@@ -1,6 +1,8 @@
 package lk.cooperative.cooperativejaela.security;
 
+import lk.cooperative.cooperativejaela.dao.ModuleDao;
 import lk.cooperative.cooperativejaela.dao.UserDao;
+import lk.cooperative.cooperativejaela.entity.Module;
 import lk.cooperative.cooperativejaela.entity.Privilege;
 import lk.cooperative.cooperativejaela.entity.User;
 import lk.cooperative.cooperativejaela.entity.Userrole;
@@ -26,11 +28,14 @@ public class UserService implements UserDetailsService {
         this.userdao = userdao;
     }
 
+    @Autowired
+    private ModuleDao moduleDao;
+
     public User getByUsername(String username){
 
         User user = new User();
 
-        if ("AdminEUC".equals(username)){
+        if ("Admin".equals(username)){
 
             user.setUsername(username);
 
@@ -48,15 +53,26 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        if (username.equals("AdminEUC")) {
+        if (username.equals("Admin")) {
             Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-            authorities.add(new SimpleGrantedAuthority("gender-list-get"));
-            authorities.add(new SimpleGrantedAuthority("designation-list-get"));
-            authorities.add(new SimpleGrantedAuthority("employeestatus-list-get"));
-            authorities.add(new SimpleGrantedAuthority("employee-select"));
+
+            String[] operations = {"select", "insert", "update", "delete"};
+
+            List<Module> modules = moduleDao.findAll();
+
+            for (Module module : modules){
+                for (String opt : operations){
+                    String authority = module.getName().toLowerCase() + "-" + opt;
+                    authorities.add(new SimpleGrantedAuthority(authority));
+                }
+            }
+//            authorities.add(new SimpleGrantedAuthority("gender-list-get"));
+//            authorities.add(new SimpleGrantedAuthority("designation-list-get"));
+//            authorities.add(new SimpleGrantedAuthority("employeestatus-list-get"));
+//            authorities.add(new SimpleGrantedAuthority("employee-select"));
 
             return org.springframework.security.core.userdetails.User
-                    .withUsername("AdminEUC")
+                    .withUsername("Admin")
                     .password(new BCryptPasswordEncoder().encode("Admin1234"))
                     .authorities(authorities)
                     .accountExpired(false)

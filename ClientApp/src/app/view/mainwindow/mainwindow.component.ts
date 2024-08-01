@@ -3,6 +3,7 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {AuthorizationManager} from "../../service/authorizationmanager";
 import { WeatherService } from "../../service/weatherservice";
 import {MatExpansionPanel} from "@angular/material/expansion";
+import {DarkModeService} from "../../service/darkmodeservice";
 
 @Component({
   selector: 'app-mainwindow',
@@ -32,7 +33,12 @@ export class MainwindowComponent {
   };
 
 
-  constructor(private activeRoute :ActivatedRoute,private router: Router,public authService: AuthorizationManager,private weatherService: WeatherService, private elementRef: ElementRef) {
+  constructor(private activeRoute :ActivatedRoute,
+              private router: Router,
+              public authService: AuthorizationManager,
+              private weatherService: WeatherService,
+              private elementRef: ElementRef,
+              public darkModeService: DarkModeService) {
     this.router.events.subscribe(
       (event: any) => {
         if (event instanceof NavigationEnd) {

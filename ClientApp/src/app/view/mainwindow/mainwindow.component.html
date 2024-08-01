@@ -41,7 +41,7 @@
       <button [matMenuTriggerFor]="Setting"><mat-icon>settings</mat-icon></button>
       <mat-menu #Setting="matMenu" class="menu-container">
         <div class="menu-content">
-          <button mat-menu-item >
+          <button mat-menu-item (click)="darkModeService.toggleMode()">
             <mat-icon>dark_mode</mat-icon>
               Dark Mode
           </button>

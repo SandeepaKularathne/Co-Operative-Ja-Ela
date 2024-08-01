@@ -432,6 +432,7 @@ export class DisorderComponent {
                 control.markAsTouched();
               });
               this.loadTable("");
+              this.innerform.reset();
             }
 
             const stsmsg = this.dg.open(MessageComponent, {

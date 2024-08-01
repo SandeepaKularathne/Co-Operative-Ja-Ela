@@ -44,6 +44,8 @@ export class UserComponent implements OnInit{
   oldroles:Array<Role>=[];
   @Input()selectedroles: Array<Role> =[];
 
+  today = new Date();
+
 
   user!:User;
   olduser!:User;
@@ -349,7 +351,6 @@ export class UserComponent implements OnInit{
 
   }
 
-
   getErrors(): string {
 
     let errors: string = ""
@@ -372,7 +373,6 @@ export class UserComponent implements OnInit{
 
     return errors;
   }
-
 
   add() {
 
@@ -464,7 +464,6 @@ export class UserComponent implements OnInit{
       });
     }
   }
-
 
   fillForm(user: User) {
 

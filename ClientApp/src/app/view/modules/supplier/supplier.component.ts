@@ -18,6 +18,9 @@ import { Supplierstatusservice } from 'src/app/service/supplierstatusservice';
 import { Supplierstypeservice } from 'src/app/service/supplierstypeservice';
 // @ts-ignore
 import { Categoryservice } from 'src/app/service/Categoryservice';
+import {Userrole} from "../../../entity/userrole";
+import {MatSelectionList} from "@angular/material/list";
+import {Supply} from "../../../entity/supply";
 
 @Component({
   selector: 'app-supplier',
@@ -27,6 +30,8 @@ import { Categoryservice } from 'src/app/service/Categoryservice';
 
 export class SupplierComponent {
 
+  @ViewChild('availablelist') availablelist!: MatSelectionList;
+  @ViewChild('selectedlist') selectedlist!: MatSelectionList;
 
   columns: string[] = ['name', 'registernumber', 'supplierstatus', 'supplierstype','contactnumber', 'officetp'];
   headers: string[] = ['Name', 'R Number', 'Status', 'Type', 'Contact Number','Office TP'];
@@ -55,6 +60,7 @@ export class SupplierComponent {
   supplierstatuses: Array<Supplierstatus> = [];
   suppliertypes: Array<Supplierstype> = [];
   categorys: Array<Category> = [];
+  supplys: Array<Supply>=[];
 
 
   enaadd:boolean = true;
@@ -103,7 +109,6 @@ export class SupplierComponent {
       "doenter": new FormControl('', [Validators.required]),
       "supplierstatus": new FormControl('', [Validators.required]),
       "supplierstype": new FormControl('', [Validators.required]),
-      "category": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
 
   }
@@ -530,6 +535,48 @@ export class SupplierComponent {
         this.loadTable("");
       }
     });
+  }
+
+  rightSelected(): void {
+    this.supplier.supplys = this.availablelist.selectedOptions.selected.map(option => {
+      const supply = new Supply(option.value);
+      this.categorys = this.categorys.filter(role => role !== option.value); //Remove Selected
+      this.supplys.push(supply); // Add selected to Right Side
+      return supply;
+    });
+
+    this.form.controls["userroles"].clearValidators();
+    this.form.controls["userroles"].updateValueAndValidity(); // Update status
+  }
+
+  leftSelected(): void {
+    const selectedOptions = this.selectedlist.selectedOptions.selected; // Right Side
+    for (const option of selectedOptions) {
+      const extUserRoles = option.value;
+      this.supplys = this.supplys.filter(role =>{
+        role !== extUserRoles
+      }); // Remove the Selected one From Right Side
+      this.categorys.push(extUserRoles.role);
+    }
+
+  }
+
+  rightAll(): void {
+
+      this.supplier.supplys = this.availablelist.selectAll().map(option => {
+        const supply = new Supply(option.value);
+        this.categorys = this.categorys.filter(role => role !== option.value); //Remove Selected
+        this.supplys.push(supply); // Add selected to Right Side
+        return supply;
+      });
+
+    this.form.controls["userroles"].clearValidators();
+    this.form.controls["userroles"].updateValueAndValidity();
+  }
+
+  leftAll():void{
+    for(let supply of this.supplys) this.categorys.push(supply.category);
+    this.supplys = [];
   }
 
 }
