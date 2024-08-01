@@ -27,7 +27,7 @@ public class Customer {
     private String email;
     @Basic
     @Column(name = "phonenumber")
-    @Pattern(regexp = "^\\d{9,10}$", message = "Invalid Phone Number")
+    @Pattern(regexp = "^0[0-9]{9}$", message = "Invalid Phone Number")
     private String phonenumber;
     @Basic
     @Column(name = "city")

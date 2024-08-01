@@ -1,12 +1,7 @@
 package lk.cooperative.cooperativejaela.controller;
 
-import lk.cooperative.cooperativejaela.dao.GrnDao;
-import lk.cooperative.cooperativejaela.dao.ItemDao;
-import lk.cooperative.cooperativejaela.dao.StoreDao;
-import lk.cooperative.cooperativejaela.entity.Grn;
-import lk.cooperative.cooperativejaela.entity.Grnitem;
-import lk.cooperative.cooperativejaela.entity.Item;
-import lk.cooperative.cooperativejaela.entity.Store;
+import lk.cooperative.cooperativejaela.dao.*;
+import lk.cooperative.cooperativejaela.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +25,10 @@ public class GrnController {
     private ItemDao itemdao;
 
     @Autowired
-    private StoreDao storedao;
+    private PurorderDao purorderDao;
+
+    @Autowired
+    private PostatusDao postatusDao;
 
     @GetMapping(produces = "application/json")
 //    @PreAuthorize("hasAuthority('grn-select')")
@@ -53,9 +51,6 @@ public class GrnController {
 
     }
 
-
-
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
 //    @PreAuthorize("hasAuthority('Grn-Insert')")
@@ -68,6 +63,7 @@ public class GrnController {
         for (Grnitem grnItem : grn.getGrnitems()) {
             grnItem.setGrn(grn);
         }
+
 
         if(errors==""){
             grndao.save(grn);
@@ -88,7 +84,15 @@ public class GrnController {
 
                 // Save the item with the updated qty and unitprice
                 itemdao.save(existingItem);
+
+                Purorder purorder = purorderDao.findByPonumber(grn.getPurorder().getPonumber());
+                System.out.println(purorder.getPonumber());
+                purorder.setPostatus(postatusDao.findByName("Received"));
+                System.out.println(purorder.getPostatus());
+                purorderDao.save(purorder);
             }
+
+
         }
 
         else errors = "Server Validation Errors : <br> "+errors;
@@ -108,26 +112,38 @@ public class GrnController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
+
         Grn grn1 = grndao.findByMyId(grn.getId());
         if(grn1!=null && grn.getId()!=grn1.getId())
             errors = errors+"<br> GRN Not Found";
+
 
         for (Grnitem grnItem : grn.getGrnitems()) {
             grnItem.setGrn(grn);
         }
 
         if(errors==""){
-            grndao.save(grn);
+
             for (Grnitem grnItem : grn.getGrnitems()) {
+
+                BigDecimal newqty = BigDecimal.ZERO;
+
                 Item item = grnItem.getItem();
                 BigDecimal unitCost = grnItem.getUnitcost();
-                BigDecimal qtyToIncrease = BigDecimal.valueOf(grnItem.getQty());
+                //BigDecimal qtyToIncrease = BigDecimal.valueOf(grnItem.getQty());
+
+                List<Grnitem> oldGrnItems = grndao.findByGrnItemId(grn.getId());
+                for (Grnitem oldgrnitm : oldGrnItems){
+                   if (oldgrnitm.getItem().getId()==grnItem.getItem().getId()){
+                       newqty = BigDecimal.valueOf(oldgrnitm.getQty()).subtract(BigDecimal.valueOf(grnItem.getQty()));
+                   }
+                }
 
                 // Find the existing item or create a new one if not found
                 Item existingItem = itemdao.findById(item.getId()).orElse(item);
 
                 // Calculate the updated qty for the item
-                BigDecimal increasedQty = existingItem.getQuantity().add(qtyToIncrease);
+                BigDecimal increasedQty = existingItem.getQuantity().subtract(newqty);
 
                 // Update the item's qty and unitprice
                 existingItem.setQuantity(increasedQty);
@@ -136,6 +152,7 @@ public class GrnController {
                 // Save the item with the updated qty and unitprice
                 itemdao.save(existingItem);
             }
+            grndao.save(grn);
         }
 
         else errors = "Server Validation Errors : <br> "+errors;
@@ -151,8 +168,6 @@ public class GrnController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String,String> delete(@PathVariable Integer id){
-
-        System.out.println(id);
 
         HashMap<String,String> responce = new HashMap<>();
         String errors="";

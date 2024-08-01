@@ -8,7 +8,7 @@ import {Item} from "../entity/item";
 })
 
 export class ItemService {
-  
+
 
   constructor(private http: HttpClient) {  }
 
@@ -54,6 +54,15 @@ export class ItemService {
   async getItemByGrn(id :number ): Promise<Array<Item>> {
 
     const subcategoryes = await this.http.get<Array<Item>>('http://localhost:8080/items/grn/'+id).toPromise();
+    if(subcategoryes == undefined){
+      return [];
+    }
+    return subcategoryes;
+  }
+
+  async getItemByinv(id :number ): Promise<Array<Item>> {
+
+    const subcategoryes = await this.http.get<Array<Item>>('http://localhost:8080/items/inv/'+id).toPromise();
     if(subcategoryes == undefined){
       return [];
     }

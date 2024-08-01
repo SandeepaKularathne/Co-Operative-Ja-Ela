@@ -77,10 +77,6 @@ public class StoreController {
 
         Store emp1 = storedao.findByMyId(store.getId());
 
-        Optional<Store> existingStore = storedao.findByStorenumber(store.getStorenumber());
-        if (existingStore.isPresent()) {
-            errors += "<br> Existing Store Number";
-        }
 
         if(errors=="") storedao.save(store);
         else errors = "Server Validation Errors : <br> "+errors;

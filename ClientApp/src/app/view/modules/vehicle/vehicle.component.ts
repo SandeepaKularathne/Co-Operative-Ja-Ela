@@ -99,7 +99,7 @@ export class VehicleComponent {
       "yom": new FormControl('', [Validators.required]),
       "capacity": new FormControl('', [Validators.required]),
       "description": new FormControl('', [Validators.required]),
-      "poto": new FormControl('', [Validators.required]),
+      "poto": new FormControl(''),
       "curentmeterreading": new FormControl('', [Validators.required]),
       "lastregdate": new FormControl('', [Validators.required]),
       "lastservicedate": new FormControl('', [Validators.required]),
@@ -155,7 +155,7 @@ export class VehicleComponent {
     this.form.controls['yom'].setValidators([Validators.required, Validators.pattern(this.regexes['yom']['regex'])]);
     this.form.controls['capacity'].setValidators([Validators.required, Validators.pattern(this.regexes['capacity']['regex'])]);
     this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
-    this.form.controls['poto'].setValidators([Validators.required]);
+    this.form.controls['poto'];
     this.form.controls['curentmeterreading'].setValidators([Validators.required, Validators.pattern(this.regexes['curentmeterreading']['regex'])]);
     this.form.controls['lastregdate'].setValidators([Validators.required]);
     this.form.controls['lastservicedate'].setValidators([Validators.required]);

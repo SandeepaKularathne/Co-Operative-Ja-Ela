@@ -34,7 +34,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Open Date</mat-label>
-            <input matInput [matDatepicker]="esdate" [matDatepickerFilter]="filterDates" formControlName="opdate">
+            <input matInput [matDatepicker]="esdate" [max]="today" [min]="today" formControlName="opdate">
             <mat-datepicker-toggle matIconSuffix [for]="esdate"></mat-datepicker-toggle>
             <mat-datepicker #esdate></mat-datepicker>
           </mat-form-field>

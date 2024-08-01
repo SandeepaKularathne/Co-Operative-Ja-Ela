@@ -83,6 +83,8 @@ public class PurorderController {
         if (itm1 != null && purorder.getId() != itm1.getId())
             errors = errors + "<br> Existing Number";
 
+        System.out.println(purorder.getPoitems());
+
         for (Poitem poItem : purorder.getPoitems()) {
             poItem.setPurorder(purorder);
         }

@@ -20,7 +20,7 @@ import { Store } from 'src/app/entity/store';
 import { ChangeDetectorRef } from '@angular/core';
 import {Postatus} from "../../../entity/postatus";
 import {Disrequests} from "../../../entity/disrequests";
-import { Storeservice } from 'src/app/service/Storeservice';
+import { Storeservice } from 'src/app/service/storeservice';
 
 @Component({
   selector: 'app-storereturn',

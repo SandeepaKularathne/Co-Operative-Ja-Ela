@@ -12,7 +12,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Shop Number</mat-label>
-            <mat-select formControlName="shop">
+            <mat-select formControlName="shop" (selectionChange)="filteritem()">
               <mat-option [value]="null" selected>Not Selected</mat-option>
               <mat-option *ngFor="let shop of shops" [value]="shop">{{shop.shopnumber}}</mat-option>
             </mat-select>
@@ -69,8 +69,8 @@
         <mat-form [formGroup]="ssearch">
 
           <mat-form-field appearance="outline">
-            <mat-label>Order Number</mat-label>
-            <mat-select formControlName="ssdisreceivestatus">
+            <mat-label>Shop Number</mat-label>
+            <mat-select formControlName="ssshop">
               <mat-option [value]="null" selected>Not Selected</mat-option>
               <mat-option *ngFor="let shop of shops" [value]="shop.id">{{shop.shopnumber}}</mat-option>
             </mat-select>

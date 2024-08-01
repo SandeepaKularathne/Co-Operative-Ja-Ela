@@ -122,6 +122,7 @@ public class ItemController {
                 item -> { Item g = new Item();
                     g.setId(item.getId());
                     g.setName(item.getName());
+                    g.setQuantity(item.getQuantity());
                     return g; }
         ).collect(Collectors.toList());
 
@@ -156,6 +157,22 @@ public class ItemController {
                     g.setId(item.getId());
                     g.setName(item.getName());
                     g.setPprice(item.getPprice());
+                    return g; }
+        ).collect(Collectors.toList());
+
+        return items;
+
+    }
+    @GetMapping(path ="/inv/{id}",produces = "application/json")
+    public List<Item> filterItemByInv(@PathVariable Integer id) {
+
+        List<Item> items = this.itemdao.findItemByInv(id);
+
+        items = items.stream().map(
+                item -> { Item g = new Item();
+                    g.setId(item.getId());
+                    g.setName(item.getName());
+                    g.setSprice(item.getSprice());
                     return g; }
         ).collect(Collectors.toList());
 

@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Objects;
@@ -19,6 +20,7 @@ public class Deposits {
     private BigDecimal totaldeposit;
     @Basic
     @Column(name = "description")
+    @Pattern(regexp = "^.*$", message = "Invalid Description")
     private String description;
     @ManyToOne
     @JoinColumn(name = "shop_id", referencedColumnName = "id", nullable = false)

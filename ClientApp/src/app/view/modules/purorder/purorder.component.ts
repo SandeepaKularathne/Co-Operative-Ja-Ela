@@ -50,6 +50,8 @@ export class PurorderComponent {
   items: Array<Item> = [];
   poitems: Array<Poitem> = [];
 
+  today = new Date();
+
   public csearch!: FormGroup;
   public ssearch!: FormGroup;
   public form!: FormGroup;
@@ -107,7 +109,7 @@ export class PurorderComponent {
 
     this.form = this.fb.group({
       "ponumber": new FormControl('', [Validators.required]),
-      "date": new FormControl('', [Validators.required]),
+      "date": new FormControl(this.today, [Validators.required]),
       "expectedcost": new FormControl('', [Validators.required]),
       "description": new FormControl('', [Validators.required]),
       "postatus": new FormControl('', [Validators.required]),
@@ -190,6 +192,7 @@ export class PurorderComponent {
               control.markAsPristine();
             } else {
               control.markAsDirty();
+              console.log("hi");
             }
           } else {
             control.markAsPristine();
@@ -201,11 +204,6 @@ export class PurorderComponent {
 
     this.enableButtons(true, false, false);
   }
-
-  filterDates = (date: Date | null): boolean => {
-    const currentDate = new Date();
-    return !date || date.getTime() <= currentDate.getTime();
-  };
 
   enableButtons(add: boolean, upd: boolean, del: boolean) {
     this.enaadd = add;

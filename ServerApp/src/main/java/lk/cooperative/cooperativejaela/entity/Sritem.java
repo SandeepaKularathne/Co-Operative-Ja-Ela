@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lk.cooperative.cooperativejaela.util.RegexPattern;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,6 +15,7 @@ public class Sritem {
     private int id;
     @Basic
     @Column(name = "qty")
+    @RegexPattern(reg = "^[0-9]+$", msg = "Invalid Qty.")
     private BigDecimal qty;
     @JsonIgnore
     @ManyToOne

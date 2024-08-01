@@ -17,7 +17,7 @@ public class Storereturn {
     @Basic
     @Column(name = "description")
     private String description;
-    @OneToMany(mappedBy = "storereturn")
+    @OneToMany(mappedBy = "storereturn",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Sritem> sritems;
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)

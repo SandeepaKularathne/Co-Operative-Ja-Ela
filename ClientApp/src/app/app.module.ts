@@ -129,8 +129,6 @@ import {CustomerreturnComponent} from "./view/modules/customerreturn/customerret
         MatMenuModule,
         MatRadioModule,
         MatAutocompleteModule,
-
-
     ],
   providers: [
     OperationComponent,

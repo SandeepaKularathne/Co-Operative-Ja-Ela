@@ -42,6 +42,8 @@ export class ShopComponent {
   shop!: Shop;
   oldshop!: Shop;
 
+  today = new Date();
+
   shops: Array<Shop> = [];
   data!: MatTableDataSource<Shop>;
   imageurl: string = '';
@@ -91,7 +93,7 @@ export class ShopComponent {
     this.form =this.fb.group({
       "shopnumber": new FormControl('', [Validators.required]),
       "address": new FormControl('', [Validators.required]),
-      "opdate": new FormControl('', [Validators.required]),
+      "opdate": new FormControl(this.today, [Validators.required]),
       "cnumber": new FormControl('', [Validators.required]),
       "email": new FormControl('', [Validators.required]),
       "shopstatus": new FormControl('', [Validators.required]),

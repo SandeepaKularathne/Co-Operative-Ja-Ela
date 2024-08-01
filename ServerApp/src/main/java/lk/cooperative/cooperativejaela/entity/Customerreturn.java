@@ -17,7 +17,7 @@ public class Customerreturn {
     @Basic
     @Column(name = "grandtotal")
     private BigDecimal grandtotal;
-    @OneToMany(mappedBy = "customerreturn")
+    @OneToMany(mappedBy = "customerreturn",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Critem> critems;
     @ManyToOne
     @JoinColumn(name = "invoice_id", referencedColumnName = "id", nullable = false)

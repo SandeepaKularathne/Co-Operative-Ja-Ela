@@ -1,5 +1,6 @@
 package lk.cooperative.cooperativejaela.dao;
 
+import lk.cooperative.cooperativejaela.entity.Postatus;
 import lk.cooperative.cooperativejaela.entity.Purorder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +13,9 @@ public interface PurorderDao extends JpaRepository<Purorder,Integer> {
     Optional<Purorder> findById(Integer id);
     @Query("select i from Purorder i where i.id = :id")
     Purorder findByMyId(@Param("id") Integer id);
+
+    @Query("select po from Purorder po where po.ponumber = :number")
+    Purorder findByPonumber(@Param("number")String number);
 
 }
 

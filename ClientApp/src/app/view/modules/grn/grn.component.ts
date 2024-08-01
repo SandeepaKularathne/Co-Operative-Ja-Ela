@@ -1,7 +1,12 @@
 import {Component, ViewChild} from '@angular/core';
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
-import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from "@angular/forms";
 import {UiAssist} from "../../../util/ui/ui.assist";
 import {MatDialog} from "@angular/material/dialog";
 import {MessageComponent} from "../../../util/dialog/message/message.component";
@@ -21,8 +26,7 @@ import { Grnitem } from 'src/app/entity/grnitem';
 import { Item } from 'src/app/entity/item';
 import { Store } from 'src/app/entity/store';
 import { ItemService } from 'src/app/service/itemservice';
-// @ts-ignore
-import { Storeservice } from 'src/app/service/Storeservice';
+import { Storeservice } from 'src/app/service/storeservice';
 import { NumberService } from 'src/app/service/numberservice';
 
 
@@ -152,7 +156,7 @@ export class GrnComponent {
     });
 
     this.pos.getAll('').then((vbrs: Purorder[]) => {
-      this.purorders = vbrs;
+      this.purorders = vbrs.filter(po => po.postatus.name != 'Pending');
     });
 
     this.itms.getAll('').then((vbrs: Item[]) => {
@@ -172,10 +176,7 @@ export class GrnComponent {
       })
     });
 
-
-
   }
-
 
   filterDates = (date: Date | null): boolean => {
     const currentDate = new Date();
@@ -198,7 +199,7 @@ export class GrnComponent {
     this.form.controls['purorder'].setValidators([Validators.required]);
 
     this.innerform.controls['store'].setValidators([Validators.required]);
-    this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(this.innerregexes['qty']['regex'])]);
+    this.innerform.controls['qty'].setValidators([Validators.required,Validators.required, Validators.pattern(this.innerregexes['qty']['regex'])]);
     this.innerform.controls['unitcost'].setValidators([Validators.required, Validators.pattern(this.innerregexes['unitcost']['regex'])]);
     this.innerform.controls['item'].setValidators([Validators.required]);
 
@@ -512,6 +513,7 @@ export class GrnComponent {
                 this.form.reset();
                 Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
                 this.loadTable("");
+                this.innerdata.data =[];
               }
 
               const stsmsg = this.dg.open(MessageComponent, {
@@ -620,6 +622,7 @@ export class GrnComponent {
     let purorder = this.form.controls['purorder'].value.id;
     this.itms.getItemByPurorder(purorder).then((msys: Item[]) => {
       this.items = msys;
+      console.log(this.items);
     });
   }
 
@@ -631,6 +634,10 @@ export class GrnComponent {
 
     this.innerdata = this.innerform.getRawValue();
     console.log(this.innerdata);
+
+    if (!this.quantityValidator() && !this.enaupd) {
+      return; // If validation fails, exit the function
+    }
 
     if( this.innerdata != null){
 
@@ -682,6 +689,35 @@ export class GrnComponent {
   generateNumber(): void {
     const newNumber = this.ns.generateNumber('GRN');
     this.form.controls['grnnumber'].setValue(newNumber);
+  }
+
+  quantityValidator(): boolean {
+    if(!this.enaupd){
+      let po = this.form.controls['purorder'].value.poitems;
+      let it = this.innerform.controls['item'].value;
+      let qy = 0;
+
+      if (Array.isArray(po) && it && it.id) {
+        for (const item of po) {
+
+          if (item.item && item.item.id === it.id) {
+            qy = item.qty;
+            break;
+          }
+        }
+      }
+      let q = this.innerform.controls['qty'].value;
+      if(qy<q){
+        const addmessage = `Required quantity (${q}) exceeds available quantity (${qy}).`;
+        const stsmsg = this.dg.open(MessageComponent, {
+          width: '500px',
+          data: {heading: "Error -grn Add", message: addmessage}
+        });
+        return false;
+      }
+      return true;
+    }
+    return false;
   }
 }
 

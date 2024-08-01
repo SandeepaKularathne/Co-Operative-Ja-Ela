@@ -2,6 +2,7 @@ package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.ItemDao;
 import lk.cooperative.cooperativejaela.dao.CustomerreturnDao;
+import lk.cooperative.cooperativejaela.entity.Critem;
 import lk.cooperative.cooperativejaela.entity.Item;
 import lk.cooperative.cooperativejaela.entity.Critem;
 import lk.cooperative.cooperativejaela.entity.Customerreturn;
@@ -51,8 +52,6 @@ public class CustomerreturnController {
     }
 
 
-
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
 //    @PreAuthorize("hasAuthority('Customerreturn-Insert')")
@@ -62,6 +61,8 @@ public class CustomerreturnController {
         String errors = "";
         if(customerreturn==null)errors = "Empty Customerreturn Item : <br> "+errors;
 
+        System.out.println(customerreturn.getCritems());
+
         for (Critem critem : customerreturn.getCritems()) {
             critem.setCustomerreturn(customerreturn);
         }
@@ -69,15 +70,23 @@ public class CustomerreturnController {
         if(errors==""){
             customerreturndao.save(customerreturn);
             for (Critem critem : customerreturn.getCritems()) {
+                BigDecimal newqty = BigDecimal.ZERO;
                 Item item = critem.getItem();
 
-                BigDecimal qtyToIncrease = critem.getQty();
+                //BigDecimal qtyToIncrease = critem.getQty();
+
+                List<Critem> oldCritems = customerreturndao.findByCrItemId(customerreturn.getId());
+                for (Critem oldcritm : oldCritems){
+                    if (oldcritm.getItem().getId()==critem.getItem().getId()){
+                        newqty = oldcritm.getQty().subtract(critem.getQty());
+                    }
+                }
 
                 // Find the existing item or create a new one if not found
                 Item existingItem = itemdao.findById(item.getId()).orElse(item);
 
                 // Calculate the updated qty for the item
-                BigDecimal increasedQty = existingItem.getQuantity().subtract(qtyToIncrease);
+                BigDecimal increasedQty = existingItem.getQuantity().add(newqty);
 
                 // Update the item's qty and unitprice
                 existingItem.setQuantity(increasedQty);

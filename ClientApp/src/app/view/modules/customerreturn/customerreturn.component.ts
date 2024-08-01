@@ -21,6 +21,8 @@ import {Postatus} from "../../../entity/postatus";
 import {Disrequests} from "../../../entity/disrequests";
 import {Invoice} from "../../../entity/invoice";
 import {InvoiceService} from "../../../service/invoiceservice";
+import {Customer} from "../../../entity/customer";
+import {map, Observable, startWith} from "rxjs";
 
 
 
@@ -71,19 +73,17 @@ export class CustomerreturnComponent {
   uiassist: UiAssist;
 
   regexes: any;
-  innerregexes:any;
   selectedrow: any;
 
   employees: Array<Employee> = [];
-  disrequestses: Array<Disrequests> = [];
-  postatuses: Array<Postatus> = [];
   changedItems: Array<Critem> = [];
-
 
   enaadd:boolean = true;
   enaupd:boolean = false;
   enadel:boolean = false;
 
+  cus:Invoice[]=[];
+  filteredInvoices: Observable<Invoice[]>  | any;
 
   constructor(
     private dios: CustomerreturnService,
@@ -130,6 +130,23 @@ export class CustomerreturnComponent {
 
   ngOnInit() {
     this.initialize();
+
+    this.filteredInvoices = this.form.controls['invoice'].valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const invnumber = typeof value === 'string' ? value : value?.invnumber;
+        return invnumber ? this._filter(invnumber as string) : this.cus.slice();
+      }),
+    );
+  }
+
+  displayValue(inv: Invoice): string {
+    return inv && inv.invnumber ? inv.invnumber : '';
+  }
+
+  private _filter(invnumber: string): Invoice[] {
+    const filterValue = invnumber;
+    return this.cus.filter(option => option.invnumber.includes(filterValue));
   }
 
   initialize() {
@@ -142,25 +159,18 @@ export class CustomerreturnComponent {
 
     this.vehs.getAll('').then((vbrs: Invoice[]) => {
       this.invoices = vbrs;
+      this.cus = vbrs;
     });
 
     this.itms.getAll('').then((vbrs: Item[]) => {
       this.items = vbrs;
     });
 
-    this.rs.get('customerreturn').then((regs: []) => {
+    this.rs.get('critem').then((regs: []) => {
       this.regexes = regs;
-      this.rs.get('critem').then((regs: []) => {
-        this.innerregexes = regs;
-        this.createForm();
-      })
+      this.createForm();
     });
   }
-
-  filterDates = (date: Date | null): boolean => {
-    const currentDate = new Date();
-    return !date || date.getTime() <= currentDate.getTime();
-  };
 
   createView() {
     this.imageurl = 'assets/pending.gif';
@@ -174,7 +184,7 @@ export class CustomerreturnComponent {
     this.form.controls['employee'].setValidators([Validators.required]);
     this.form.controls['invoice'].setValidators([Validators.required]);
 
-    this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(this.innerregexes['qty']['regex'])]);
+    this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(this.regexes['qty']['regex']),Validators.pattern('^\\d$')]);
     this.innerform.controls['item'].setValidators([Validators.required]);
 
 
@@ -353,7 +363,7 @@ export class CustomerreturnComponent {
     if (errors != "") {
       const errmsg = this.dg.open(MessageComponent, {
         width: '500px',
-        data: {heading: "Errors - grn Add ", message: "You have following Errors <br> " + errors}
+        data: {heading: "Errors - cus return Add ", message: "You have following Errors <br> " + errors}
       });
       errmsg.afterClosed().subscribe(async result => {
         if (!result) {
@@ -376,8 +386,8 @@ export class CustomerreturnComponent {
       const confirm = this.dg.open(ConfirmComponent, {
         width: '500px',
         data: {
-          heading: "Confirmation - grn Add",
-          message: "Are you sure to Add the following grn? <br> <br>" + itmdata
+          heading: "Confirmation - cus return Add",
+          message: "Are you sure to Add the following cus return? <br> <br>" + itmdata
         }
       });
 
@@ -407,11 +417,12 @@ export class CustomerreturnComponent {
                 control.markAsTouched();
               });
               this.loadTable("");
+              this.indata.data=[];
             }
 
             const stsmsg = this.dg.open(MessageComponent, {
               width: '500px',
-              data: {heading: "Status -grn Add", message: addmessage}
+              data: {heading: "Status -cus return Add", message: addmessage}
             });
 
             stsmsg.afterClosed().subscribe(async result => {
@@ -559,6 +570,7 @@ export class CustomerreturnComponent {
             this.form.reset();
             Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
             this.loadTable("");
+            this.enableButtons(true,false,false);
           }
 
           const stsmsg = this.dg.open(MessageComponent, {
@@ -594,9 +606,10 @@ export class CustomerreturnComponent {
   }
 
   filteritem(){
-    let purorder = this.form.controls['purorder'].value.id;
-    this.itms.getItemByPurorder(purorder).then((msys: Item[]) => {
+    let invoice = this.form.controls['invoice'].value.id;
+    this.itms.getItemByinv(invoice).then((msys: Item[]) => {
       this.items = msys;
+      console.log(this.items);
     });
   }
 
@@ -627,6 +640,7 @@ export class CustomerreturnComponent {
       this.id++;
 
       this.updateItem(critem);
+      this.calculateGrandTotal();
 
       this.innerform.reset();
 
@@ -647,11 +661,20 @@ export class CustomerreturnComponent {
 
     this.indata.data = datasources;
     this.critems = this.indata.data;
+    this.calculateGrandTotal();
 
   }
 
   updateItem(element: Critem) {
     this.changedItems.push(element);
+  }
+
+  calculateGrandTotal(){
+    let grandtotal =0;
+    this.indata.data.forEach((m)=>{
+      grandtotal = grandtotal+m.item.sprice*m.qty;
+    })
+    this.form.controls['grandtotal'].setValue(grandtotal);
   }
 
 }

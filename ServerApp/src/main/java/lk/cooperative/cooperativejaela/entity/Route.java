@@ -15,7 +15,7 @@ public class Route {
     private int id;
     @Basic
     @Column(name = "name")
-    @Pattern(regexp = "^([A-Z][a-z]*[.]?[\\s]?)*([A-Z][a-z]*)$", message = "Invalid Name")
+    @Pattern(regexp = "^/?[A-Za-z0-9 -/]{3,45}/?$", message = "Invalid Name")
     private String name;
     @Basic
     @Column(name = "distance")

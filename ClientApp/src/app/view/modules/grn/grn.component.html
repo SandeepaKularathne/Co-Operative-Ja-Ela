@@ -35,9 +35,23 @@
             <mat-label>Purorder</mat-label>
             <mat-select formControlName="purorder" (selectionChange)="filteritem()">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let purorder of purorders" [value]="purorder">{{purorder.ponumber}}</mat-option>
+              <ng-container *ngIf="!enaupd">
+                <ng-container *ngFor="let purorder of purorders">
+                  <mat-option *ngIf="purorder.postatus.name === 'Approved'" [value]="purorder">
+                    {{purorder.ponumber}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="enaupd">
+                <ng-container *ngFor="let purorder of purorders">
+                  <mat-option [value]="purorder">
+                    {{purorder.ponumber}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
             </mat-select>
           </mat-form-field>
+
 
           <mat-form-field appearance="outline">
             <mat-label>Description</mat-label>
@@ -50,7 +64,7 @@
 
               <mat-form-field appearance="outline">
                 <mat-label>Item</mat-label>
-                <mat-select formControlName="item">
+                <mat-select formControlName="item" (selectionChange)="quantityValidator()">
                   <mat-option [value]="null" selected>Not Selected</mat-option>
                   <mat-option *ngFor="let item of items" [value]="item">{{item.name}}</mat-option>
                 </mat-select>
@@ -80,7 +94,7 @@
             <mat-table [dataSource]="indata">
               <ng-container *ngFor="let column of incolumns;let i = index;" [matColumnDef]="column">
                 <mat-header-cell *matHeaderCellDef> {{inheaders[i]}} </mat-header-cell>
-                <mat-cell *matCellDef="let element" >
+                <mat-cell *matCellDef="let element">
                   <div *ngIf="i<inbinders.length-1" [innerHTML]="uiassist.getProperty(element, inbinders[i])"></div>
                   <div *ngIf="i>=inbinders.length-1">
                     <button mat-raised-button (click)="deleteRaw(element)">Remove</button>

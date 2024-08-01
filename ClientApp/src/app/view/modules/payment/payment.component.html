@@ -30,13 +30,26 @@
             <mat-datepicker #date></mat-datepicker>
           </mat-form-field>
 
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Invoice</mat-label>-->
+<!--            <input matInput formControlName="invoice">-->
+<!--          </mat-form-field>-->
+
           <mat-form-field appearance="outline">
             <mat-label>Invoice</mat-label>
-            <mat-select formControlName="invoice" (selectionChange)="filtergrantotal()">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let invoice of invoices" [value]="invoice">{{invoice.invnumber}}</mat-option>
-            </mat-select>
+            <input type="text" matInput formControlName="invoice" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayValue">
+              <mat-option *ngFor="let invoice of filteredInvoices | async" [value]="invoice">{{invoice.Invnumber}}</mat-option>
+            </mat-autocomplete>
           </mat-form-field>
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Invoice</mat-label>-->
+<!--            <mat-select formControlName="invoice" (selectionChange)="filtergrantotal()">-->
+<!--              <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let invoice of invoices" [value]="invoice">{{invoice.invnumber}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
 
           <mat-radio-group formControlName="ptype" appearance="outline">
             <mat-radio-button *ngFor="let ptype of ptypes" [value]="ptype">

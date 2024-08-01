@@ -17,6 +17,9 @@ import { Ptype } from 'src/app/entity/ptype';
 import { Ptypeservice } from 'src/app/service/ptypeservice';
 import { InvoiceService } from 'src/app/service/invoiceservice';
 import { PrintService } from 'src/app/service/printservice';
+import {map, Observable, startWith} from "rxjs";
+import {Customer} from "../../../entity/customer";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -64,6 +67,9 @@ export class PaymentComponent {
   lastSequenceNumber: number = 0;
   content:String = "";
 
+  cus:Invoice[]=[];
+  filteredInvoices: Observable<Invoice[]>  | any;
+
   constructor(
     private pays: PaymentService,
     private ptys: Ptypeservice,
@@ -73,6 +79,7 @@ export class PaymentComponent {
     private dg: MatDialog,
     private ns: NumberService,
     private ps: PrintService,
+    private router: Router,
     public authService:AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
@@ -102,6 +109,24 @@ export class PaymentComponent {
 
   ngOnInit() {
     this.initialize();
+
+    this.filteredInvoices = this.form.controls['invoice'].valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const invnumber = typeof value === 'string' ? value : value?.invnumber;
+        return invnumber ? this._filter(invnumber as string) : this.cus.slice();
+      }),
+    );
+
+  }
+
+  displayValue(invoice: Invoice): string {
+    return invoice && invoice.invnumber ? invoice.invnumber : '';
+  }
+
+  private _filter(invnumber: string): Invoice[] {
+    const filterValue = invnumber;
+    return this.cus.filter(option => option.invnumber.includes(filterValue));
   }
 
   initialize() {
@@ -110,6 +135,8 @@ export class PaymentComponent {
 
     this.invs.getAll('').then((vsts: Invoice[]) => {
       this.invoices = vsts;
+      this.filtergrantotal(localStorage.getItem('lastInvnumber'),vsts);
+      this.cus = vsts;
     });
 
     this.emps.getAll('').then((vtys: Employee[]) => {
@@ -119,8 +146,6 @@ export class PaymentComponent {
     this.ptys.getAllList().then((vsts: Ptype[]) => {
       this.ptypes = vsts;
     });
-
-    this.form.controls['invoice'].setValue("67");
   }
 
   createView() {
@@ -251,12 +276,7 @@ export class PaymentComponent {
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
       if (control.errors) {
-
-        if (this.regexes[controlName] != undefined) {
-          errors = errors + "<br>" + this.regexes[controlName]['message'];
-        } else {
           errors = errors + "<br>Invalid " + controlName;
-        }
       }
     }
 
@@ -287,6 +307,7 @@ export class PaymentComponent {
   }
 
   add() {
+
     let errors = this.getErrors();
 
     if (errors != "") {
@@ -323,7 +344,7 @@ export class PaymentComponent {
         if (result) {
           // @ts-ignore
           this.pays.add(this.payment).then((responce: [] | undefined) => {
-            if (responce != undefined) { // @ts-ignore
+            if (responce != undefined) {
               // @ts-ignore
               addstatus = responce['errors'] == "";
               if (!addstatus) { // @ts-ignore
@@ -344,6 +365,8 @@ export class PaymentComponent {
                 control.markAsTouched();
               });
               this.loadTable("");
+              localStorage.removeItem("lastInvnumber");
+              this.router.navigateByUrl('/main/invoice');
             }
 
             const stsmsg = this.dg.open(MessageComponent, {
@@ -378,7 +401,7 @@ export class PaymentComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.invs.delete(this.payment.id).then((responce: [] | undefined) => {
+        this.pays.delete(this.payment.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -428,12 +451,14 @@ export class PaymentComponent {
 
   }
 
-  filtergrantotal(){
-    let id = this.form.controls['invoice'].value.id;
-    let selectedInvoice:any = this.invoices.find(invoice => invoice.id === id);
+  filtergrantotal(value: any,invs: any){
 
-    this.form.controls['grandtotal'].setValue(selectedInvoice.grandtotal);
-    console.log(selectedInvoice);
+    let selectedInvoice:any=invs.find((inv:Invoice) => inv.invnumber.includes(value));
+
+    if (selectedInvoice!=null) {
+      this.form.controls['grandtotal'].setValue(selectedInvoice.grandtotal);
+      this.form.controls['invoice'].setValue(selectedInvoice);
+
     // Generate the HTML for the item invoices
     let itemsHtml = '';
 
@@ -468,7 +493,7 @@ export class PaymentComponent {
       </table>
       <p><strong>Grand Total: </strong>${selectedInvoice.grandtotal}</p>
     `;
-
+    }
 
   }
 

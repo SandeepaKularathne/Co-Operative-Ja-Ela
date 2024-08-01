@@ -11,7 +11,7 @@ export class AuthorizationManager {
   private readonly localStorageSaleMenus = 'saleMenuState';
   private readonly localStorageDisMenus = 'disMenuState';
   private readonly localStorageInvMenus = 'invMenuState';
-  private readonly localStorageRepMenus = 'repMenuState';
+  private readonly localStorageReportMenus = 'reportMenuState';
 
   public enaadd = false;
   public enaupd = false;
@@ -55,10 +55,10 @@ export class AuthorizationManager {
     { name: 'Store Return', accessFlag: true, routerLink: 'storereturn' }
   ];
 
-  repMenuItems = [
+  reportMenuItems = [
     { name: 'Purchase', accessFlag: true, routerLink: 'purchase' },
-    { name: 'Sale', accessFlag: true, routerLink: 'countbycrdate' },
-    { name: 'Distribution', accessFlag: true, routerLink: 'countbyvehiclestatus' },
+    { name: 'Sale', accessFlag: true, routerLink: 'sale' },
+    { name: 'Distribution', accessFlag: true, routerLink: 'distribution' },
     { name: 'Inventory', accessFlag: true, routerLink: 'inventory' }
   ];
 
@@ -95,7 +95,7 @@ export class AuthorizationManager {
       menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
     });
 
-    this.repMenuItems.forEach(menuItem => {
+    this.reportMenuItems.forEach(menuItem => {
       menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
     });
 
@@ -105,7 +105,7 @@ export class AuthorizationManager {
     localStorage.setItem(this.localStorageSaleMenus, JSON.stringify(this.saleMenuItems));
     localStorage.setItem(this.localStorageDisMenus, JSON.stringify(this.disMenuItems));
     localStorage.setItem(this.localStorageInvMenus, JSON.stringify(this.invMenuItems));
-    localStorage.setItem(this.localStorageRepMenus, JSON.stringify(this.repMenuItems));
+    localStorage.setItem(this.localStorageReportMenus, JSON.stringify(this.reportMenuItems));
 
   }
 
@@ -190,9 +190,9 @@ export class AuthorizationManager {
       this.invMenuItems = JSON.parse(invMenuState);
     }
 
-    const repMenuState = localStorage.getItem(this.localStorageInvMenus);
-    if (repMenuState) {
-      this.repMenuItems = JSON.parse(repMenuState);
+    const reportMenuState = localStorage.getItem(this.localStorageReportMenus);
+    if (reportMenuState) {
+      this.reportMenuItems = JSON.parse(reportMenuState);
     }
   }
 
@@ -210,7 +210,7 @@ export class AuthorizationManager {
     localStorage.removeItem(this.localStorageSaleMenus);
     localStorage.removeItem(this.localStorageDisMenus);
     localStorage.removeItem(this.localStorageInvMenus);
-    localStorage.removeItem(this.localStorageRepMenus);
+    localStorage.removeItem(this.localStorageReportMenus);
   }
 
   isMenuItemDisabled(menuItem: { accessFlag: boolean }): boolean {

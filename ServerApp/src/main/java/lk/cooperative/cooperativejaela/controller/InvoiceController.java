@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/invoices")
@@ -141,6 +144,17 @@ public class InvoiceController {
         responce.put("errors",errors);
 
         return responce;
+    }
+
+    @GetMapping(path ="/val/{id}",produces = "application/json")
+    public BigDecimal getTotal(@PathVariable Integer id) {
+
+        LocalDate localDate = LocalDate.of(2024, 7, 31);
+        Date day = Date.valueOf(localDate);
+
+        BigDecimal total = this.invoicedao.getTotal(id,day);
+        return total;
+
     }
 
 }

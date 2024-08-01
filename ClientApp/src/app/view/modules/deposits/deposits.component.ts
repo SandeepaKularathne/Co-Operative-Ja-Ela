@@ -16,6 +16,9 @@ import { Depositseservice } from 'src/app/service/depositsservice';
 import {Shop} from "../../../entity/shop";
 import {Shopservice} from "../../../service/shopservice";
 import {NumberService} from "../../../service/numberservice";
+import {Item} from "../../../entity/item";
+import {Invoice} from "../../../entity/invoice";
+import {InvoiceService} from "../../../service/invoiceservice";
 
 @Component({
   selector: 'app-deposits',
@@ -63,11 +66,11 @@ export class DepositsComponent {
     private dirs: Depositseservice,
     private emps: EmployeeService,
     private shps: Shopservice,
+    private invs: InvoiceService,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
-    private ns: NumberService,
     public authService:AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
@@ -501,6 +504,16 @@ export class DepositsComponent {
     const currentDate = new Date();
     return !date || date.getTime() <= currentDate.getTime();
   };
+
+  filteritem(){
+    let id = this.form.controls['shop'].value.id;
+    let day =new Date();
+    const fday = day.toISOString().split('T')[0];
+    console.log(fday)
+    this.invs.getGtotal(id).then((total: number) => {
+      console.log('Total:', total);
+    });
+  }
 
 }
 

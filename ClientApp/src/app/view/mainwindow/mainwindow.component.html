@@ -129,7 +129,7 @@
         <mat-list-item><a>
           <mat-icon>assessment</mat-icon>{{ showNames ? 'Reports' : '' }}</a></mat-list-item>
       </mat-expansion-panel-header>
-      <ng-container *ngFor="let menuItem of repMenuItems">
+      <ng-container *ngFor="let menuItem of reportMenuItems">
         <mat-list-item *ngIf="menuItem.accessFlag">
           <mat-list-item class="item" (click)="logItemId('reports')" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null"><a>{{ menuItem.name }}</a></mat-list-item>
         </mat-list-item>

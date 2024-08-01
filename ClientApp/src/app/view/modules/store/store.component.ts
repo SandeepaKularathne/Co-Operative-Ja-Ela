@@ -12,7 +12,7 @@ import {AuthorizationManager} from "../../../service/authorizationmanager";
 import { Store } from 'src/app/entity/store';
 import { Employee } from 'src/app/entity/employee';
 import { EmployeeService } from 'src/app/service/employeeservice';
-import { Storeservice } from 'src/app/service/Storeservice';
+import { Storeservice } from 'src/app/service/storeservice';
 import {Route} from "../../../entity/route";
 import {Routeservice} from "../../../service/routeservice";
 
@@ -39,6 +39,8 @@ export class StoreComponent {
 
   store!: Store;
   oldstore!: Store;
+
+  today = new Date();
 
   stores: Array<Store> = [];
   data!: MatTableDataSource<Store>;
@@ -86,7 +88,7 @@ export class StoreComponent {
     this.form =this.fb.group({
       "storenumber": new FormControl('', [Validators.required]),
       "location": new FormControl('', [Validators.required]),
-      "esdate": new FormControl('', [Validators.required]),
+      "esdate": new FormControl(this.today, [Validators.required]),
       "cnumber": new FormControl('', [Validators.required]),
       "email": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
@@ -402,7 +404,7 @@ export class StoreComponent {
 
               const stsmsg = this.dg.open(MessageComponent, {
                 width: '500px',
-                data: {heading: "Status -Store Add", message: updmessage}
+                data: {heading: "Status -Store Update", message: updmessage}
               });
               stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 
@@ -499,10 +501,6 @@ export class StoreComponent {
     this.enableButtons(true,false,false);
   }
 
-  filterDates = (date: Date | null): boolean => {
-    const currentDate = new Date();
-    return !date || date.getTime() <= currentDate.getTime();
-  };
 }
 
 

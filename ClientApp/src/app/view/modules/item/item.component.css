@@ -79,19 +79,19 @@ mat-sidenav-container{
   background-color: inherit!important;
 }
 
-#itemform mat-form-field .ng-dirty{
-  background-color: gold;
-}
+/*#itemform mat-form-field .ng-dirty{*/
+/*  background-color: gold;*/
+/*}*/
 
 
 button:disabled {
   opacity: 0.5;
 }
 
-#itemform mat-form-field .ng-valid,
-.ng-valid.required {
-  background-color: lightgreen;
-}
+/*#itemform mat-form-field .ng-valid,*/
+/*.ng-valid.required {*/
+/*  background-color: lightgreen;*/
+/*}*/
 
 mat-card{
   border-radius: 40px;

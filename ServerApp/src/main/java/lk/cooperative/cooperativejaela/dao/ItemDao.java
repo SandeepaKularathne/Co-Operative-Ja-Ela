@@ -24,5 +24,9 @@ public interface ItemDao extends JpaRepository<Item,Integer> {
 
     @Query("SELECT DISTINCT i FROM Grn g " + "JOIN Grnitem gi ON g.id = gi.grn.id " + "JOIN Item i ON gi.item.id = i.id " + "WHERE g.id = :id")
     List<Item> findItemByGrn(@Param("id") Integer id);
+
+    @Query("SELECT DISTINCT i FROM Invoice n " + "JOIN Iteminvoice ii ON n.id = ii.invoice.id " + "JOIN Item i ON ii.item.id = i.id " + "WHERE n.id = :id")
+    List<Item> findItemByInv(@Param("id") Integer id);
+
 }
 

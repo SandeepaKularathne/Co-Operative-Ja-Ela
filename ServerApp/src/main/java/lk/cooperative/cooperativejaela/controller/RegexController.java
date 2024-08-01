@@ -72,6 +72,18 @@ public class RegexController {
 
     @GetMapping(path ="/disitem", produces = "application/json")
     public HashMap<String, HashMap<String, String>> disitem() {return RegexProvider.get(new Disitem());}
+
+    @GetMapping(path ="/invoice", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> invoice() {return RegexProvider.get(new Invoice());}
+
+    @GetMapping(path ="/sritem", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> deposits() {return RegexProvider.get(new Deposits());}
+
+    @GetMapping(path ="/deposits", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> sritem() {return RegexProvider.get(new Sritem());}
+    @GetMapping(path ="/critem", produces = "application/json")
+    public HashMap<String, HashMap<String, String>> critem() {return RegexProvider.get(new Critem());}
+
 }
 
 

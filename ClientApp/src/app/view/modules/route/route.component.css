@@ -19,7 +19,7 @@ mat-card-content { overflow: auto; height: 100%; }
 #ssearch button{ width: 195px; margin-left:10px; margin-top: 5px; background-color: #005710;   }
 
 
-#employeeform {
+#routeform {
   padding-top: 20px;
 
 }
@@ -79,19 +79,19 @@ mat-sidenav-container{
   background-color: inherit!important;
 }
 
-#employeeform mat-form-field .ng-dirty{
-  background-color: gold;
-}
+/*#routeform mat-form-field .ng-dirty{*/
+/*  background-color: gold !important;*/
+/*}*/
 
 
 button:disabled {
   opacity: 0.5;
 }
 
-#routeform mat-form-field .ng-valid,
-.ng-valid.required {
-  background-color: lightgreen;
-}
+/*#routeform mat-form-field .ng-valid,*/
+/*.ng-valid.required {*/
+/*  background-color: lightgreen;*/
+/*}*/
 
 mat-card{
   border-radius: 40px;

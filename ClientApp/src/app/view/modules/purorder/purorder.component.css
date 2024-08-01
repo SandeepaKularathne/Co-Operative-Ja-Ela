@@ -76,22 +76,22 @@ mat-sidenav-container{
 }
 
 .mat-row:hover {
-  background-color: inherit!important;
+  background-color: inherit !important;
 }
 
-#employeeform mat-form-field .ng-dirty{
-  background-color: gold;
-}
+/*#purorderform mat-form-field .ng-dirty{*/
+/*  background-color: gold !important;*/
+/*}*/
 
 
 button:disabled {
   opacity: 0.5;
 }
 
-#purorderform mat-form-field .ng-valid,
-.ng-valid.required {
-  background-color: lightgreen;
-}
+/*#purorderform mat-form-field .ng-valid,*/
+/*.ng-valid.required {*/
+/*  background-color: lightgreen;*/
+/*}*/
 
 mat-card{
   border-radius: 40px;

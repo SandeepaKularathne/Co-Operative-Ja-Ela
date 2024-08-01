@@ -16,8 +16,8 @@ import { EmployeeService } from 'src/app/service/employeeservice';
 import { Item } from 'src/app/entity/item';
 import { ItemService } from 'src/app/service/itemservice';
 import {RegexService} from "../../../service/regexservice";
-import { Observable,map } from 'rxjs';
-
+import {Observable, map, startWith} from 'rxjs';
+import { Router } from '@angular/router';
 // @ts-ignore
 import { Iteminvoice } from 'src/app/entity/iteminvoice';
 import { Customer } from 'src/app/entity/customer';
@@ -34,7 +34,7 @@ import { Customerservice } from 'src/app/service/customerservice';
 
 export class InvoiceComponent {
 
-  //private readonly localStorageInvoiceNumber = 'lastInvnumber';
+  private readonly localStorageInvoiceNumber = 'lastInvnumber';
 
 
   columns: string[] = ['employee', 'invnumber', 'customer', 'date','grandtotal', 'shop'];
@@ -77,12 +77,15 @@ export class InvoiceComponent {
 
   employees: Array<Employee> = [];
   customers: Array<Customer> = [];
-  filtercustomers: Observable<Customer[]>  | any;
   shops: Array<Shop> = [];
+
 
   enaadd:boolean = true;
   enadel:boolean = false;
   lastSequenceNumber: number = 0;
+
+  cus:Customer[]=[];
+  filteredCustomers: Observable<Customer[]>  | any;
 
   constructor(
     private invs: InvoiceService,
@@ -95,6 +98,7 @@ export class InvoiceComponent {
     private dg: MatDialog,
     private dp: DatePipe,
     private ns: NumberService,
+    private router: Router,
     public authService:AuthorizationManager) {
 
     this.uiassist = new UiAssist(this);
@@ -119,7 +123,7 @@ export class InvoiceComponent {
       "invnumber": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
       "shop": new FormControl('', [Validators.required]),
-      "customer":new FormControl('', [Validators.required]),
+      "customer":new FormControl('',[Validators.required]),
 
     }, {updateOn: 'change'});
 
@@ -135,15 +139,34 @@ export class InvoiceComponent {
 
   ngOnInit() {
     this.initialize();
+
+    this.filteredCustomers = this.form.controls['customer'].valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const phonenumber = typeof value === 'string' ? value : value?.phonenumber;
+        return phonenumber ? this._filter(phonenumber as string) : this.cus.slice();
+      }),
+    );
+
+  }
+
+  displayValue(customer: Customer): string {
+    return customer && customer.phonenumber ? customer.phonenumber : '';
+  }
+
+  private _filter(phonenumber: string): Customer[] {
+    const filterValue = phonenumber;
+    return this.cus.filter(option => option.phonenumber.includes(filterValue));
   }
 
   initialize() {
 
     this.createView();
-    this.filter();
+    //this.filter();
 
     this.cuss.getAll('').then((vsts: Customer[]) => {
       this.customers = vsts;
+      this.cus = vsts;
     });
 
     this.emps.getAll('').then((vtys: Employee[]) => {
@@ -164,11 +187,6 @@ export class InvoiceComponent {
     });
 
   }
-
-  filterDates = (date: Date | null): boolean => {
-    const currentDate = new Date();
-    return !date || date.getTime() <= currentDate.getTime();
-  };
 
   createView() {
     this.imageurl = 'assets/pending.gif';
@@ -367,6 +385,7 @@ export class InvoiceComponent {
   }
 
   add() {
+    console.log(this.form.controls['customer'].value);
     let errors = this.getErrors();
 
     if (errors != "") {
@@ -421,11 +440,13 @@ export class InvoiceComponent {
 
             if (addstatus) {
               addmessage = "Successfully Saved";
+              localStorage.setItem(this.localStorageInvoiceNumber,this.form.controls['invnumber'].value);
               this.form.reset();
               Object.values(this.form.controls).forEach(control => {
                 control.markAsTouched();
               });
               this.loadTable("");
+              this.router.navigateByUrl('/main/payment');
             }
 
             const stsmsg = this.dg.open(MessageComponent, {
@@ -524,7 +545,6 @@ export class InvoiceComponent {
   btnaddMc() {
 
     this.innerdata = this.innerform.getRawValue();
-    console.log(this.innerdata);
 
     if( this.innerdata != null){
 
@@ -573,19 +593,11 @@ export class InvoiceComponent {
     this.calculateGrandTotal();
   }
 
-
   generateNumber(): void {
     const newInvoiceNumber = this.ns.generateNumber('INV');
     this.form.controls['invnumber'].setValue(newInvoiceNumber);
-    //localStorage.setItem(this.localStorageInvoiceNumber,newInvoiceNumber);
   }
 
-  filter(): void {
-    console.log("1111111111");
-    this.form.controls['customer'].valueChanges.subscribe((value) => {
-      this.filtercustomers = this.customers.filter((c) => c.phonenumber.includes(value));
-    });
-  }
 
 
 }

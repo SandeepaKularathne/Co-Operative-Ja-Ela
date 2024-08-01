@@ -2,6 +2,7 @@ package lk.cooperative.cooperativejaela.dao;
 
 import lk.cooperative.cooperativejaela.entity.Employee;
 import lk.cooperative.cooperativejaela.entity.Grn;
+import lk.cooperative.cooperativejaela.entity.Grnitem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +16,9 @@ public interface GrnDao extends JpaRepository<Grn,Integer> {
 
     @Query("select e from Grn e where e.id = :id")
     Grn findByMyId(@Param("id") Integer id);
+
+    @Query("SELECT i FROM Grnitem i, Grn g where g.id = :id and i.grn.id = g.id")
+    List<Grnitem> findByGrnItemId(@Param("id") Integer id);
 
 }
 
