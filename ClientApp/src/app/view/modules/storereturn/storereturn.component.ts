@@ -72,8 +72,6 @@ export class StorereturnComponent {
   selectedrow: any;
 
   employees: Array<Employee> = [];
-  disrequestses: Array<Disrequests> = [];
-  postatuses: Array<Postatus> = [];
   changedItems: Array<Sritem> = [];
 
 
@@ -91,8 +89,7 @@ export class StorereturnComponent {
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
-    public authService:AuthorizationManager,
-    private cdr: ChangeDetectorRef) {
+    public authService:AuthorizationManager,) {
 
     this.uiassist = new UiAssist(this);
 
@@ -104,8 +101,8 @@ export class StorereturnComponent {
     });
 
     this.ssearch = this.fb.group({
-      sspostatus: new FormControl(),
-      ssdisonumber: new FormControl(),
+      ssemployee: new FormControl(),
+      ssstore: new FormControl(),
     });
 
     this.form =this.fb.group({
@@ -127,6 +124,8 @@ export class StorereturnComponent {
 
   ngOnInit() {
     this.initialize();
+    // let dateOnly = this.today.toISOString().split('T')[0];
+    // console.log(dateOnly);
   }
 
   initialize() {
@@ -145,12 +144,9 @@ export class StorereturnComponent {
       this.items = vbrs;
     });
 
-    this.rs.get('storereturn').then((regs: []) => {
-      this.regexes = regs;
-      this.rs.get('sritem').then((regs: []) => {
-        this.innerregexes = regs;
+    this.rs.get('sritem').then((regs: []) => {
+        this.regexes = regs;
         this.createForm();
-      })
     });
   }
 
@@ -166,12 +162,12 @@ export class StorereturnComponent {
 
   createForm() {
 
-    this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
+    this.form.controls['description'].setValidators([Validators.required]);
     this.form.controls['date'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
     this.form.controls['store'].setValidators([Validators.required]);
 
-    this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(this.innerregexes['qty']['regex'])]);
+    this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(this.regexes['qty']['regex'])]);
     this.innerform.controls['item'].setValidators([Validators.required]);
 
 
@@ -265,14 +261,14 @@ export class StorereturnComponent {
     this.csearch.reset();
     const sserchdata = this.ssearch.getRawValue();
 
-    let disonumber = sserchdata.ssdisonumber;
-    let postatusid = sserchdata.sspostatus;
+    let employeeid = sserchdata.ssemployee;
+    let storeid = sserchdata.ssstore;
 
 
     let query = "";
 
-    if (disonumber != null) query = query + "&disonumber=" + disonumber;
-    if (postatusid != null) query = query + "&postatusid=" + postatusid;
+    if (employeeid != null) query = query + "&employeeid=" + employeeid;
+    if (storeid != null) query = query + "&storeid=" + storeid;
 
 
     if (query != "") query = query.replace(/^./, "?")
@@ -331,8 +327,6 @@ export class StorereturnComponent {
     this.storereturn.employee = this.employees.find(e => e.id === this.storereturn.employee.id);
     // @ts-ignore
     this.storereturn.store = this.stores.find(e => e.id === this.storereturn.store.id);
-
-
 
     this.indata = new MatTableDataSource(this.storereturn.sritems);
 

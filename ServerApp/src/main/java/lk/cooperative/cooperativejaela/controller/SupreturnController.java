@@ -1,10 +1,7 @@
 package lk.cooperative.cooperativejaela.controller;
 
-import lk.cooperative.cooperativejaela.dao.SupreturnDao;
-import lk.cooperative.cooperativejaela.dao.ItemDao;
-import lk.cooperative.cooperativejaela.entity.Supreturn;
-import lk.cooperative.cooperativejaela.entity.Supreitem;
-import lk.cooperative.cooperativejaela.entity.Item;
+import lk.cooperative.cooperativejaela.dao.*;
+import lk.cooperative.cooperativejaela.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +23,12 @@ public class SupreturnController {
 
     @Autowired
     private ItemDao itemdao;
-    
+
+    @Autowired
+    private GrnDao grnDao;
+
+    @Autowired
+    private GrnstatusDao grnstatusDao;
 
     @GetMapping(produces = "application/json")
 //    @PreAuthorize("hasAuthority('supreturn-select')")
@@ -83,6 +85,10 @@ public class SupreturnController {
 
                 // Save the item with the updated qty and unitprice
                 itemdao.save(existingItem);
+
+                Grn grn = grnDao.findByGrnnumber(supreturn.getGrn().getGrnnumber());
+                grn.setGrnstatus(grnstatusDao.findByName("Return"));
+                grnDao.save(grn);
             }
         }
 
@@ -145,8 +151,6 @@ public class SupreturnController {
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String,String> delete(@PathVariable Integer id){
 
-        System.out.println(id);
-
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
@@ -184,6 +188,21 @@ public class SupreturnController {
         return responce;
     }
 
+    @GetMapping(path ="/total/{id}",produces = "application/json")
+    public List<Supreturn> total(@PathVariable Integer id) {
+
+        List<Supreturn> items = this.supreturndao.findtotal(id);
+
+        items = items.stream().map(
+                item -> { Supreturn g = new Supreturn();
+                    g.setId(item.getId());
+                    g.setGrandtotal(item.getGrandtotal());
+                    return g; }
+        ).collect(Collectors.toList());
+
+        return items;
+
+    }
 }
 
 

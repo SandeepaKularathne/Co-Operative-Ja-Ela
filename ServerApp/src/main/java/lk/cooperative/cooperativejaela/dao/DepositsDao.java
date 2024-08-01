@@ -13,8 +13,13 @@ public interface DepositsDao extends JpaRepository<Deposits,Integer> {
     Optional<Deposits> findById(Integer id);
     Optional<Deposits>findByDate(Date date);
 
+    @Query("select e from Deposits e where e.shop.id = :id and e.date = :date")
+    Optional<Deposits> findByDepo(@Param("id") Integer id,@Param("date") Date date);
+
+
     @Query("select e from Deposits e where e.id = :id")
     Deposits findByMyId(@Param("id") Integer id);
+
 
 }
 

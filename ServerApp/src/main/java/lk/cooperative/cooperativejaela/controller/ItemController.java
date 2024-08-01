@@ -150,7 +150,7 @@ public class ItemController {
     @GetMapping(path ="/grn/{id}",produces = "application/json")
     public List<Item> filterItemByGrn(@PathVariable Integer id) {
 
-        List<Item> items = this.itemdao.findItemBySupplier(id);
+        List<Item> items = this.itemdao.findItemByGrn(id);
 
         items = items.stream().map(
                 item -> { Item g = new Item();
@@ -163,6 +163,7 @@ public class ItemController {
         return items;
 
     }
+
     @GetMapping(path ="/inv/{id}",produces = "application/json")
     public List<Item> filterItemByInv(@PathVariable Integer id) {
 

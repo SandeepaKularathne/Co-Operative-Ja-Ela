@@ -2,6 +2,7 @@ import {Grn} from "../entity/grn";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Gender} from "../entity/gender";
+import {Item} from "../entity/item";
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,15 @@ export class GrnService {
     //console.log("Grn Adding-"+JSON.stringify(grn));
     //grn.number="47457";
     return this.http.post<[]>('http://localhost:8080/grns', grn).toPromise();
+  }
+
+  async getGrntotal(id :number ): Promise<Array<Grn>> {
+
+    const subcategoryes = await this.http.get<Array<Grn>>('http://localhost:8080/grns/total/'+id).toPromise();
+    if(subcategoryes == undefined){
+      return [];
+    }
+    return subcategoryes;
   }
 
 }

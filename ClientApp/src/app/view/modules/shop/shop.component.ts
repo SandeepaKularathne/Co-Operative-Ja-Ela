@@ -282,6 +282,9 @@ export class ShopComponent {
     //@ts-ignore
     this.shop.route = this.routes.find(s => s.id === this.shop.route.id);
 
+    //@ts-ignore
+    this.shop.shopstatus= this.shopstatuses.find(s => s.id === this.shop.shopstatus.id);
+
     this.form.patchValue(this.shop);
     this.form.markAsPristine();
 

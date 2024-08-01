@@ -80,10 +80,10 @@
 
 
           <div id="butpanel">
-            <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
-            <button mat-raised-button (click)="clear()">Clear</button>
-            <button mat-raised-button (click)="update()" [disabled]="!enaupd">Update</button>
-            <button mat-raised-button (click)="delete()" [disabled]="!enadel">Delete</button>
+            <button mat-raised-button (click)="add()" [disabled]="!authService.getEnaAdd()">add</button>
+            <button mat-raised-button (click)="clear()">clear</button>
+            <button mat-raised-button (click)="update()" [disabled]="!authService.getEnaUpd()">update</button>
+            <button mat-raised-button (click)="delete()" [disabled]="!authService.getEnaDel()">delete</button>
           </div>
 
         </mat-form>
@@ -106,7 +106,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Employee</mat-label>
-            <mat-select formControlName="employee">
+            <mat-select formControlName="ssemployee">
               <mat-option [value]="null" selected>Not Selected</mat-option>
               <mat-option *ngFor="let employee of employees" [value]="employee.id">{{employee.fullname}}</mat-option>
             </mat-select>
@@ -114,7 +114,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Store</mat-label>
-            <mat-select formControlName="sspostatus">
+            <mat-select formControlName="ssstore">
               <mat-option [value]="null" selected>Not Selected</mat-option>
               <mat-option *ngFor="let store of stores" [value]="store.id">{{store.storenumber}}</mat-option>
             </mat-select>

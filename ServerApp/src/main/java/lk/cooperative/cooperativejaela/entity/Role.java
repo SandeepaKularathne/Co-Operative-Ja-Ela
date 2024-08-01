@@ -20,7 +20,7 @@ public class Role {
     private Collection<Userrole> userroles;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     private Collection<Privilege> privileges;
 
     public Integer getId() {

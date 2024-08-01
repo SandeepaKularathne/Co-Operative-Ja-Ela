@@ -21,8 +21,7 @@ export class LoginComponent implements OnInit{
 
       "username": new FormControl("", [
           Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(10)
+
         ]
       ),
 
@@ -39,6 +38,9 @@ export class LoginComponent implements OnInit{
 
     let username = this.loginform.controls["username"].value;
     let password = this.loginform.controls["password"].value;
+
+    console.log(username)
+    console.log(password)
 
     this.as.post(username,password)
       .then((response: any) => {

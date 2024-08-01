@@ -2,15 +2,15 @@ package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.ItemDao;
 import lk.cooperative.cooperativejaela.dao.CustomerreturnDao;
+import lk.cooperative.cooperativejaela.entity.*;
 import lk.cooperative.cooperativejaela.entity.Critem;
-import lk.cooperative.cooperativejaela.entity.Item;
-import lk.cooperative.cooperativejaela.entity.Critem;
-import lk.cooperative.cooperativejaela.entity.Customerreturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +68,7 @@ public class CustomerreturnController {
         }
 
         if(errors==""){
-            customerreturndao.save(customerreturn);
+
             for (Critem critem : customerreturn.getCritems()) {
                 BigDecimal newqty = BigDecimal.ZERO;
                 Item item = critem.getItem();
@@ -94,6 +94,7 @@ public class CustomerreturnController {
                 // Save the item with the updated qty and unitprice
                 itemdao.save(existingItem);
             }
+            customerreturndao.save(customerreturn);
         }
 
         else errors = "Server Validation Errors : <br> "+errors;
@@ -195,6 +196,24 @@ public class CustomerreturnController {
         return responce;
     }
 
+    @GetMapping(path ="/invre/{id}",produces = "application/json")
+    public List<Customerreturn>  filterInvoiceByreq(@PathVariable Integer id) {
+
+        LocalDate localDate = LocalDate.now();
+        Date day = Date.valueOf(localDate);
+
+        List<Customerreturn> invs = this.customerreturndao.findShopByReq(id,day);
+
+        invs = invs.stream().map(
+                i -> { Customerreturn g = new Customerreturn();
+                    g.setId(i.getId());
+                    g.setGrandtotal(i.getGrandtotal());
+                    return g; }
+        ).collect(Collectors.toList());
+
+        return invs ;
+
+    }
 }
 
 

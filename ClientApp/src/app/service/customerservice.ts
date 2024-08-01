@@ -34,6 +34,7 @@ export class Customerservice {
     return this.http.post<[]>('http://localhost:8080/customers', customer).toPromise();
   }
 
+
 }
 
 

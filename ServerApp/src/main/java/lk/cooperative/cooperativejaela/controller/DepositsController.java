@@ -49,9 +49,12 @@ public class DepositsController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
-        Optional<Deposits> existingDeposits = depositsdao.findByDate(deposits.getDate());
-        if (existingDeposits.isPresent()) {
-            errors += "<br> Existing Date";
+
+        // Check if a deposit entry with the same shop ID and date already exists
+        Optional<Deposits> existingDeposit = depositsdao.findByDepo(deposits.getShop().getId(), deposits.getDate());
+
+        if (existingDeposit.isPresent()) {
+            errors += "<br> Only one deposit allowed per day for the same shop";
         }
 
         if(errors == "")
@@ -61,7 +64,6 @@ public class DepositsController {
         responce.put("id",String.valueOf(deposits.getId()));
         responce.put("url","/depositss/"+deposits.getId());
         responce.put("errors",errors);
-        System.out.println("responce"+responce);
         return responce;
     }
 

@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GrnstatusDao extends JpaRepository<Grnstatus,Integer> {
 
+    Grnstatus findByName(String received);
+
 }
 

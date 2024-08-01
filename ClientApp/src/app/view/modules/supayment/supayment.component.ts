@@ -26,6 +26,7 @@ import {Supreitem} from "../../../entity/supreitem";
 import {Supreturn} from "../../../entity/supreturn";
 import {SupreturnService} from "../../../service/supreturnservice";
 import {NumberService} from "../../../service/numberservice";
+import {Item} from "../../../entity/item";
 
 
 
@@ -131,7 +132,7 @@ export class SupaymentComponent {
     });
 
     this.grs.getAll('').then((vsts: Grn[]) => {
-      this.grns = vsts;
+      this.grns = vsts.filter(po => po.grnstatus.name != 'Cancelled');
     });
 
     this.sups.getAll('').then((vsts: Supplier[]) => {
@@ -557,7 +558,6 @@ export class SupaymentComponent {
     return !date || date.getTime() <= currentDate.getTime();
   };
 
-
   setGrandTotal() {
     let grn = this.form.controls['grn'].value;
 
@@ -572,11 +572,34 @@ export class SupaymentComponent {
     this.form.controls['supplierl'].setValue(supplier);
   }
 
-
-
   generateNumber(): void {
     const newNumber = this.ns.generateNumber('SAY');
     this.form.controls['suppayno'].setValue(newNumber);
+  }
+
+  total=0;
+
+  filteritem(){
+
+    let e = this.form.controls['grn'].value.id;
+
+    this.grs.getGrntotal(e).then((msys: Grn[]) => {
+      msys.forEach(i => {
+        this.total = this.total + i.grandtotal
+      })
+    });
+
+    this.surs.getReptotal(e).then((msys: Supreturn[]) => {
+      msys.forEach(i => {
+        this.total = this.total - i.grandtotal
+      })
+    });
+
+    this.sups.getSupplierByGrn(e).then((msys: Supplier[]) => {
+      this.suppliers = msys;
+    });
+    if(this.total!=0)this.form.controls['grandtotal'].setValue(this.total);
+    this.total=0;
   }
 }
 

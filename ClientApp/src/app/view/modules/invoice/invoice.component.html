@@ -98,9 +98,9 @@
           </mat-form-field>
 
           <div id="butpanel">
-            <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
-            <button mat-raised-button (click)="clear()">Clear</button>
-            <button mat-raised-button (click)="delete()" [disabled]="!enadel">Delete</button>
+            <button mat-raised-button (click)="add()" [disabled]="!authService.getEnaAdd()">add</button>
+            <button mat-raised-button (click)="clear()">clear</button>
+            <button mat-raised-button (click)="delete()" [disabled]="!authService.getEnaDel()">delete</button>
           </div>
 
         </mat-form>

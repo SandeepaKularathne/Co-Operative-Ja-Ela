@@ -30,12 +30,24 @@
             <mat-datepicker #date></mat-datepicker>
           </mat-form-field>
 
-
           <mat-form-field appearance="outline">
             <mat-label>GRN</mat-label>
             <mat-select formControlName="grn" (selectionChange)="filteritem()">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let grn of grns" [value]="grn">{{grn.grnnumber}}</mat-option>
+              <ng-container *ngIf="!enaupd">
+                <ng-container *ngFor="let grn of grns">
+                  <mat-option *ngIf="grn.grnstatus.name === 'Received' || grn.grnstatus.name === 'Partially Received'" [value]="grn">
+                    {{grn.grnnumber}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="enaupd">
+                <ng-container *ngFor="let grn of grns">
+                  <mat-option [value]="grn">
+                    {{grn.grnnumber}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
             </mat-select>
           </mat-form-field>
 
@@ -43,7 +55,7 @@
             <mat-label>Supplier</mat-label>
             <mat-select formControlName="supplier" (selectionChange)="filteritem()">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let supplier of suppliers" [value]="supplier">{{supplier.registernumber}}</mat-option>
+              <mat-option *ngFor="let supplier of suppliers" [value]="supplier">{{supplier.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -96,10 +108,10 @@
           </mat-form-field>
 
           <div id="butpanel">
-            <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
-            <button mat-raised-button (click)="clear()">Clear</button>
-            <button mat-raised-button (click)="update()" [disabled]="!enaupd">Update</button>
-            <button mat-raised-button (click)="delete()" [disabled]="!enadel">Delete</button>
+            <button mat-raised-button (click)="add()" [disabled]="!authService.getEnaAdd()">add</button>
+            <button mat-raised-button (click)="clear()">clear</button>
+            <button mat-raised-button (click)="update()" [disabled]="!authService.getEnaUpd()">update</button>
+            <button mat-raised-button (click)="delete()" [disabled]="!authService.getEnaDel()">delete</button>
           </div>
 
         </mat-form>

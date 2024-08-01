@@ -206,6 +206,22 @@ public class GrnController {
         return responce;
     }
 
+    @GetMapping(path ="/total/{id}",produces = "application/json")
+    public List<Grn> total(@PathVariable Integer id) {
+
+        List<Grn> grns = this.grndao.findtotal(id);
+
+        grns = grns.stream().map(
+                grn -> { Grn g = new Grn();
+                    g.setId(grn.getId());
+                    g.setGrandtotal(grn.getGrandtotal());
+                    return g; }
+        ).collect(Collectors.toList());
+
+        return grns;
+
+    }
+
 }
 
 

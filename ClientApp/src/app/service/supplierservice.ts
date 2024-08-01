@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Vehicle} from "../entity/vehicle";
 import { Supplier } from "../entity/supplier";
+import {Item} from "../entity/item";
 
 
 @Injectable({
@@ -31,6 +32,15 @@ export class SupplierService {
   async delete(id: number): Promise<[]|undefined>{
     // @ts-ignore
     return this.http.delete('http://localhost:8080/suppliers/' + id).toPromise();
+  }
+
+  async getSupplierByGrn(id :number ): Promise<Array<Supplier>> {
+
+    const subcategoryes = await this.http.get<Array<Supplier>>('http://localhost:8080/suppliers/grn/'+id).toPromise();
+    if(subcategoryes == undefined){
+      return [];
+    }
+    return subcategoryes;
   }
 }
 

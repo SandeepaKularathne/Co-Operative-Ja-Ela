@@ -2,6 +2,7 @@ package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.StorereturnDao;
 import lk.cooperative.cooperativejaela.dao.ItemDao;
+import lk.cooperative.cooperativejaela.entity.Critem;
 import lk.cooperative.cooperativejaela.entity.Storereturn;
 import lk.cooperative.cooperativejaela.entity.Sritem;
 import lk.cooperative.cooperativejaela.entity.Item;
@@ -115,16 +116,23 @@ public class StorereturnController {
         if(errors==""){
             storereturndao.save(storereturn);
             for (Sritem sritem : storereturn.getSritems()) {
+                BigDecimal newqty = BigDecimal.ZERO;
                 Item item = sritem.getItem();
-                BigDecimal qtyToIncrease = sritem.getQty();
+                //BigDecimal qtyToIncrease = sritem.getQty();
+
+                List<Sritem> oldSritems = storereturndao.findBySrItemId(storereturn.getId());
+                for (Sritem oldsritm : oldSritems){
+                    if (oldsritm.getItem().getId()==sritem.getItem().getId()){
+                        newqty = oldsritm.getQty().subtract(sritem.getQty());
+                    }
+                }
 
                 // Find the existing item or create a new one if not found
                 Item existingItem = itemdao.findById(item.getId()).orElse(item);
 
                 // Calculate the updated qty for the item
-                BigDecimal increasedQty = existingItem.getQuantity().add(qtyToIncrease);
+                BigDecimal increasedQty = existingItem.getQuantity().subtract(newqty);
 
-                // Update the item's qty and unitprice
                 existingItem.setQuantity(increasedQty);
 
 

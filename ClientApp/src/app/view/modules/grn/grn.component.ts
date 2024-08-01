@@ -622,7 +622,6 @@ export class GrnComponent {
     let purorder = this.form.controls['purorder'].value.id;
     this.itms.getItemByPurorder(purorder).then((msys: Item[]) => {
       this.items = msys;
-      console.log(this.items);
     });
   }
 

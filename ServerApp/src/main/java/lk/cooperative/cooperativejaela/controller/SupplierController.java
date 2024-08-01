@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.SupplierDao;
+import lk.cooperative.cooperativejaela.entity.Item;
 import lk.cooperative.cooperativejaela.entity.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -115,6 +116,22 @@ public class SupplierController {
         responce.put("errors",errors);
 
         return responce;
+    }
+
+    @GetMapping(path ="/grn/{id}",produces = "application/json")
+    public List<Supplier> filterSupplierByGrn(@PathVariable Integer id) {
+
+        List<Supplier> s = this.supplierdao.findItemByGrn(id);
+
+        s = s.stream().map(
+                i -> { Supplier g = new Supplier();
+                    g.setId(i.getId());
+                    g.setName(i.getName());
+                    return g; }
+        ).collect(Collectors.toList());
+
+        return s;
+
     }
 
 }

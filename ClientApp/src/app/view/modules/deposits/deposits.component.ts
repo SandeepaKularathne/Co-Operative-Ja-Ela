@@ -19,6 +19,8 @@ import {NumberService} from "../../../service/numberservice";
 import {Item} from "../../../entity/item";
 import {Invoice} from "../../../entity/invoice";
 import {InvoiceService} from "../../../service/invoiceservice";
+import {CustomerreturnService} from "../../../service/customerreturnservice";
+import {Customerreturn} from "../../../entity/customerreturn";
 
 @Component({
   selector: 'app-deposits',
@@ -64,6 +66,7 @@ export class DepositsComponent {
 
   constructor(
     private dirs: Depositseservice,
+    private cus: CustomerreturnService,
     private emps: EmployeeService,
     private shps: Shopservice,
     private invs: InvoiceService,
@@ -114,7 +117,7 @@ export class DepositsComponent {
       this.shops = vsts;
     });
 
-    this.rs.get('deposits').then((regs: []) => {
+    this.rs.get('disorder').then((regs: []) => {
       this.regexes = regs;
       this.createForm();
     });
@@ -329,6 +332,7 @@ export class DepositsComponent {
                 control.markAsTouched();
               });
               this.loadTable("");
+              this.loadTable('');
             }
 
             const stsmsg = this.dg.open(MessageComponent, {
@@ -505,14 +509,23 @@ export class DepositsComponent {
     return !date || date.getTime() <= currentDate.getTime();
   };
 
+  total=0;
+
   filteritem(){
     let id = this.form.controls['shop'].value.id;
-    let day =new Date();
-    const fday = day.toISOString().split('T')[0];
-    console.log(fday)
-    this.invs.getGtotal(id).then((total: number) => {
-      console.log('Total:', total);
+
+    this.invs.getInvByshop(id).then((msys: Invoice[]) => {
+      msys.forEach(i => {
+        this.total = this.total + i.grandtotal
+      })
     });
+    this.cus.getReqByshopr(id).then((msys: Customerreturn[]) => {
+      msys.forEach(i => {
+        this.total = this.total - i.grandtotal
+      })
+    });
+    this.form.controls['totaldeposit'].setValue(this.total);
+    this.total=0;
   }
 
 }

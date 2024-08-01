@@ -1,6 +1,9 @@
 package lk.cooperative.cooperativejaela.controller;
 
+import lk.cooperative.cooperativejaela.dao.GrnDao;
+import lk.cooperative.cooperativejaela.dao.GrnstatusDao;
 import lk.cooperative.cooperativejaela.dao.SupaymentDao;
+import lk.cooperative.cooperativejaela.entity.Grn;
 import lk.cooperative.cooperativejaela.entity.Supayment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,12 @@ public class SupaymentController {
 
     @Autowired
     private SupaymentDao supaymentdao;
+
+    @Autowired
+    private GrnDao grnDao;
+
+    @Autowired
+    private GrnstatusDao grnstatusDao;
     @GetMapping(produces = "application/json")
 //    @PreAuthorize("hasAuthority('employee-select')")
     public List<Supayment> get(@RequestParam HashMap<String,String> params) {
@@ -45,8 +54,13 @@ public class SupaymentController {
         HashMap<String,String> responce = new HashMap<>();
         String errors="";
 
-        if(errors=="")
+        if(errors=="") {
+            Grn grn = grnDao.findByGrnnumber(supayment.getGrn().getGrnnumber());
+            grn.setGrnstatus(grnstatusDao.findByName("Closed"));
+
+            grnDao.save(grn);
             supaymentdao.save(supayment);
+        }
         else errors = "Server Validation Errors : <br> "+errors;
 
         responce.put("id",String.valueOf(supayment.getId()));

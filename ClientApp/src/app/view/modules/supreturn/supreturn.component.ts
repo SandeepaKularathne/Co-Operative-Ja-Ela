@@ -35,7 +35,7 @@ export class SupreturnComponent {
   changedItems: Array<Supreitem> = [];
 
   columns: string[] = ['supplier', 'registernumber', 'grandtotal', 'date','grn','employee'];
-  headers: string[] = ['Supplier', 'Register Number', 'Grand total', 'Date', 'GRN','Employee'];
+  headers: string[] = ['Supplier', 'Supplier R.Number', 'Grand total', 'Date', 'GRN','Employee'];
   binders: string[] = ['supplier.name', 'supplier.registernumber', 'grandtotal', 'date','grn.grnnumber','employee.fullname'];
 
   cscolumns: string[] = ['cssupplier', 'csregisternumber', 'csgrandtotal', 'csdate', 'csgrn','csemployee'];
@@ -138,6 +138,7 @@ export class SupreturnComponent {
 
     this.grs.getAll('').then((vsts: Grn[]) => {
       this.grns = vsts;
+      this.grns = vsts.filter(po => po.grnstatus.name != 'Cancelled');
     });
 
     this.emps.getAll('').then((vtys: Employee[]) => {
@@ -152,7 +153,7 @@ export class SupreturnComponent {
       this.items = vbrs;
     });
 
-    this.rs.get('supreturn').then((regs: []) => {
+    this.rs.get('sritem').then((regs: []) => {
       this.regexes = regs;
       this.createForm();
     });
@@ -172,13 +173,13 @@ export class SupreturnComponent {
 
     this.form.controls['returnno'].setValidators([Validators.required]);
     this.form.controls['date'].setValidators([Validators.required]);
-    this.form.controls['reason'].setValidators([Validators.required, Validators.pattern(this.regexes['reason']['regex'])]);
-    this.form.controls['grandtotal'].setValidators([Validators.required, Validators.pattern(this.regexes['grandtotal']['regex'])]);
+    this.form.controls['reason'].setValidators([Validators.required]);
+    this.form.controls['grandtotal'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
     this.form.controls['grn'].setValidators([Validators.required]);
     this.form.controls['supplier'].setValidators([Validators.required]);
 
-    this.innerform.controls['qty'].setValidators([Validators.required]);
+    this.innerform.controls['qty'].setValidators([Validators.required, Validators.pattern(this.regexes['qty']['regex'])]);
     this.innerform.controls['item'].setValidators([Validators.required]);
 
 
@@ -600,9 +601,14 @@ export class SupreturnComponent {
   }
 
   filteritem(){
+
     let e = this.form.controls['grn'].value.id;
     this.itms.getItemByGrn(e).then((msys: Item[]) => {
       this.items = msys;
+    });
+
+    this.sups.getSupplierByGrn(e).then((msys: Supplier[]) => {
+      this.suppliers = msys;
     });
   }
 

@@ -35,7 +35,7 @@ export class OperationComponent {
 
   columns: string[] = ['operation', 'module','opetype'];
   headers: string[] = ['Operation','Module','Operation Type'];
-  binders: string[] = ['name','module.name','opetype.name'];
+  binders: string[] = ['name','name'];
 
   data!:MatTableDataSource<Operation>
   @ViewChild(MatPaginator) paginator!: MatPaginator;

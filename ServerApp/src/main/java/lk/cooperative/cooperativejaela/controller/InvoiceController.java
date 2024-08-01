@@ -146,16 +146,27 @@ public class InvoiceController {
         return responce;
     }
 
-    @GetMapping(path ="/val/{id}",produces = "application/json")
-    public BigDecimal getTotal(@PathVariable Integer id) {
+    @GetMapping(path ="/inv/{id}",produces = "application/json")
+    public List<Invoice>  filterInvoiceByInv(@PathVariable Integer id) {
 
-        LocalDate localDate = LocalDate.of(2024, 7, 31);
+        LocalDate localDate = LocalDate.now();
         Date day = Date.valueOf(localDate);
 
-        BigDecimal total = this.invoicedao.getTotal(id,day);
-        return total;
+        List<Invoice> invs = this.invoicedao.findShopByInv(id,day);
+
+        invs = invs.stream().map(
+                i -> { Invoice g = new Invoice();
+                    g.setId(i.getId());
+                    g.setGrandtotal(i.getGrandtotal());
+                    g.setInvnumber(i.getInvnumber());
+                    return g; }
+        ).collect(Collectors.toList());
+
+        return invs ;
 
     }
+
+
 
 }
 

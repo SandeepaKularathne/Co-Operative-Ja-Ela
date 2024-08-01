@@ -25,11 +25,26 @@
 
           <mat-form-field appearance="outline">
             <mat-label>GRN Number</mat-label>
-            <mat-select formControlName="grn" (selectionChange)="setGrandTotal()">
+            <mat-select formControlName="grn" >
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let grn of grns" [value]="grn">{{grn.grnnumber}}</mat-option>
+              <ng-container *ngIf="!enaupd">
+                <ng-container *ngFor="let grn of grns">
+                  <mat-option *ngIf="grn.grnstatus.name === 'Approved'|| grn.grnstatus.name === 'Partially Received'|| grn.grnstatus.name === 'Return'" [value]="grn">
+                    {{grn.grnnumber}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="enaupd">
+                <ng-container *ngFor="let grn of grns">
+                  <mat-option [value]="grn">
+                    {{grn.grnnumber}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
             </mat-select>
           </mat-form-field>
+
+          <button (click)="filteritem()">Check</button><br><br>
 
           <mat-form-field appearance="outline">
             <mat-label>Type</mat-label>
@@ -62,10 +77,10 @@
           </mat-form-field>
 
           <div id="butpanel">
-            <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
-            <button mat-raised-button (click)="clear()">Clear</button>
-            <button mat-raised-button (click)="update()" [disabled]="!enaupd">Update</button>
-            <button mat-raised-button (click)="delete()" [disabled]="!enadel">Delete</button>
+            <button mat-raised-button (click)="add()" [disabled]="!authService.getEnaAdd()">add</button>
+            <button mat-raised-button (click)="clear()">clear</button>
+            <button mat-raised-button (click)="update()" [disabled]="!authService.getEnaUpd()">update</button>
+            <button mat-raised-button (click)="delete()" [disabled]="!authService.getEnaDel()">delete</button>
           </div>
 
         </mat-form>

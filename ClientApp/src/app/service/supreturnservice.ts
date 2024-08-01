@@ -1,6 +1,7 @@
 import {Supreturn} from "../entity/supreturn";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
+import {Supplier} from "../entity/supplier";
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,14 @@ export class SupreturnService {
     return this.http.post<[]>('http://localhost:8080/supreturns', supreturn).toPromise();
   }
 
+  async getReptotal(id :number ): Promise<Array<Supreturn>> {
+
+    const subcategoryes = await this.http.get<Array<Supreturn>>('http://localhost:8080/supreturns/total/'+id).toPromise();
+    if(subcategoryes == undefined){
+      return [];
+    }
+    return subcategoryes;
+  }
 }
 
 

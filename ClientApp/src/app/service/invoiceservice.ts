@@ -31,10 +31,15 @@ export class InvoiceService {
     return this.http.post<[]>('http://localhost:8080/invoices', invoice).toPromise();
   }
 
-  async getGtotal(id: number): Promise<number> {
-    const val = await this.http.get<number>(`http://localhost:8080/invoices/val/${id}`).toPromise();
-    return val ?? 0;
+  async getInvByshop(id :number ): Promise<Array<Invoice>> {
+
+    const subcategoryes = await this.http.get<Array<Invoice>>('http://localhost:8080/invoices/inv/'+id).toPromise();
+    if(subcategoryes == undefined){
+      return [];
+    }
+    return subcategoryes;
   }
+
 
 }
 
