@@ -20,9 +20,22 @@
 
           <mat-form-field appearance="outline">
             <mat-label>DR Number</mat-label>
-            <mat-select formControlName="disrequests">
+            <mat-select formControlName="disrequests" (selectionChange)="filteritem()">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let disrequests of disrequestses" [value]="disrequests">{{disrequests.disnumber}}</mat-option>
+              <ng-container *ngIf="!enaupd">
+                <ng-container *ngFor="let disrequests of disrequestses">
+                  <mat-option *ngIf="disrequests.disstatus.name === 'Approved'" [value]="disrequests">
+                    {{disrequests.disnumber}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="enaupd">
+                <ng-container *ngFor="let disrequests of disrequestses">
+                  <mat-option [value]="disrequests">
+                    {{disrequests.disnumber}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
             </mat-select>
           </mat-form-field>
 

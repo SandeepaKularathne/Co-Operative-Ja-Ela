@@ -180,6 +180,22 @@ public class ItemController {
         return items;
 
     }
+
+    @GetMapping(path ="/dis/{id}",produces = "application/json")
+    public List<Item> filterItemByDis(@PathVariable Integer id) {
+
+        List<Item> items = this.itemdao.findItemByDis(id);
+
+        items = items.stream().map(
+                item -> { Item g = new Item();
+                    g.setId(item.getId());
+                    g.setName(item.getName());
+                    return g; }
+        ).collect(Collectors.toList());
+
+        return items;
+
+    }
 }
 
 

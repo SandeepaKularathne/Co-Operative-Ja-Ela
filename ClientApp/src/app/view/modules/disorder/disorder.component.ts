@@ -149,7 +149,8 @@ export class DisorderComponent {
     });
 
     this.drqs.getAll('').then((vsts: Disrequests[]) => {
-      this.disrequestses = vsts;
+      this.disrequestses = vsts.filter(po => po.disstatus.name != 'Pending' &&  po.disstatus.name != 'Rejected');
+
     });
 
     this.emps.getAll('').then((vtys: Employee[]) => {
@@ -157,7 +158,7 @@ export class DisorderComponent {
     });
 
     this.vehs.getAll('').then((vbrs: Vehicle[]) => {
-      this.vehicles = vbrs;
+      this.vehicles = vbrs.filter(po => po.vehiclestatus.name == 'Free');
     });
 
     this.itms.getAll('').then((vbrs: Item[]) => {
@@ -433,6 +434,7 @@ export class DisorderComponent {
               });
               this.loadTable("");
               this.innerform.reset();
+              this.indata.data=[];
             }
 
             const stsmsg = this.dg.open(MessageComponent, {
@@ -620,8 +622,8 @@ export class DisorderComponent {
   }
 
   filteritem(){
-    let purorder = this.form.controls['purorder'].value.id;
-    this.itms.getItemByPurorder(purorder).then((msys: Item[]) => {
+    let id = this.form.controls['disrequests'].value.id;
+    this.itms.getItemByDis(id).then((msys: Item[]) => {
       this.items = msys;
     });
   }

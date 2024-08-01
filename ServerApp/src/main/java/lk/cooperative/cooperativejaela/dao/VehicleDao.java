@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.dao;
 
 
+import lk.cooperative.cooperativejaela.entity.Purorder;
 import lk.cooperative.cooperativejaela.entity.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,7 @@ public interface VehicleDao extends JpaRepository<Vehicle,Integer> {
 
     @Query("select v from Vehicle v where v.id = :id")
     Vehicle findByMyId(Integer id);
+
+    @Query("select v from Vehicle v where v.number = :number")
+    Vehicle findByVehiclenumber(@Param("number")String number);
 }

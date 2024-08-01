@@ -36,7 +36,7 @@ public class Disorder {
     @ManyToOne
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id", nullable = false)
     private Vehicle vehicle;
-    @OneToMany(mappedBy = "disorder")
+    @OneToMany(mappedBy = "disorder",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Disorderitem> disorderitems;
     @JsonIgnore
     @OneToMany(mappedBy = "disorder")

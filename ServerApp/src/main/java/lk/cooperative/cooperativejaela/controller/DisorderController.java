@@ -1,10 +1,7 @@
 package lk.cooperative.cooperativejaela.controller;
 
-import lk.cooperative.cooperativejaela.dao.DisorderDao;
-import lk.cooperative.cooperativejaela.dao.ItemDao;
-import lk.cooperative.cooperativejaela.entity.Disitem;
-import lk.cooperative.cooperativejaela.entity.Disorder;
-import lk.cooperative.cooperativejaela.entity.Disorderitem;
+import lk.cooperative.cooperativejaela.dao.*;
+import lk.cooperative.cooperativejaela.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +21,10 @@ public class DisorderController {
     private DisorderDao disorderdao;
 
     @Autowired
-    private ItemDao itemdao;
+    private VehicleDao vehicleDao;
+
+    @Autowired
+    private VehiclestatusDao vehiclestatusDao;
 
     @GetMapping(produces = "application/json")
 //    @PreAuthorize("hasAuthority('disorder-select')")
@@ -68,8 +68,15 @@ public class DisorderController {
         }
 
 
-        if(errors == "")
-        disorderdao.save(disorder);
+        if(errors == "") {
+
+            Vehicle v = vehicleDao.findByVehiclenumber(disorder.getVehicle().getNumber());
+            //System.out.println(purorder.getPonumber());
+            v.setVehiclestatus(vehiclestatusDao.findByName("Loading Truck"));
+            //System.out.println(purorder.getPostatus());
+            vehicleDao.save(v);
+            disorderdao.save(disorder);
+        }
         else errors = "Server Validation Errors : <br> "+errors;
 
         responce.put("id",String.valueOf(disorder.getId()));
