@@ -20,7 +20,7 @@
           <mat-datepicker-toggle matIconSuffix [for]="year"></mat-datepicker-toggle>
           <mat-datepicker #year></mat-datepicker>
         </mat-form-field>
-        <div #barchart></div>
+        <div #genderbarchart></div>
       </mat-card-content>
     </mat-card>
   </mat-grid-tile>
@@ -29,10 +29,28 @@
   <mat-grid-tile [colspan]="1" [rowspan]="3">
 
     <mat-card>
-      <mat-card-header><mat-card-title>Bar Chart</mat-card-title></mat-card-header>
+      <mat-card-header><mat-card-title>Sales Summary</mat-card-title></mat-card-header>
       <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Year</mat-label>
+          <input matInput [matDatepicker]="Shopyear" [matDatepickerFilter]="filterDates" (dateChange)="onShopYearChange($event)">
+          <mat-datepicker-toggle matIconSuffix [for]="Shopyear"></mat-datepicker-toggle>
+          <mat-datepicker #Shopyear></mat-datepicker>
+        </mat-form-field>
 
-        <div #chart></div>
+        <mat-form-field appearance="outline">
+          <mat-label>Select a Shop</mat-label>
+          <mat-select (selectionChange)="onShopSelectionChange($event.value)">
+            <mat-option [value]="null" selected>Not Selected</mat-option>
+            <mat-option *ngFor="let shop of shops" [value]="shop.shopnumber">{{ shop.shopnumber }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button (click)="getShopNumber()">Search</button>
+
+
+
+        <div #shopbarchart></div>
       </mat-card-content>
     </mat-card>
   </mat-grid-tile>

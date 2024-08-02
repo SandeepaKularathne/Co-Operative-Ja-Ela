@@ -1,14 +1,8 @@
 package lk.cooperative.cooperativejaela.report;
 
 
-import lk.cooperative.cooperativejaela.report.dao.CountByCRDateDao;
-import lk.cooperative.cooperativejaela.report.dao.CountByIncomeShopDao;
-import lk.cooperative.cooperativejaela.report.dao.CountByVehiclestatusDao;
-import lk.cooperative.cooperativejaela.report.dao.DashRepDao;
-import lk.cooperative.cooperativejaela.report.entity.CountByCRDate;
-import lk.cooperative.cooperativejaela.report.entity.CountByIncomeShop;
-import lk.cooperative.cooperativejaela.report.entity.CountByVehiclestatus;
-import lk.cooperative.cooperativejaela.report.entity.DashRep;
+import lk.cooperative.cooperativejaela.report.dao.*;
+import lk.cooperative.cooperativejaela.report.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +25,9 @@ public class ReportController {
 
     @Autowired
     private CountByIncomeShopDao countByIcomeShopdao;
+
+    @Autowired
+    private CountByValuationDao countByValuationDao;
 
     @GetMapping(path ="/countbyvehiclestatus",produces = "application/json")
     public List<CountByVehiclestatus> getvehiclestatus() {
@@ -80,10 +77,20 @@ public class ReportController {
     }
 
     @GetMapping(path ="/countbyshopincome",produces = "application/json")
-    public List<CountByIncomeShop> getshop(@RequestParam String number) {
+    public List<CountByIncomeShop> getshop(@RequestParam String shopNumber,String year) {
 
-        List<CountByIncomeShop> shops = this.countByIcomeShopdao.countByIncomeShop(Integer.parseInt(number));
+        System.out.println(shopNumber);
+
+        List<CountByIncomeShop> shops = this.countByIcomeShopdao.countByIncomeShop(shopNumber,Integer.parseInt(year));
         return shops;
+
+    }
+
+    @GetMapping(path ="/valuation",produces = "application/json")
+    public List<CountByValuation> getValuation() {
+
+        List<CountByValuation> dashrep = this.countByValuationDao.countByValuation();
+        return dashrep;
 
     }
 }

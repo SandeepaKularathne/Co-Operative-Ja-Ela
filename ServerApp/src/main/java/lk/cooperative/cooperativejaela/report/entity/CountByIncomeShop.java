@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Entity
 public class CountByIncomeShop {
@@ -15,13 +16,13 @@ public class CountByIncomeShop {
     private int year;
     private int month;
     private String shop;
-    private Long tcount;
+    private BigDecimal tcount;
 
     // Default constructor
     public CountByIncomeShop() { }
 
     // Constructor with parameters
-    public CountByIncomeShop(int year, int month, String shop, Long tcount) {
+    public CountByIncomeShop(int year, int month, String shop, BigDecimal tcount) {
         this.year = year;
         this.month = month;
         this.shop = shop;
@@ -61,11 +62,11 @@ public class CountByIncomeShop {
         this.shop = shop;
     }
 
-    public Long getTcount() {
+    public BigDecimal getTcount() {
         return tcount;
     }
 
-    public void setTcount(Long tcount) {
+    public void setTcount(BigDecimal tcount) {
         this.tcount = tcount;
     }
 }

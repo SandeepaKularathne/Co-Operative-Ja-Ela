@@ -270,7 +270,7 @@ export class GrnComponent {
         this.imageurl = 'assets/rejected.png';
       })
       .finally(() => {
-        this.data = new MatTableDataSource(this.grns);
+        this.data = new MatTableDataSource(this.grns.slice().reverse());
         this.data.paginator = this.paginator;
       });
 

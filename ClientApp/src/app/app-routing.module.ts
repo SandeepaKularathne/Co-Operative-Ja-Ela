@@ -28,6 +28,7 @@ import {DisreceiveComponent} from "./view/modules/disreceive/disreceive.componen
 import {DepositsComponent} from "./view/modules/deposits/deposits.component";
 import {StorereturnComponent} from "./view/modules/storereturn/storereturn.component";
 import {CustomerreturnComponent} from "./view/modules/customerreturn/customerreturn.component";
+import {InventoryComponent} from "./report/view/inventory/inventory.component";
 // import {PurchaseComponent} from "./report/view/purchase/purchase.component";
 
 const routes: Routes = [
@@ -70,7 +71,7 @@ const routes: Routes = [
       {path: "deposits", component: DepositsComponent},
       {path: "customerreturn", component: CustomerreturnComponent},
       {path: "storereturn", component: StorereturnComponent},
-      // {path: "purchase", component: PurchaseComponent},
+      {path: "inventory", component: InventoryComponent},
 
     ]
   }];
