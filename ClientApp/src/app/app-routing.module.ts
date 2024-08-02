@@ -29,6 +29,7 @@ import {DepositsComponent} from "./view/modules/deposits/deposits.component";
 import {StorereturnComponent} from "./view/modules/storereturn/storereturn.component";
 import {CustomerreturnComponent} from "./view/modules/customerreturn/customerreturn.component";
 import {InventoryComponent} from "./report/view/inventory/inventory.component";
+import {PurchaseComponent} from "./report/view/purchase/purchase.component";
 // import {PurchaseComponent} from "./report/view/purchase/purchase.component";
 
 const routes: Routes = [
@@ -72,6 +73,7 @@ const routes: Routes = [
       {path: "customerreturn", component: CustomerreturnComponent},
       {path: "storereturn", component: StorereturnComponent},
       {path: "inventory", component: InventoryComponent},
+      {path: "purchase", component: PurchaseComponent},
 
     ]
   }];
