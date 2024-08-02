@@ -116,6 +116,13 @@ public class UserController {
                 // Update basic user properties
                 BeanUtils.copyProperties(user, extUser, "id","userroles");
 
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+                String salt = passwordEncoder.encode(user.getUsername());
+                String hashedPassword = passwordEncoder.encode(salt + user.getPassword());
+                extUser.setSalt(salt);
+                extUser.setPassword(hashedPassword);
+
                 userdao.save(extUser); // Save the updated extUser object
 
                 response.put("id", String.valueOf(user.getId()));

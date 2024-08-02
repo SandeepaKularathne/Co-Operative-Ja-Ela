@@ -25,7 +25,6 @@ public class Supplier {
     private String registernumber;
     @Basic
     @Column(name = "doregister")
-    @RegexPattern(reg = "^\\d{2}-\\d{2}-\\d{2}$", msg = "Invalid Date Format")
     private Date doregister;
     @Basic
     @Column(name = "address")
@@ -53,7 +52,6 @@ public class Supplier {
     private String description;
     @Basic
     @Column(name = "doenter")
-    @RegexPattern(reg = "^\\d{2}-\\d{2}-\\d{2}$", msg = "Invalid Date Format")
     private Date doenter;
     @ManyToOne
     @JoinColumn(name = "supplierstatus_id", referencedColumnName = "id", nullable = false)
@@ -62,7 +60,7 @@ public class Supplier {
     @JoinColumn(name = "supplierstype_id", referencedColumnName = "id", nullable = false)
     private Supplierstype supplierstype;
 
-    @OneToMany(mappedBy = "supplier")
+    @OneToMany(mappedBy = "supplier",cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = true)
     private Collection<Supply> supplies;
     @JsonIgnore
     @OneToMany(mappedBy = "supplier")

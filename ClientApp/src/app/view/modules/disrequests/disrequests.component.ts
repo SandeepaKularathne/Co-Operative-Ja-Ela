@@ -378,6 +378,8 @@ export class DisrequestsComponent {
     } else {
 
       this.disrequests = this.form.getRawValue();
+      //@ts-ignore
+      this.disrequests.reqdate = this.dp.transform(this.disrequests.reqdate, 'yyyy-MM-dd');
       this.disrequests.disitems = this.disitems;
 
       // @ts-ignore

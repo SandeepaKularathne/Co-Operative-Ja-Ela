@@ -374,6 +374,7 @@ export class GrnComponent {
     this.form.markAsPristine();
     this.calculateGrandTotal();
 
+
   }
 
   add() {
@@ -689,6 +690,21 @@ export class GrnComponent {
     const newNumber = this.ns.generateNumber('GRN');
     this.form.controls['grnnumber'].setValue(newNumber);
   }
+
+  fillInnerForm(grnitm: Grnitem){
+    this.innerdata = JSON.parse(JSON.stringify(grnitm));
+    this.oldinnerdata = JSON.parse(JSON.stringify(grnitm));
+
+    //@ts-ignore
+    this.innerdata.item = this.items.find((s)=> s.id===this.innerdata.item.id );
+    //@ts-ignore
+    this.innerdata.store = this.stores.find((s)=> s.id===this.innerdata.store.id );
+
+    this.innerform.patchValue(this.innerdata);
+
+  }
+
+
 
   quantityValidator(): boolean {
     if(!this.enaupd){

@@ -3,6 +3,8 @@ package lk.cooperative.cooperativejaela.controller;
 import lk.cooperative.cooperativejaela.dao.SupplierDao;
 import lk.cooperative.cooperativejaela.entity.Item;
 import lk.cooperative.cooperativejaela.entity.Supplier;
+import lk.cooperative.cooperativejaela.entity.Supply;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -59,6 +61,8 @@ public class SupplierController {
         if(supplierdao.findByRegisternumber(supplier.getRegisternumber())!=null)
             errors = errors+"<br> Existing Number";
 
+        for (Supply sp:supplier.getSupplies()) sp.setSupplier(supplier);
+
         if(errors=="")
         supplierdao.save(supplier);
         else errors = "Server Validation Errors : <br> "+errors;
@@ -79,12 +83,15 @@ public class SupplierController {
         String errors="";
 
         Supplier sup1 = supplierdao.findByRegisternumber(supplier.getRegisternumber());
-        
 
         if(sup1!=null && supplier.getId()!=sup1.getId())
             errors = errors+"<br> Existing Registered Number";
 
-        if(errors=="") supplierdao.save(supplier);
+        for (Supply sp:supplier.getSupplies()) sp.setSupplier(supplier);
+        // Update basic user properties
+        BeanUtils.copyProperties(supplier, sup1, "id","supplies");
+
+        if(errors=="") supplierdao.save(sup1);
         else errors = "Server Validation Errors : <br> "+errors;
 
         responce.put("id",String.valueOf(supplier.getId()));

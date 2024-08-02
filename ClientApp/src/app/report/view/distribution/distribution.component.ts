@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportService } from '../../reportservice';
 import { CountByVehiclestatus } from '../../entity/countbyvehiclestatus';
 import {MatTableDataSource} from "@angular/material/table";
+import {CountByShopstatus} from "../../entity/countbyshopstatus";
 
 declare var google: any;
 
@@ -13,7 +14,9 @@ declare var google: any;
 export class DistributionComponent implements OnInit {
 
   countbyvehiclestatuss!: CountByVehiclestatus[];
+  countbyshopstatuss!: CountByShopstatus[];
   data!: MatTableDataSource<CountByVehiclestatus>;
+  sdata!: MatTableDataSource<CountByShopstatus>;
 
   columns: string[] = ['vehiclestatus', 'count', 'percentage'];
   headers: string[] = ['Vehiclestatus', 'Count', 'Percentage'];
@@ -37,6 +40,14 @@ export class DistributionComponent implements OnInit {
       this.loadCharts();
     });
 
+    this.rs.countByShopstatus()
+      .then((des: CountByShopstatus[]) => {
+        this.countbyshopstatuss = des;
+      }).finally(() => {
+      this.loadTable();
+      this.loadCharts();
+    });
+
   }
 
   loadTable() : void{
@@ -56,7 +67,7 @@ export class DistributionComponent implements OnInit {
     barData.addColumn('number', 'Count');
 
     const pieData = new google.visualization.DataTable();
-    pieData.addColumn('string', 'Vehiclestatus');
+    pieData.addColumn('string', 'Shopstatus');
     pieData.addColumn('number', 'Count');
 
     const lineData = new google.visualization.DataTable();
@@ -65,8 +76,10 @@ export class DistributionComponent implements OnInit {
 
     this.countbyvehiclestatuss.forEach((des: CountByVehiclestatus) => {
       barData.addRow([des.vehiclestatus, des.count]);
-      pieData.addRow([des.vehiclestatus, des.count]);
       lineData.addRow([des.vehiclestatus, des.count]);
+    });
+    this.countbyshopstatuss.forEach((des: CountByShopstatus) => {
+      pieData.addRow([des.shopstatus, des.count]);
     });
 
     const barOptions = {
@@ -78,7 +91,7 @@ export class DistributionComponent implements OnInit {
     };
 
     const pieOptions = {
-      title: 'Vehiclestatus Count (Pie Chart)',
+      title: '',
       height: 400,
       width: 550
     };
@@ -86,7 +99,7 @@ export class DistributionComponent implements OnInit {
     const lineOptions = {
       title: 'Vehiclestatus Count (Line Chart)',
       height: 400,
-      width: 600
+      width: 1200
     };
 
     const barChart = new google.visualization.BarChart(this.barchart.nativeElement);

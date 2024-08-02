@@ -248,5 +248,7 @@ mat-nav-list mat-expansion-panel mat-list-item {
   height: 28px;
 }
 
-
+h2 mat-icon{
+  margin: 10px;
+}
 

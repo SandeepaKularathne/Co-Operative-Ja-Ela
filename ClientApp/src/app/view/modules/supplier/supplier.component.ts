@@ -21,6 +21,8 @@ import { Categoryservice } from 'src/app/service/Categoryservice';
 import {Userrole} from "../../../entity/userrole";
 import {MatSelectionList} from "@angular/material/list";
 import {Supply} from "../../../entity/supply";
+import {User} from "../../../entity/user";
+import {Role} from "../../../entity/role";
 
 @Component({
   selector: 'app-supplier',
@@ -46,6 +48,7 @@ export class SupplierComponent {
 
   supplier!: Supplier;
   oldsupplier!: Supplier;
+  oldcategorys:Array<Category>=[];
 
   suppliers: Array<Supplier> = [];
   data!: MatTableDataSource<Supplier>;
@@ -81,6 +84,8 @@ export class SupplierComponent {
 
     this.uiassist = new UiAssist(this);
 
+    this.supplier = new Supplier();
+
     this.csearch = this.fb.group({
       csname: new FormControl(),
       csregisternumber: new FormControl(),
@@ -109,6 +114,7 @@ export class SupplierComponent {
       "doenter": new FormControl('', [Validators.required]),
       "supplierstatus": new FormControl('', [Validators.required]),
       "supplierstype": new FormControl('', [Validators.required]),
+      "supplies": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
 
   }
@@ -154,7 +160,6 @@ export class SupplierComponent {
     this.form.controls['supplierstatus'].setValidators([Validators.required]);
     this.form.controls['supplierstype'].setValidators([Validators.required]);
     this.form.controls['doregister'].setValidators([Validators.required]);
-    this.form.controls['category'].setValidators([Validators.required]);
     this.form.controls['registernumber'].setValidators([Validators.required, Validators.pattern(this.regexes['registernumber']['regex'])]);
     this.form.controls['address'].setValidators([Validators.required, Validators.pattern(this.regexes['address']['regex'])]);
     this.form.controls['description'].setValidators([Validators.required, Validators.pattern(this.regexes['description']['regex'])]);
@@ -162,7 +167,8 @@ export class SupplierComponent {
     this.form.controls['email'].setValidators([Validators.required, Validators.pattern(this.regexes['email']['regex'])]);
     this.form.controls['contactperson'].setValidators([Validators.required, Validators.pattern(this.regexes['contactperson']['regex'])]);
     this.form.controls['contactnumber'].setValidators([Validators.required, Validators.pattern(this.regexes['contactnumber']['regex'])]);
-    this.form.controls['doenter'].setValidators([Validators.required, Validators.pattern(this.regexes['doenter']['regex'])]);
+    this.form.controls['doenter'].setValidators([Validators.required]);
+    this.form.controls['supplies'].setValidators([Validators.required]);
 
     Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
 
@@ -293,6 +299,7 @@ export class SupplierComponent {
   fillForm(supplier: Supplier) {
 
     this.enableButtons(false,true,true);
+    this.categorys = Array.from(this.oldcategorys);
 
     this.selectedrow=supplier;
 
@@ -302,9 +309,12 @@ export class SupplierComponent {
     //@ts-ignore
     this.supplier.supplierstatus = this.supplierstatuses.find(s => s.id === this.supplier.supplierstatus.id);
     //@ts-ignore
-    this.supplier.suppliertype = this.suppliertypes.find(t => t.id === this.supplier.suppliertype.id);
-    //@ts-ignore
-    this.supplier.supplies.category = this.categorys.find(t => t.id === this.supplier.supplies.categorys.id);
+    this.supplier.suppliertype = this.suppliertypes.find(t => t.id === this.supplier.supplierstype.id);
+    // //@ts-ignore
+    // this.supplier.supplies.category = this.categorys.find(t => t.id === this.supplier.supplies.categorys.id);
+
+    this.supplys = this.supplier.supplies; // Load User Roles
+    this.supplier.supplies.forEach((sl)=> this.categorys = this.categorys.filter((c)=> c.id != sl.category.id ));
 
     this.form.patchValue(this.supplier);
     this.form.markAsPristine();
@@ -327,7 +337,10 @@ export class SupplierComponent {
       });
     } else {
 
-      this.supplier = this.form.getRawValue();
+      let sp:Supplier = this.form.getRawValue();
+
+      sp.supplies = this.supplier.supplies;
+      this.supplier = sp;
 
       let supdata: string = "";
 
@@ -420,7 +433,7 @@ export class SupplierComponent {
             this.supplier.id = this.oldsupplier.id;
 
             // @ts-ignore
-            this.vs.update(this.supplier).then((responce: [] | undefined) => {
+            this.sus.update(this.supplier).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
                 updstatus = responce['errors'] == "";
                 if (!updstatus) { // @ts-ignore
@@ -538,15 +551,17 @@ export class SupplierComponent {
   }
 
   rightSelected(): void {
-    this.supplier.supplys = this.availablelist.selectedOptions.selected.map(option => {
+    console.log(this.supplier)
+
+    this.supplier.supplies = this.availablelist.selectedOptions.selected.map(option => {
       const supply = new Supply(option.value);
       this.categorys = this.categorys.filter(role => role !== option.value); //Remove Selected
       this.supplys.push(supply); // Add selected to Right Side
       return supply;
     });
 
-    this.form.controls["userroles"].clearValidators();
-    this.form.controls["userroles"].updateValueAndValidity(); // Update status
+    this.form.controls["supplies"].clearValidators();
+    this.form.controls["supplies"].updateValueAndValidity(); // Update status
   }
 
   leftSelected(): void {
@@ -562,16 +577,15 @@ export class SupplierComponent {
   }
 
   rightAll(): void {
-
-      this.supplier.supplys = this.availablelist.selectAll().map(option => {
+      this.supplier.supplies = this.availablelist.selectAll().map(option => {
         const supply = new Supply(option.value);
         this.categorys = this.categorys.filter(role => role !== option.value); //Remove Selected
         this.supplys.push(supply); // Add selected to Right Side
         return supply;
       });
 
-    this.form.controls["userroles"].clearValidators();
-    this.form.controls["userroles"].updateValueAndValidity();
+    this.form.controls["supplies"].clearValidators();
+    this.form.controls["supplies"].updateValueAndValidity();
   }
 
   leftAll():void{

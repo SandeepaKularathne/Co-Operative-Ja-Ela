@@ -103,7 +103,7 @@
               </ng-container>
 
               <mat-header-row *matHeaderRowDef="incolumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: incolumns" ></mat-row>
+              <mat-row *matRowDef="let row; columns: incolumns" (click)="fillInnerForm(row)"></mat-row>
             </mat-table>
 
           </div>

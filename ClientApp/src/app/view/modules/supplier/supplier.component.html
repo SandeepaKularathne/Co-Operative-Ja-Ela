@@ -32,14 +32,6 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="category">
-              <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let category of categorys" [value]="category">{{category.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
             <mat-label>Registerion Number</mat-label>
             <input matInput formControlName="registernumber">
           </mat-form-field>
@@ -97,7 +89,7 @@
             </div>
 
             <div class="list">
-              <mat-selection-list  formControlName="userroles" #selectedlist>
+              <mat-selection-list  formControlName="supplies" #selectedlist>
                 <mat-list-option  *ngFor="let supply of supplys" [value]="supply">{{supply.category.name}}</mat-list-option>
               </mat-selection-list>
             </div>

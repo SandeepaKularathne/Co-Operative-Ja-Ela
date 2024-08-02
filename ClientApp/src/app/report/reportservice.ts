@@ -3,6 +3,7 @@ import {CountByCRDate} from "./entity/countbycrdate";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {CountByIncomeShop} from "./entity/countbyincomeshop";
+import {CountByShopstatus} from "./entity/countbyshopstatus";
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +60,15 @@ export class ReportService {
     console.log(dashreps)
     return dashreps;
 
+  }
+
+  async countByShopstatus(): Promise<Array<CountByShopstatus>> {
+
+    const countbyshopstatuss = await this.http.get<Array<CountByShopstatus>>('http://localhost:8080/reports/countbyshopstatus').toPromise();
+    if(countbyshopstatuss == undefined){
+      return [];
+    }
+    return countbyshopstatuss;
   }
 
 }

@@ -29,6 +29,9 @@ public class ReportController {
     @Autowired
     private CountByValuationDao countByValuationDao;
 
+    @Autowired
+    private CountByShopstatusDao countbyshopstatusdao;
+
     @GetMapping(path ="/countbyvehiclestatus",produces = "application/json")
     public List<CountByVehiclestatus> getvehiclestatus() {
 
@@ -93,6 +96,27 @@ public class ReportController {
         return dashrep;
 
     }
+
+    @GetMapping(path ="/countbyshopstatus",produces = "application/json")
+    public List<CountByShopstatus> getshopstatus() {
+
+        List<CountByShopstatus> shopstatuss = this.countbyshopstatusdao.countByShopstatus();
+        long totalCount = 0;
+
+        for (CountByShopstatus countByShopstatus : shopstatuss) {
+            totalCount += countByShopstatus.getCount();
+        }
+
+        for (CountByShopstatus countByShopstatus : shopstatuss) {
+            long count = countByShopstatus.getCount();
+            double percentage = (double) count / totalCount * 100;
+            percentage = Math.round(percentage * 100.0) / 100.0;
+            countByShopstatus.setPercentage(percentage);
+        }
+
+        return shopstatuss;
+    }
+
 }
 
 
