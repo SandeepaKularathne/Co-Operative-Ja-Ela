@@ -25,11 +25,11 @@ mat-card-header {
 
 /* Style for the mat-card-title */
 mat-card-title {
+  color: #005710; /* Optional: set text color to white for better contrast */
+  padding: 8px; /* Optional: add padding for better spacing */
   font-size: 18px; /* Larger font size for the title */
   font-weight: bold; /* Bold text */
-  color: #333; /* Darker text color */
   text-align: center; /* Center the text */
-  padding: 8px; /* Optional: Add padding to provide space inside the border radius */
 }
 
 /* Style for the mat-card-content */

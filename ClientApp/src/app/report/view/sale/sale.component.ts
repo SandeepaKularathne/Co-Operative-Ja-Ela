@@ -125,6 +125,7 @@ export class SaleComponent implements OnInit {
       isStacked: false,
       bar: { groupWidth: '75%' },
       seriesType: 'bars',
+      colors: ['#005710', '#7de22b', '#FFD700']
     };
 
     const genderbarchart = new google.visualization.ComboChart(this.genderbarchart.nativeElement);
@@ -148,6 +149,7 @@ export class SaleComponent implements OnInit {
       isStacked: false,
       bar: { groupWidth: '75%' },
       seriesType: 'bars',
+      colors: ['#005710', '#7de22b', '#FFD700']
     };
 
     const shopbarchart = new google.visualization.ComboChart(this.shopbarchart.nativeElement);

@@ -66,7 +66,8 @@ export class InventoryComponent implements OnInit {
       hAxis: { title: 'CountByValuation' },  // X-axis
       vAxis: { title: 'Count' },             // Y-axis
       bars: 'vertical',                      // Ensure bars are vertical
-      isStacked: false
+      isStacked: false,
+      colors: ['#005710']
     };
 
     const barChart = new google.visualization.ColumnChart(this.barchart.nativeElement);

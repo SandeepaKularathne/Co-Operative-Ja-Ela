@@ -93,19 +93,22 @@ export class PurchaseComponent implements OnInit {
       subtitle: 'Count of Employees by Postatus',
       bars: 'horizontal',
       height: 400,
-      width: 1100
+      width: 1100,
+      colors: ['#005710']
     };
 
     const pieOptions = {
       title:'',
       height: 400,
-      width: 550
+      width: 550,
+      colors: ['#005710']
     };
 
     const lineOptions = {
       title: '',
       height: 400,
-      width: 550
+      width: 550,
+      colors: ['#005710']
     };
 
     const barChart = new google.visualization.ColumnChart(this.barchart.nativeElement);

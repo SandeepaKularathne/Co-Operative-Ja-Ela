@@ -114,19 +114,22 @@ export class DistributionComponent implements OnInit {
       subtitle: '',
       bars: 'horizontal',
       height: 400,
-      width: 550
+      width: 550,
+      colors: ['#005710']
     };
 
     const pieOptions = {
       title: '',
       height: 400,
-      width: 550
+      width: 550,
+      colors: ['#005710', '#7de22b', '#FFD700']
     };
 
     const lineOptions = {
       title: '',
       height: 400,
-      width: 1200
+      width: 1200,
+      colors: ['#005710']
     };
 
     const barChart = new google.visualization.BarChart(this.barchart.nativeElement);
