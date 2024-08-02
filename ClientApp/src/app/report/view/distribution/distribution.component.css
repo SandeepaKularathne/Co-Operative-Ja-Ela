@@ -66,3 +66,61 @@ div[barchart] {
   margin-top: 16px; /* Space above the chart */
 }
 
+.mat-grid-tile-custom {
+  padding: 20px;
+}
+
+.mat-card-custom {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.mat-card-header-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mat-card-title-custom {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.mat-form-field-custom {
+  width: 200px; /* Adjust the width as needed */
+  margin-left: 16px;
+}
+
+.mat-table-custom {
+  width: 100%;
+}
+
+.mat-header-cell-custom, .mat-cell-custom {
+  padding: 8px;
+  text-align: left;
+}
+
+.mat-select-custom .mat-select-trigger {
+  height: 30px; /* Adjust the height as needed */
+  font-size: 14px; /* Adjust the font size as needed */
+}
+
+.mat-option-custom {
+  font-size: 14px; /* Adjust the font size of options as needed */
+}
+
+.mat-form-field-custom {
+  width: 150px; /* Adjust the width as needed */
+  margin-right: 16px;
+}
+
+.button-custom {
+  height: 40px; /* Adjust the height as needed */
+  font-size: 14px; /* Adjust the font size as needed */
+  padding: 0 16px; /* Adjust padding as needed */
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+}

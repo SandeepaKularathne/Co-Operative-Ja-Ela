@@ -3,6 +3,13 @@ import { ReportService } from '../../reportservice';
 import { CountByVehiclestatus } from '../../entity/countbyvehiclestatus';
 import {MatTableDataSource} from "@angular/material/table";
 import {CountByShopstatus} from "../../entity/countbyshopstatus";
+import {Shipping} from "../../entity/shipping";
+import {Shop} from "../../../entity/shop";
+import {Route} from "../../../entity/route";
+import {Shopservice} from "../../../service/shopservice";
+import {Routeservice} from "../../../service/routeservice";
+import {CountByIncomeShop} from "../../entity/countbyincomeshop";
+import {CountByDisstatus} from "../../entity/countbydisstatus";
 
 declare var google: any;
 
@@ -15,18 +22,21 @@ export class DistributionComponent implements OnInit {
 
   countbyvehiclestatuss!: CountByVehiclestatus[];
   countbyshopstatuss!: CountByShopstatus[];
-  data!: MatTableDataSource<CountByVehiclestatus>;
-  sdata!: MatTableDataSource<CountByShopstatus>;
+  countbydisstatuss!: CountByDisstatus[];
+  shipping!: Shipping[];
+  data!: MatTableDataSource<Shipping>;
+  routes: Array<Route> =[];
 
-  columns: string[] = ['vehiclestatus', 'count', 'percentage'];
-  headers: string[] = ['Vehiclestatus', 'Count', 'Percentage'];
-  binders: string[] = ['vehiclestatus', 'count', 'percentage'];
+
+  columns: string[] = [ 'shopnumber', 'root','num'];
+  headers: string[] = [ 'Shop Number', 'Route','Route Number'];
+  binders: string[] = [ 'shopnumber', 'root', 'num'];
 
   @ViewChild('barchart', { static: false }) barchart: any;
   @ViewChild('piechart', { static: false }) piechart: any;
   @ViewChild('linechart', { static: false }) linechart: any;
 
-  constructor(private rs: ReportService) {
+  constructor(private rs: ReportService,private shps: Routeservice) {
     //Define Interactive Panel with Needed Form Elements
   }
 
@@ -48,10 +58,24 @@ export class DistributionComponent implements OnInit {
       this.loadCharts();
     });
 
+    this.rs.countByDisstatus()
+      .then((des: CountByDisstatus[]) => {
+        this.countbydisstatuss = des;
+      }).finally(() => {
+      this.loadTable();
+      this.loadCharts();
+    });
+
+    this.shps.getAll("").then((shps : Route[])  =>{
+      this.routes = shps
+    });
+
+    this.loadRouteData(1);
+
   }
 
   loadTable() : void{
-    this.data = new MatTableDataSource(this.countbyvehiclestatuss);
+    this.data = new MatTableDataSource(this.shipping);
   }
 
   loadCharts() : void{
@@ -71,23 +95,26 @@ export class DistributionComponent implements OnInit {
     pieData.addColumn('number', 'Count');
 
     const lineData = new google.visualization.DataTable();
-    lineData.addColumn('string', 'Vehiclestatus');
+    lineData.addColumn('string', 'Disstatus');
     lineData.addColumn('number', 'Count');
 
     this.countbyvehiclestatuss.forEach((des: CountByVehiclestatus) => {
-      barData.addRow([des.vehiclestatus, des.count]);
       lineData.addRow([des.vehiclestatus, des.count]);
+
     });
     this.countbyshopstatuss.forEach((des: CountByShopstatus) => {
       pieData.addRow([des.shopstatus, des.count]);
     });
+    this.countbydisstatuss.forEach((des: CountByDisstatus) => {
+      barData.addRow([des.disstatus, des.count]);
+    });
 
     const barOptions = {
-      title: 'Vehiclestatus Count (Bar Chart)',
-      subtitle: 'Count of Employees by Vehiclestatus',
+      title: '',
+      subtitle: '',
       bars: 'horizontal',
       height: 400,
-      width: 600
+      width: 550
     };
 
     const pieOptions = {
@@ -97,7 +124,7 @@ export class DistributionComponent implements OnInit {
     };
 
     const lineOptions = {
-      title: 'Vehiclestatus Count (Line Chart)',
+      title: '',
       height: 400,
       width: 1200
     };
@@ -110,5 +137,28 @@ export class DistributionComponent implements OnInit {
 
     const lineChart = new google.visualization.LineChart(this.linechart.nativeElement);
     lineChart.draw(lineData, lineOptions);
+  }
+
+
+  selectedNumber: number =0;
+
+  onAnge(id: number): void {
+    this.selectedNumber = id;
+  }
+  getNumber(): void {
+    this.loadRouteData(this.selectedNumber);
+  }
+
+  loadRouteData(id: number) {
+    let query = "";
+    query = query + "?id=" + id;
+
+    this.rs.shipping(query)
+      .then((des: Shipping[]) => {
+        this.shipping = des;
+      }).finally(() => {
+      this.loadTable();
+      this.loadCharts();
+    });
   }
 }

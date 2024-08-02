@@ -32,6 +32,12 @@ public class ReportController {
     @Autowired
     private CountByShopstatusDao countbyshopstatusdao;
 
+    @Autowired
+    private ShippingDao shippingDao;
+
+    @Autowired
+    private CountByDisstatusDao countbydisstatusdao;
+
     @GetMapping(path ="/countbyvehiclestatus",produces = "application/json")
     public List<CountByVehiclestatus> getvehiclestatus() {
 
@@ -82,8 +88,6 @@ public class ReportController {
     @GetMapping(path ="/countbyshopincome",produces = "application/json")
     public List<CountByIncomeShop> getshop(@RequestParam String shopNumber,String year) {
 
-        System.out.println(shopNumber);
-
         List<CountByIncomeShop> shops = this.countByIcomeShopdao.countByIncomeShop(shopNumber,Integer.parseInt(year));
         return shops;
 
@@ -117,6 +121,33 @@ public class ReportController {
         return shopstatuss;
     }
 
+    @GetMapping(path ="/shipping",produces = "application/json")
+    public List<Shipping> getshop(@RequestParam int id) {
+
+        List<Shipping> shops = this.shippingDao.shipping(id);
+        return shops;
+
+    }
+
+    @GetMapping(path ="/countbydisstatus",produces = "application/json")
+    public List<CountByDisstatus> getdisstatus() {
+
+        List<CountByDisstatus> disstatuss = this.countbydisstatusdao.countByDisstatus();
+        long totalCount = 0;
+
+        for (CountByDisstatus countByDisstatus : disstatuss) {
+            totalCount += countByDisstatus.getCount();
+        }
+
+        for (CountByDisstatus countByDisstatus : disstatuss) {
+            long count = countByDisstatus.getCount();
+            double percentage = (double) count / totalCount * 100;
+            percentage = Math.round(percentage * 100.0) / 100.0;
+            countByDisstatus.setPercentage(percentage);
+        }
+
+        return disstatuss;
+    }
 }
 
 

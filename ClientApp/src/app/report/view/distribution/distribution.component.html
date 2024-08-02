@@ -8,14 +8,26 @@
 <!--  </mat-grid-tile>-->
 
 
-  <mat-grid-tile [colspan]="2" [rowspan]="2">
-    <mat-card>
-      <mat-card-header><mat-card-title>Vehicle Status</mat-card-title></mat-card-header>
+  <mat-grid-tile  [colspan]="2" [rowspan]="2">
+    <mat-card class="mat-card-custom">
+      <mat-card-header class="mat-card-header-custom">
+        <mat-card-title class="mat-card-title-custom">Shipping Report Shop & Route</mat-card-title>
+        <div class="header-container">
+          <mat-form-field class="mat-form-field-custom" appearance="outline">
+            <mat-label>Select a Route</mat-label>
+            <mat-select class="mat-select-custom" (selectionChange)="onAnge($event.value)">
+              <mat-option class="mat-option-custom" [value]="null" selected>Not Selected</mat-option>
+              <mat-option class="mat-option-custom" *ngFor="let r of routes" [value]="r.id">{{ r.routenumber }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button class="button-custom" mat-button (click)="getNumber()">Search</button>
+        </div>
+      </mat-card-header>
       <mat-card-content>
-        <mat-table [dataSource]="data">
+        <mat-table class="mat-table-custom" [dataSource]="data">
           <ng-container *ngFor="let column of columns; let i = index;" [matColumnDef]="column">
-            <mat-header-cell *matHeaderCellDef> {{ headers[i] }} </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{ element[binders[i]] }} </mat-cell>
+            <mat-header-cell class="mat-header-cell-custom" *matHeaderCellDef>{{ headers[i] }}</mat-header-cell>
+            <mat-cell class="mat-cell-custom" *matCellDef="let element">{{ element[binders[i]] }}</mat-cell>
           </ng-container>
           <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: columns;"></mat-row>
@@ -24,16 +36,9 @@
     </mat-card>
   </mat-grid-tile>
 
-  <mat-grid-tile [colspan]="2" [rowspan]="3">
-    <mat-card>
-      <mat-card-header><mat-card-title>Vehicle Status</mat-card-title></mat-card-header>
-      <mat-card-content><div #linechart ></div></mat-card-content>
-    </mat-card>
-  </mat-grid-tile>
-
   <mat-grid-tile [colspan]="1" [rowspan]="3">
     <mat-card>
-      <mat-card-header><mat-card-title>Shop Status</mat-card-title></mat-card-header>
+      <mat-card-header><mat-card-title>Shop Counts By Each Status</mat-card-title></mat-card-header>
       <mat-card-content><div #piechart></div></mat-card-content>
     </mat-card>
   </mat-grid-tile>
@@ -41,10 +46,17 @@
   <mat-grid-tile [colspan]="1" [rowspan]="3">
 
     <mat-card>
-      <mat-card-header><mat-card-title>Line Chart View</mat-card-title></mat-card-header>
+      <mat-card-header><mat-card-title>Distribution Summary</mat-card-title></mat-card-header>
       <mat-card-content><div #barchart></div></mat-card-content>
     </mat-card>
 
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="2" [rowspan]="3">
+    <mat-card>
+      <mat-card-header><mat-card-title>Vehicle Counts By Each Status</mat-card-title></mat-card-header>
+      <mat-card-content><div #linechart ></div></mat-card-content>
+    </mat-card>
   </mat-grid-tile>
 
 </mat-grid-list>

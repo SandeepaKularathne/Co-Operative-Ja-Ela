@@ -178,6 +178,7 @@ export class SaleComponent implements OnInit {
     }
   }
 
+
   onShopSelectionChange(shopNumber: string): void {
     this.selectedShopNumber = shopNumber;
     console.log(this.selectedShopNumber);

@@ -4,6 +4,8 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {CountByIncomeShop} from "./entity/countbyincomeshop";
 import {CountByShopstatus} from "./entity/countbyshopstatus";
+import {Shipping} from "./entity/shipping";
+import {CountByDisstatus} from "./entity/countbydisstatus";
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +67,26 @@ export class ReportService {
   async countByShopstatus(): Promise<Array<CountByShopstatus>> {
 
     const countbyshopstatuss = await this.http.get<Array<CountByShopstatus>>('http://localhost:8080/reports/countbyshopstatus').toPromise();
+    if(countbyshopstatuss == undefined){
+      return [];
+    }
+    return countbyshopstatuss;
+  }
+
+  async shipping(query : string): Promise<Array<Shipping>>{
+
+    const dashreps = await this.http.get<Array<any>>('http://localhost:8080/reports/shipping'+query).toPromise();
+    if(dashreps == undefined){
+      return [];
+    }
+    console.log(dashreps)
+    return dashreps;
+
+  }
+
+  async countByDisstatus(): Promise<Array<CountByDisstatus>> {
+
+    const countbyshopstatuss = await this.http.get<Array<CountByDisstatus>>('http://localhost:8080/reports/countbydisstatus').toPromise();
     if(countbyshopstatuss == undefined){
       return [];
     }
