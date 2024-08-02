@@ -8,6 +8,7 @@ import {Shipping} from "./entity/shipping";
 import {CountByDisstatus} from "./entity/countbydisstatus";
 import {CountByPostatus} from "./entity/countbypostatus";
 import {CountByCategory} from "./entity/countbycategory";
+import {Countbyitem} from "./entity/countbyitem";
 
 @Injectable({
   providedIn: 'root'
@@ -111,6 +112,17 @@ export class ReportService {
       return [];
     }
     return countbyshopstatuss;
+  }
+
+  async countbyitem(query : string): Promise<Array<Countbyitem>>{
+
+    const dashreps = await this.http.get<Array<Countbyitem>>('http://localhost:8080/reports/countbyitem'+query).toPromise();
+    if(dashreps == undefined){
+      return [];
+    }
+    console.log(dashreps)
+    return dashreps;
+
   }
 
 }

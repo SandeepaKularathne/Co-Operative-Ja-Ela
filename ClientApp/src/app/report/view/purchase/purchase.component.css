@@ -66,3 +66,49 @@ div[barchart] {
   margin-top: 16px; /* Space above the chart */
 }
 
+/* Ensure mat-card takes full width of its container */
+mat-card {
+  width: 100%;
+}
+
+/* Style for the card header */
+mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+/* Container for header elements */
+.header-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Style for form field */
+.mat-form-field-custom {
+  width: 200px; /* Adjust width as needed */
+  margin-right: 16px; /* Space between form field and button */
+}
+
+/* Style for select box */
+.mat-select-custom {
+  width: 100%;
+}
+
+/* Style for button */
+.button-custom {
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-left: 16px; /* Space between button and form field */
+}
+
+/* Style for card content */
+mat-card-content {
+  padding: 16px;
+}
+
+/* Style for options within mat-select */
+.mat-option-custom {
+  padding: 8px;
+}

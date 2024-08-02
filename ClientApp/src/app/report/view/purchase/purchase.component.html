@@ -43,7 +43,19 @@
     <!--    </mat-card>-->
 
     <mat-card>
-      <mat-card-header><mat-card-title>Bar Chart</mat-card-title></mat-card-header>
+      <mat-card-header>
+        <mat-card-title>Purchase summary </mat-card-title>
+        <div class="header-container">
+          <mat-form-field class="mat-form-field-custom" appearance="outline">
+            <mat-label>Select a Supplier</mat-label>
+            <mat-select class="mat-select-custom" (selectionChange)="onAnge($event.value)">
+              <mat-option class="mat-option-custom" [value]="null" selected>Not Selected</mat-option>
+              <mat-option class="mat-option-custom" *ngFor="let r of suppliers" [value]="r.id">{{ r.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button class="button-custom" mat-button (click)="getNumber()">Search</button>
+        </div>
+      </mat-card-header>
       <mat-card-content><div #barchart></div></mat-card-content>
     </mat-card>
   </mat-grid-tile>
