@@ -44,10 +44,10 @@
           </mat-form-field>
 
            <div id="butpanel">
-          <button mat-raised-button (click)="add()" [disabled]="!authService.getEnaAdd()">add</button>
-          <button mat-raised-button (click)="clear()">clear</button>
-          <button mat-raised-button (click)="update()" [disabled]="!authService.getEnaUpd()">update</button>
-          <button mat-raised-button (click)="delete()" [disabled]="!authService.getEnaDel()">delete</button>
+             <button mat-raised-button (click)="add()" [disabled]="!enaadd">Add</button>
+             <button mat-raised-button (click)="clear()">Clear</button>
+             <button mat-raised-button (click)="update()" [disabled]="!enaupd">Update</button>
+             <button mat-raised-button (click)="delete()" [disabled]="!enadel">Delete</button>
           </div>
 
         </mat-form>
