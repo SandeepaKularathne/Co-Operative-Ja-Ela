@@ -6,6 +6,7 @@ import lk.cooperative.cooperativejaela.entity.*;
 import lk.cooperative.cooperativejaela.entity.Critem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ public class CustomerreturnController {
     
 
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('customerreturn-select')")
+    @PreAuthorize("hasAuthority('customer return-select')")
     public List<Customerreturn> get(@RequestParam HashMap<String, String> params) {
 
         List<Customerreturn> customerreturns = this.customerreturndao.findAll();
@@ -54,7 +55,7 @@ public class CustomerreturnController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Customerreturn-Insert')")
+    @PreAuthorize("hasAuthority('customer return-insert')")
     public HashMap<String,String> add(@RequestBody Customerreturn customerreturn){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -108,7 +109,7 @@ public class CustomerreturnController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Customerreturn-Update')")
+    @PreAuthorize("hasAuthority('customer return-update')")
     public HashMap<String,String> update(@RequestBody Customerreturn customerreturn){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -155,6 +156,7 @@ public class CustomerreturnController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('customer return-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

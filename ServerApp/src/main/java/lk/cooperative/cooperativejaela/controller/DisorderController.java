@@ -4,6 +4,7 @@ import lk.cooperative.cooperativejaela.dao.*;
 import lk.cooperative.cooperativejaela.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -26,8 +27,14 @@ public class DisorderController {
     @Autowired
     private VehiclestatusDao vehiclestatusDao;
 
+    @Autowired
+    private DisrequestsDao disrequestsDao;
+
+    @Autowired
+    private DisstatusDao disstatusDao;
+
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('disorder-select')")
+    @PreAuthorize("hasAuthority('distribution order-select')")
     public List<Disorder> get(@RequestParam HashMap<String, String> params) {
 
         List<Disorder> disorders = this.disorderdao.findAll();
@@ -48,7 +55,7 @@ public class DisorderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Disorder-Insert')")
+    @PreAuthorize("hasAuthority('distribution order-insert')")
     public HashMap<String,String> add(@RequestBody Disorder disorder){
 
         System.out.println("Received JSON: " + disorder.getDisorderitems());
@@ -75,6 +82,14 @@ public class DisorderController {
             v.setVehiclestatus(vehiclestatusDao.findByName("Loading Truck"));
             //System.out.println(purorder.getPostatus());
             vehicleDao.save(v);
+
+            Disrequests d = disrequestsDao.findByNumber(disorder.getDisrequests().getDisnumber());
+            //System.out.println(purorder.getPonumber());
+            d.setDisstatus(disstatusDao.findByName("Approved"));
+            //System.out.println(purorder.getPostatus());
+            disrequestsDao.save(d);
+
+
             disorderdao.save(disorder);
         }
         else errors = "Server Validation Errors : <br> "+errors;
@@ -88,7 +103,7 @@ public class DisorderController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Disorder-Update')")
+    @PreAuthorize("hasAuthority('distribution order-update')")
     public HashMap<String,String> update(@RequestBody Disorder disorder){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -117,6 +132,7 @@ public class DisorderController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('distribution order-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);
@@ -129,7 +145,20 @@ public class DisorderController {
         if(emp1==null)
             errors = errors+"<br> Disorder Does Not Existed";
 
-        if(errors=="") disorderdao.delete(emp1);
+        if(errors==""){
+            Vehicle v = vehicleDao.findByVehiclenumber(emp1.getVehicle().getNumber());
+            //System.out.println(purorder.getPonumber());
+            v.setVehiclestatus(vehiclestatusDao.findByName("Free"));
+            //System.out.println(purorder.getPostatus());
+            vehicleDao.save(v);
+
+            Disrequests d = disrequestsDao.findByNumber(emp1.getDisrequests().getDisnumber());
+            //System.out.println(purorder.getPonumber());
+            d.setDisstatus(disstatusDao.findByName("Rejected"));
+            //System.out.println(purorder.getPostatus());
+            disrequestsDao.save(d);
+            disorderdao.delete(emp1);
+        }
         else errors = "Server Validation Errors : <br> "+errors;
 
         responce.put("id",String.valueOf(id));

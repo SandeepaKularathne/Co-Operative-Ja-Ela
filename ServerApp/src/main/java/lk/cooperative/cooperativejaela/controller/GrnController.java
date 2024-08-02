@@ -4,6 +4,7 @@ import lk.cooperative.cooperativejaela.dao.*;
 import lk.cooperative.cooperativejaela.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ public class GrnController {
     private PostatusDao postatusDao;
 
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('grn-select')")
+    @PreAuthorize("hasAuthority('goods received note-select')")
     public List<Grn> get(@RequestParam HashMap<String, String> params) {
 
         List<Grn> grns = this.grndao.findAll();
@@ -53,7 +54,7 @@ public class GrnController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Grn-Insert')")
+    @PreAuthorize("hasAuthority('goods received note-insert')")
     public HashMap<String,String> add(@RequestBody Grn grn){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -106,7 +107,7 @@ public class GrnController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Grn-Update')")
+    @PreAuthorize("hasAuthority('goods received note-update')")
     public HashMap<String,String> update(@RequestBody Grn grn){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -167,6 +168,7 @@ public class GrnController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('goods received note-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         HashMap<String,String> responce = new HashMap<>();

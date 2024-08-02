@@ -4,6 +4,7 @@ import lk.cooperative.cooperativejaela.dao.PaymentDao;
 import lk.cooperative.cooperativejaela.entity.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class PaymentController {
     private PaymentDao paymentdao;
 
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('payment-select')")
+    @PreAuthorize("hasAuthority('customer payment-select')")
     public List<Payment> get(@RequestParam HashMap<String, String> params) {
 
         List<Payment> payments = this.paymentdao.findAll();
@@ -42,7 +43,7 @@ public class PaymentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Payment-Insert')")
+    @PreAuthorize("hasAuthority('customer payment-insert')")
     public HashMap<String,String> add(@RequestBody Payment payment){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -63,6 +64,7 @@ public class PaymentController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('customer payment-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

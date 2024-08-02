@@ -1,9 +1,10 @@
 package lk.cooperative.cooperativejaela.controller;
 
-import lk.cooperative.cooperativejaela.dao.DisreceiveDao;
-import lk.cooperative.cooperativejaela.entity.Disreceive;
+import lk.cooperative.cooperativejaela.dao.*;
+import lk.cooperative.cooperativejaela.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,8 +21,26 @@ public class DisreceiveController {
     @Autowired
     private DisreceiveDao disreceivedao;
 
+    @Autowired
+    private VehicleDao vehicleDao;
+
+    @Autowired
+    private VehiclestatusDao vehiclestatusDao;
+
+    @Autowired
+    private DisrequestsDao disrequestsDao;
+
+    @Autowired
+    private DisstatusDao disstatusDao;
+
+    @Autowired
+    private DisorderDao disorderDao;
+
+    @Autowired
+    private PostatusDao postatusDao;
+
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('disreceive-select')")
+    @PreAuthorize("hasAuthority('distribution receives-select')")
     public List<Disreceive> get(@RequestParam HashMap<String, String> params) {
 
         List<Disreceive> disreceives = this.disreceivedao.findAll();
@@ -42,7 +61,7 @@ public class DisreceiveController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Disreceive-Insert')")
+    @PreAuthorize("hasAuthority('distribution receives-insert')")
     public HashMap<String,String> add(@RequestBody Disreceive disreceive){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -54,8 +73,28 @@ public class DisreceiveController {
             errors += "<br> Existing Disreceive Number";
         }
 
-        if(errors == "")
-        disreceivedao.save(disreceive);
+        if(errors == ""){
+
+            Vehicle v = vehicleDao.findByVehiclenumber(disreceive.getDisorder().getVehicle().getNumber());
+            //System.out.println(purorder.getPonumber());
+            v.setVehiclestatus(vehiclestatusDao.findByName("Free"));
+            //System.out.println(purorder.getPostatus());
+            vehicleDao.save(v);
+
+            Disrequests d = disrequestsDao.findByNumber(disreceive.getDisorder().getDisrequests().getDisnumber());
+            //System.out.println(purorder.getPonumber());
+            d.setDisstatus(disstatusDao.findByName("Completed"));
+            //System.out.println(purorder.getPostatus());
+            disrequestsDao.save(d);
+
+            Disorder o = disorderDao.findByNumber(disreceive.getDisorder().getDisonumber());
+            //System.out.println(purorder.getPonumber());
+            o.setPostatus(postatusDao.findByName("Closed"));
+            //System.out.println(purorder.getPostatus());
+            disorderDao.save(o);
+
+            disreceivedao.save(disreceive);
+        }
         else errors = "Server Validation Errors : <br> "+errors;
 
         responce.put("id",String.valueOf(disreceive.getId()));
@@ -67,7 +106,7 @@ public class DisreceiveController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Disreceive-Update')")
+    @PreAuthorize("hasAuthority('distribution receives-update')")
     public HashMap<String,String> update(@RequestBody Disreceive disreceive){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -89,6 +128,7 @@ public class DisreceiveController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('distribution receives-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

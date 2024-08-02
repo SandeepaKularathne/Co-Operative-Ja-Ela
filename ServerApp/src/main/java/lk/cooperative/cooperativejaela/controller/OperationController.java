@@ -5,6 +5,7 @@ import lk.cooperative.cooperativejaela.entity.Operation;
 import lk.cooperative.cooperativejaela.dao.OperationDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class OperationController {
     private OperationDao operationDao;
 
     @GetMapping(produces = "application/json")
+    @PreAuthorize("hasAuthority('operations-select')")
     public List<Operation> get(@RequestParam HashMap<String, String> params) {
 
         List<Operation> operations = this.operationDao.findAll();
@@ -55,6 +57,7 @@ public class OperationController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('operations-insert')")
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String,String> add(@RequestBody Operation operation){
 
@@ -75,6 +78,7 @@ public class OperationController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('operations-update')")
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String,String> update(@RequestBody Operation operation){
 
@@ -92,6 +96,7 @@ public class OperationController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('operations-delete')")
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String,String> delete(@PathVariable Integer id){
 

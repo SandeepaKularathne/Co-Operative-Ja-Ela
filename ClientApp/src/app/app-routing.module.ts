@@ -5,7 +5,7 @@ import {MainwindowComponent} from "./view/mainwindow/mainwindow.component";
 import {EmployeeComponent} from "./view/modules/employee/employee.component";
 import {DashboardComponent} from "./view/dashboard/dashboard.component";
 import {UserComponent} from "./view/modules/user/user.component";
-import {CountByVehiclestatusComponent} from "./report/view/countbyvehiclestatus/countbyvehiclestatus.component";
+import {DistributionComponent} from "./report/view/distribution/distribution.component";
 import {PrivilageComponent} from "./view/modules/privilage/privilage.component";
 import {OperationComponent} from "./view/modules/operation/operation.component";
 import {PaymentComponent} from "./view/modules/payment/payment.component";
@@ -17,7 +17,7 @@ import { GrnComponent } from './view/modules/grn/grn.component';
 import { StoreComponent } from './view/modules/store/store.component';
 import { ShopComponent } from './view/modules/shop/shop.component';
 import { CustomerComponent } from './view/modules/customer/customer.component';
-import { CountByCRDateComponent } from './report/view/countbycrdate/countbycrdate.component';
+import { SaleComponent } from './report/view/sale/sale.component';
 import { DisrequestsComponent } from './view/modules/disrequests/disrequests.component';
 import { InvoiceComponent } from './view/modules/invoice/invoice.component';
 import { SupreturnComponent } from './view/modules/supreturn/supreturn.component';
@@ -28,6 +28,7 @@ import {DisreceiveComponent} from "./view/modules/disreceive/disreceive.componen
 import {DepositsComponent} from "./view/modules/deposits/deposits.component";
 import {StorereturnComponent} from "./view/modules/storereturn/storereturn.component";
 import {CustomerreturnComponent} from "./view/modules/customerreturn/customerreturn.component";
+// import {PurchaseComponent} from "./report/view/purchase/purchase.component";
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -55,8 +56,8 @@ const routes: Routes = [
       {path: "dashboard/shop", component: ShopComponent},
       {path: "customer", component: CustomerComponent},
       {path: "dashboard/customer", component: CustomerComponent},
-      {path: "distribution", component: CountByVehiclestatusComponent},
-      {path: "sale", component: CountByCRDateComponent},
+      {path: "distribution", component: DistributionComponent},
+      {path: "sale", component: SaleComponent},
       {path: "disrequests", component: DisrequestsComponent},
       {path: "invoice", component: InvoiceComponent},
       {path: "privilege", component: PrivilageComponent},
@@ -68,8 +69,8 @@ const routes: Routes = [
       {path: "disreceive", component: DisreceiveComponent},
       {path: "deposits", component: DepositsComponent},
       {path: "customerreturn", component: CustomerreturnComponent},
-      {path: "storereturn", component: StorereturnComponent}
-
+      {path: "storereturn", component: StorereturnComponent},
+      // {path: "purchase", component: PurchaseComponent},
 
     ]
   }];

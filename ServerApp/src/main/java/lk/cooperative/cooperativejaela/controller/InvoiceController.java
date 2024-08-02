@@ -6,6 +6,7 @@ import lk.cooperative.cooperativejaela.dao.StoreDao;
 import lk.cooperative.cooperativejaela.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ public class InvoiceController {
 
 
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('invoice-select')")
+    @PreAuthorize("hasAuthority('invoice-select')")
     public List<Invoice> get(@RequestParam HashMap<String, String> params) {
 
         List<Invoice> invoices = this.invoicedao.findAll();
@@ -54,7 +55,7 @@ public class InvoiceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Invoice-Insert')")
+    @PreAuthorize("hasAuthority('invoice-insert')")
     public HashMap<String,String> add(@RequestBody Invoice invoice){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -104,6 +105,7 @@ public class InvoiceController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('invoice-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

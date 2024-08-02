@@ -8,10 +8,10 @@ declare var google: any;
 
 @Component({
   selector: 'app-crdate',
-  templateUrl: './countbycrdate.component.html',
-  styleUrls: ['./countbycrdate.component.css']
+  templateUrl: './inventory.component.html',
+  styleUrls: ['./inventory.component.css']
 })
-export class CountByCRDateComponent implements OnInit {
+export class InventoryComponent implements OnInit {
 
   countbycrdate!: CountByCRDate[];
   data!: MatTableDataSource<CountByCRDate>;

@@ -7,6 +7,7 @@ import lk.cooperative.cooperativejaela.entity.Poitem;
 import lk.cooperative.cooperativejaela.entity.Purorder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class PurorderController {
     @Autowired
     private PurorderDao purorderdao;
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('employee-select')")
+    @PreAuthorize("hasAuthority('purchase order-select')")
     public List<Purorder> get(@RequestParam HashMap<String,String> params) {
 
         List<Purorder> purorders = this.purorderdao.findAll();
@@ -46,7 +47,7 @@ public class PurorderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Employee-Insert')")
+    @PreAuthorize("hasAuthority('purchase order-insert')")
     public HashMap<String,String> add(@RequestBody Purorder purorder){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -73,7 +74,7 @@ public class PurorderController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Employee-Update')")
+    @PreAuthorize("hasAuthority('purchase order-update')")
     public HashMap<String,String> update(@RequestBody Purorder purorder) {
 
         HashMap<String, String> responce = new HashMap<>();
@@ -101,6 +102,7 @@ public class PurorderController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('purchase order-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

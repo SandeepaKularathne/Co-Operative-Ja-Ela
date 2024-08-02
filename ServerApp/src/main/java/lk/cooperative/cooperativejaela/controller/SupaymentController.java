@@ -7,6 +7,7 @@ import lk.cooperative.cooperativejaela.entity.Grn;
 import lk.cooperative.cooperativejaela.entity.Supayment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class SupaymentController {
     @Autowired
     private GrnstatusDao grnstatusDao;
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('employee-select')")
+    @PreAuthorize("hasAuthority('supplier payment-select')")
     public List<Supayment> get(@RequestParam HashMap<String,String> params) {
 
         List<Supayment> supayments = this.supaymentdao.findAll();
@@ -48,7 +49,7 @@ public class SupaymentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Employee-Insert')")
+    @PreAuthorize("hasAuthority('supplier payment-insert')")
     public HashMap<String,String> add(@RequestBody Supayment supayment){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -72,7 +73,7 @@ public class SupaymentController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Employee-Update')")
+    @PreAuthorize("hasAuthority('supplier payment-update')")
     public HashMap<String,String> update(@RequestBody Supayment supayment) {
 
         HashMap<String, String> responce = new HashMap<>();
@@ -96,6 +97,7 @@ public class SupaymentController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('supplier payment-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

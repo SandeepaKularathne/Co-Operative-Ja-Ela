@@ -5,6 +5,7 @@ import lk.cooperative.cooperativejaela.entity.Privilege;
 import lk.cooperative.cooperativejaela.dao.PrivilegeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class PrivilegeController {
     private PrivilegeDao privilegedao;
 
     @GetMapping(produces = "application/json")
+    @PreAuthorize("hasAuthority('privilege-select')")
     public List<Privilege> get(@RequestParam HashMap<String, String> params) {
 
         List<Privilege> privileges = this.privilegedao.findAll();
@@ -42,6 +44,7 @@ public class PrivilegeController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('privilege-insert')")
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String,String> add(@RequestBody Privilege privilege){
 
@@ -61,6 +64,7 @@ public class PrivilegeController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('privilege-update')")
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String,String> update(@RequestBody Privilege privilege){
 
@@ -78,6 +82,7 @@ public class PrivilegeController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('privilege-delete')")
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String,String> delete(@PathVariable Integer id){
 

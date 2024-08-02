@@ -16,10 +16,23 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Order Number</mat-label>
+            <mat-label>Purorder</mat-label>
             <mat-select formControlName="disorder">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let disorder of disorders" [value]="disorder">{{disorder.disonumber}}</mat-option>
+              <ng-container *ngIf="!enaupd">
+                <ng-container *ngFor="let disorder of disorders">
+                  <mat-option *ngIf="disorder.postatus.name === 'Approved'" [value]="disorder">
+                    {{disorder.disonumber}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="enaupd">
+                <ng-container *ngFor="let disorder of disorders">
+                  <mat-option [value]="disorder">
+                    {{disorder.disonumber}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
             </mat-select>
           </mat-form-field>
 

@@ -7,10 +7,10 @@ declare var google: any;
 
 @Component({
   selector: 'app-vehiclestatus',
-  templateUrl: './countbyvehiclestatus.component.html',
-  styleUrls: ['./countbyvehiclestatus.component.css']
+  templateUrl: './distribution.component.html',
+  styleUrls: ['./distribution.component.css']
 })
-export class CountByVehiclestatusComponent implements OnInit {
+export class DistributionComponent implements OnInit {
 
   countbyvehiclestatuss!: CountByVehiclestatus[];
   data!: MatTableDataSource<CountByVehiclestatus>;

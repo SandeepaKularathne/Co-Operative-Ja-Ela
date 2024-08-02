@@ -8,6 +8,7 @@ import lk.cooperative.cooperativejaela.entity.Grnitem;
 import lk.cooperative.cooperativejaela.entity.Supreitem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class DisrequestsController {
     private ItemDao itemdao;
 
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('disrequests-select')")
+    @PreAuthorize("hasAuthority('distribution request-select')")
     public List<Disrequests> get(@RequestParam HashMap<String, String> params) {
 
         List<Disrequests> disrequestss = this.disrequestsdao.findAll();
@@ -49,7 +50,7 @@ public class DisrequestsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Disrequests-Insert')")
+    @PreAuthorize("hasAuthority('distribution request-insert')")
     public HashMap<String,String> add(@RequestBody Disrequests disrequests){
 
         System.out.println("Received JSON: " + disrequests);
@@ -83,7 +84,7 @@ public class DisrequestsController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Disrequests-Update')")
+    @PreAuthorize("hasAuthority('distribution request-update')")
     public HashMap<String,String> update(@RequestBody Disrequests disrequests){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -114,6 +115,7 @@ public class DisrequestsController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('distribution request-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

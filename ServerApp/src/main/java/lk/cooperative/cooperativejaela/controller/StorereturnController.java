@@ -8,6 +8,7 @@ import lk.cooperative.cooperativejaela.entity.Sritem;
 import lk.cooperative.cooperativejaela.entity.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ public class StorereturnController {
     
 
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('storereturn-select')")
+    @PreAuthorize("hasAuthority('store return-select')")
     public List<Storereturn> get(@RequestParam HashMap<String, String> params) {
 
         List<Storereturn> storereturns = this.storereturndao.findAll();
@@ -56,7 +57,7 @@ public class StorereturnController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Storereturn-Insert')")
+    @PreAuthorize("hasAuthority('store return-insert')")
     public HashMap<String,String> add(@RequestBody Storereturn storereturn){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -99,7 +100,7 @@ public class StorereturnController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Storereturn-Update')")
+    @PreAuthorize("hasAuthority('store return-update')")
     public HashMap<String,String> update(@RequestBody Storereturn storereturn){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -153,6 +154,7 @@ public class StorereturnController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('store return-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

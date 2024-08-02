@@ -1,0 +1,68 @@
+mat-card {  width: 100%;  height:100%;  margin: 10px 10px -10px 10px ; }
+
+mat-card-content { overflow: auto; height: 100%; }
+
+/* Style for the mat-grid-tile */
+mat-grid-tile {
+  margin: 16px; /* Add margin around the grid tile */
+}
+
+/* Style for the mat-card */
+mat-card {
+  background-color: #ffffff; /* White background for the card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow around the card */
+  border-radius: 8px; /* Rounded corners */
+  padding: 16px; /* Padding inside the card */
+}
+
+/* Style for the mat-card-header */
+mat-card-header {
+  background-color: #f5f5f5; /* Light grey background for the header */
+  padding: 16px; /* Padding inside the header */
+  border-bottom: 1px solid #e0e0e0; /* Bottom border */
+  border-radius: 8px; /* Add border radius */
+}
+
+/* Style for the mat-card-title */
+mat-card-title {
+  font-size: 18px; /* Larger font size for the title */
+  font-weight: bold; /* Bold text */
+  color: #333; /* Darker text color */
+  text-align: center; /* Center the text */
+  padding: 8px; /* Optional: Add padding to provide space inside the border radius */
+}
+
+/* Style for the mat-card-content */
+mat-card-content {
+  padding: 16px; /* Padding inside the content area */
+}
+
+/* Style for the mat-form-field */
+mat-form-field {
+  display: block; /* Ensures form field takes up the full width */
+  width: 100%; /* Full width of the container */
+  margin-bottom: 16px; /* Space below the form field */
+}
+
+/* Style for the mat-label */
+mat-label {
+  font-size: 14px; /* Slightly larger label font size */
+  color: #666; /* Light grey color for the label */
+}
+
+/* Style for the input */
+input[matInput] {
+  font-size: 16px; /* Font size for the input text */
+  padding: 8px; /* Padding inside the input field */
+}
+
+/* Style for the mat-datepicker-toggle */
+mat-datepicker-toggle {
+  color: #005710; /* Green color for the datepicker icon */
+}
+
+/* Style for the div containing the chart */
+div[barchart] {
+  margin-top: 16px; /* Space above the chart */
+}
+

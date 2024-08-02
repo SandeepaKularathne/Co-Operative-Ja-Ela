@@ -149,7 +149,7 @@ export class DisorderComponent {
     });
 
     this.drqs.getAll('').then((vsts: Disrequests[]) => {
-      this.disrequestses = vsts.filter(po => po.disstatus.name != 'Pending' &&  po.disstatus.name != 'Rejected');
+      this.disrequestses = vsts.filter(po => po.disstatus.name != 'Rejected');
 
     });
 
@@ -435,6 +435,7 @@ export class DisorderComponent {
               this.loadTable("");
               this.innerform.reset();
               this.indata.data=[];
+              setTimeout(() => {window.location.reload();}, 2000);
             }
 
             const stsmsg = this.dg.open(MessageComponent, {
@@ -637,6 +638,10 @@ export class DisorderComponent {
     this.innerdata = this.innerform.getRawValue();
     console.log(this.innerdata);
 
+    // if (!this.quantityValidator() && !this.enaupd) {
+    //   return; // If validation fails, exit the function
+    // }
+
     if( this.innerdata != null){
 
       let linecost = this.innerdata.qty * this.innerdata.unitcost;
@@ -687,6 +692,34 @@ export class DisorderComponent {
     this.changedItems.push(element);
   }
 
+  // quantityValidator(): boolean {
+  //   if(!this.enaupd){
+  //     let po = this.form.controls['disrequests'].value.poitems;
+  //     let it = this.innerform.controls['item'].value;
+  //     let qy = 0;
+  //
+  //     if (Array.isArray(po) && it && it.id) {
+  //       for (const item of po) {
+  //
+  //         if (item.item && item.item.id === it.id) {
+  //           qy = item.qty;
+  //           break;
+  //         }
+  //       }
+  //     }
+  //     let q = this.innerform.controls['qty'].value;
+  //     if(qy<q){
+  //       const addmessage = `Required quantity (${q}) exceeds available quantity (${qy}).`;
+  //       const stsmsg = this.dg.open(MessageComponent, {
+  //         width: '500px',
+  //         data: {heading: "Error -grn Add", message: addmessage}
+  //       });
+  //       return false;
+  //     }
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }
 
 

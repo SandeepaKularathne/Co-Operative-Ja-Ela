@@ -65,7 +65,7 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('employee-Insert')")
+    @PreAuthorize("hasAuthority('employee-insert')")
     public HashMap<String,String> add(@RequestBody Employee employee){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -91,7 +91,7 @@ public class EmployeeController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Employee-Update')")
+    @PreAuthorize("hasAuthority('employee-update')")
     public HashMap<String,String> update(@RequestBody Employee employee){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -118,6 +118,7 @@ public class EmployeeController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('employee-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

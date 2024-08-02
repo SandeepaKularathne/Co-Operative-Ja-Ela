@@ -45,7 +45,7 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('customer-insert')")
+    @PreAuthorize("hasAuthority('customer registration-insert')")
     public HashMap<String,String> add(@RequestBody Customer customer){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -67,7 +67,7 @@ public class CustomerController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-     @PreAuthorize("hasAuthority('Customer-Update')")
+     @PreAuthorize("hasAuthority('customer registration-update')")
     public HashMap<String,String> update(@RequestBody Customer customer){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -91,7 +91,7 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('customer-update')")
+    @PreAuthorize("hasAuthority('customer registration-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

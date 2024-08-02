@@ -9,5 +9,6 @@ public interface PostatusDao extends JpaRepository<Postatus,Integer> {
 
     @Query("SELECT p FROM Postatus p WHERE p.name = :name")
     Postatus findByName(@Param("name") String name);
+
 }
 

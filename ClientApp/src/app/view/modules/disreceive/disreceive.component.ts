@@ -107,7 +107,8 @@ export class DisreceiveComponent {
     });
 
     this.dors.getAll('').then((vsts: Disorder[]) => {
-      this.disorders = vsts;
+      this.disorders = vsts.filter(po => po.postatus.name == 'Approved' || po.postatus.name == 'Closed');
+
     });
 
     this.rs.get('disreceive').then((regs: []) => {
@@ -327,6 +328,7 @@ export class DisreceiveComponent {
                 control.markAsTouched();
               });
               this.loadTable("");
+              setTimeout(() => {window.location.reload();}, 2000);
             }
 
             const stsmsg = this.dg.open(MessageComponent, {

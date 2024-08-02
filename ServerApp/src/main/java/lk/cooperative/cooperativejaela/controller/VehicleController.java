@@ -5,6 +5,7 @@ import lk.cooperative.cooperativejaela.entity.Employee;
 import lk.cooperative.cooperativejaela.entity.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class VehicleController {
     @Autowired
     private VehicleDao vehicledao;
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('employee-select')")
+    @PreAuthorize("hasAuthority('vehicle-select')")
     public List<Vehicle> get(@RequestParam HashMap<String,String> params) {
 
         List<Vehicle> vehicles = this.vehicledao.findAll();
@@ -46,7 +47,7 @@ public class VehicleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Employee-Insert')")
+    @PreAuthorize("hasAuthority('vehicle-insert')")
     public HashMap<String,String> add(@RequestBody Vehicle vehicle){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -68,7 +69,7 @@ public class VehicleController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Employee-Update')")
+    @PreAuthorize("hasAuthority('vehicle-update')")
     public HashMap<String,String> update(@RequestBody Vehicle vehicle) {
 
         HashMap<String, String> responce = new HashMap<>();
@@ -92,6 +93,7 @@ public class VehicleController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('vehicle-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

@@ -4,6 +4,7 @@ import lk.cooperative.cooperativejaela.dao.*;
 import lk.cooperative.cooperativejaela.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ public class SupreturnController {
     private GrnstatusDao grnstatusDao;
 
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('supreturn-select')")
+    @PreAuthorize("hasAuthority('supplier return-select')")
     public List<Supreturn> get(@RequestParam HashMap<String, String> params) {
 
         List<Supreturn> supreturns = this.supreturndao.findAll();
@@ -56,7 +57,7 @@ public class SupreturnController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Supreturn-Insert')")
+    @PreAuthorize("hasAuthority('supplier return-insert')")
     public HashMap<String,String> add(@RequestBody Supreturn supreturn){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -103,7 +104,7 @@ public class SupreturnController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Supreturn-Update')")
+    @PreAuthorize("hasAuthority('supplier return-update')")
     public HashMap<String,String> update(@RequestBody Supreturn supreturn){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -149,6 +150,7 @@ public class SupreturnController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('supplier return-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         HashMap<String,String> responce = new HashMap<>();

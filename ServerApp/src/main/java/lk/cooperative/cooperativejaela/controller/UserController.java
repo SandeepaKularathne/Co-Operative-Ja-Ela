@@ -54,6 +54,7 @@ public class UserController {
 
 
     @PostMapping
+    @PreAuthorize("hasAuthority('user-insert')")
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String,String> add(@RequestBody User user){
 
@@ -92,6 +93,7 @@ public class UserController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('user-update')")
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String, String> update(@RequestBody User user) {
         HashMap<String, String> response = new HashMap<>();
@@ -128,6 +130,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{username}")
+    @PreAuthorize("hasAuthority('user-delete')")
     @ResponseStatus(HttpStatus.CREATED)
     public HashMap<String,String> delete(@PathVariable String username){
 

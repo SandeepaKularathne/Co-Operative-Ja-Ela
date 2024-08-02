@@ -2,7 +2,7 @@ package lk.cooperative.cooperativejaela.controller;
 
 import lk.cooperative.cooperativejaela.dao.DepositsDao;
 import lk.cooperative.cooperativejaela.entity.Deposits;
-import lk.cooperative.cooperativejaela.entity.Deposits;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class DepositsController {
     private DepositsDao depositsdao;
 
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('deposits-select')")
+    @PreAuthorize("hasAuthority('income deposits-select')")
     public List<Deposits> get(@RequestParam HashMap<String, String> params) {
 
         List<Deposits> depositss = this.depositsdao.findAll();
@@ -43,7 +43,7 @@ public class DepositsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Deposits-Insert')")
+    @PreAuthorize("hasAuthority('income deposits-insert')")
     public HashMap<String,String> add(@RequestBody Deposits deposits){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -69,7 +69,7 @@ public class DepositsController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Deposits-Update')")
+    @PreAuthorize("hasAuthority('income deposits-update')")
     public HashMap<String,String> update(@RequestBody Deposits deposits){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -91,6 +91,7 @@ public class DepositsController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('income deposits-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         System.out.println(id);

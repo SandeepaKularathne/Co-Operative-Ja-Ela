@@ -24,7 +24,7 @@
               <mat-option [value]="null" selected>Not Selected</mat-option>
               <ng-container *ngIf="!enaupd">
                 <ng-container *ngFor="let disrequests of disrequestses">
-                  <mat-option *ngIf="disrequests.disstatus.name === 'Approved'" [value]="disrequests">
+                  <mat-option *ngIf="disrequests.disstatus.name === 'Pending'" [value]="disrequests">
                     {{disrequests.disnumber}}
                   </mat-option>
                 </ng-container>

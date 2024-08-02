@@ -1,0 +1,40 @@
+<mat-grid-list [cols]="1" rowHeight="12rem">
+
+<!--  <mat-grid-tile [colspan]="1" [rowspan]="1">-->
+<!--    <mat-card>-->
+<!--      <mat-card-header><mat-card-title>Employees Count By Vehicle Status</mat-card-title></mat-card-header>-->
+<!--      <mat-card-content><p></p><h3>Static Report - No Interactive Panel Available</h3></mat-card-content>-->
+<!--    </mat-card>-->
+<!--  </mat-grid-tile>-->
+
+
+  <mat-grid-tile [colspan]="1" [rowspan]="4">
+
+    <mat-card>
+      <mat-card-header><mat-card-title>Customer Registration by Gender each Month each Year Report</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Year</mat-label>
+          <input matInput [matDatepicker]="year" [matDatepickerFilter]="filterDates" (dateChange)="onYearChange($event)">
+          <mat-datepicker-toggle matIconSuffix [for]="year"></mat-datepicker-toggle>
+          <mat-datepicker #year></mat-datepicker>
+        </mat-form-field>
+        <div #barchart></div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+
+  <mat-grid-tile [colspan]="1" [rowspan]="3">
+
+    <mat-card>
+      <mat-card-header><mat-card-title>Bar Chart</mat-card-title></mat-card-header>
+      <mat-card-content>
+
+        <div #chart></div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+</mat-grid-list>

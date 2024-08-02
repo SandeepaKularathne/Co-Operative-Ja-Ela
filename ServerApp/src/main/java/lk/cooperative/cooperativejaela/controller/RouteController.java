@@ -4,6 +4,7 @@ import lk.cooperative.cooperativejaela.dao.RouteDao;
 import lk.cooperative.cooperativejaela.entity.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class RouteController {
     @Autowired
     private RouteDao routedao;
     @GetMapping(produces = "application/json")
-//    @PreAuthorize("hasAuthority('employee-select')")
+    @PreAuthorize("hasAuthority('route-select')")
     public List<Route> get(@RequestParam HashMap<String,String> params) {
 
         List<Route> routes = this.routedao.findAll();
@@ -39,7 +40,7 @@ public class RouteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Employee-Insert')")
+    @PreAuthorize("hasAuthority('route-insert')")
     public HashMap<String,String> add(@RequestBody Route route){
 
         HashMap<String,String> responce = new HashMap<>();
@@ -58,7 +59,7 @@ public class RouteController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAuthority('Employee-Update')")
+    @PreAuthorize("hasAuthority('route-update')")
     public HashMap<String,String> update(@RequestBody Route route) {
 
         HashMap<String, String> responce = new HashMap<>();
@@ -82,6 +83,7 @@ public class RouteController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('route-delete')")
     public HashMap<String,String> delete(@PathVariable Integer id){
 
         HashMap<String,String> responce = new HashMap<>();

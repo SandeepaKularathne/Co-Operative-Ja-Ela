@@ -47,8 +47,8 @@ import {GrnComponent} from './view/modules/grn/grn.component';
 import { StoreComponent } from './view/modules/store/store.component';
 import { ShopComponent } from './view/modules/shop/shop.component';
 import { CustomerComponent } from './view/modules/customer/customer.component';
-import {CountByVehiclestatusComponent} from "./report/view/countbyvehiclestatus/countbyvehiclestatus.component";
-import { CountByCRDateComponent } from './report/view/countbycrdate/countbycrdate.component';
+import {DistributionComponent} from "./report/view/distribution/distribution.component";
+import { SaleComponent } from './report/view/sale/sale.component';
 import { DisrequestsComponent } from './view/modules/disrequests/disrequests.component';
 import { InvoiceComponent } from './view/modules/invoice/invoice.component';
 import { MatRadioModule } from '@angular/material/radio';
@@ -62,6 +62,7 @@ import {DisreceiveComponent} from "./view/modules/disreceive/disreceive.componen
 import {DepositsComponent} from "./view/modules/deposits/deposits.component";
 import {StorereturnComponent} from "./view/modules/storereturn/storereturn.component";
 import {CustomerreturnComponent} from "./view/modules/customerreturn/customerreturn.component";
+import {InventoryComponent} from "./report/view/inventory/inventory.component";
 
 
 
@@ -86,8 +87,8 @@ import {CustomerreturnComponent} from "./view/modules/customerreturn/customerret
     StoreComponent,
     ShopComponent,
     CustomerComponent,
-    CountByVehiclestatusComponent,
-    CountByCRDateComponent,
+    DistributionComponent,
+    SaleComponent,
     DisrequestsComponent,
     InvoiceComponent,
     MatDatalistComponent,
@@ -99,6 +100,8 @@ import {CustomerreturnComponent} from "./view/modules/customerreturn/customerret
     DepositsComponent,
     StorereturnComponent,
     CustomerreturnComponent,
+    DistributionComponent,
+    InventoryComponent,
 
   ],
     imports: [

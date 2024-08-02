@@ -1,6 +1,7 @@
 package lk.cooperative.cooperativejaela.dao;
 
 import lk.cooperative.cooperativejaela.entity.Disrequests;
+import lk.cooperative.cooperativejaela.entity.Purorder;
 import lk.cooperative.cooperativejaela.entity.Shop;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,10 @@ public interface DisrequestsDao extends JpaRepository<Disrequests,Integer> {
 
     @Query("select e from Disrequests e where e.id = :id")
     Disrequests findByMyId(@Param("id") Integer id);
+
+    @Query("select po from Disrequests po where po.disnumber = :number")
+    Disrequests findByNumber(@Param("number")String number);
+
 
 }
 

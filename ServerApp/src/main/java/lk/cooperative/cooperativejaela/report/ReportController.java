@@ -1,10 +1,12 @@
 package lk.cooperative.cooperativejaela.report;
 
-import lk.cooperative.cooperativejaela.entity.Employee;
+
 import lk.cooperative.cooperativejaela.report.dao.CountByCRDateDao;
+import lk.cooperative.cooperativejaela.report.dao.CountByIncomeShopDao;
 import lk.cooperative.cooperativejaela.report.dao.CountByVehiclestatusDao;
 import lk.cooperative.cooperativejaela.report.dao.DashRepDao;
 import lk.cooperative.cooperativejaela.report.entity.CountByCRDate;
+import lk.cooperative.cooperativejaela.report.entity.CountByIncomeShop;
 import lk.cooperative.cooperativejaela.report.entity.CountByVehiclestatus;
 import lk.cooperative.cooperativejaela.report.entity.DashRep;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ReportController {
 
     @Autowired
     private DashRepDao dashrepdao;
+
+    @Autowired
+    private CountByIncomeShopDao countByIcomeShopdao;
 
     @GetMapping(path ="/countbyvehiclestatus",produces = "application/json")
     public List<CountByVehiclestatus> getvehiclestatus() {
@@ -71,6 +76,14 @@ public class ReportController {
 
         List<DashRep> dashrep = this.dashrepdao.dashrep();
         return dashrep;
+
+    }
+
+    @GetMapping(path ="/countbyshopincome",produces = "application/json")
+    public List<CountByIncomeShop> getshop(@RequestParam String number) {
+
+        List<CountByIncomeShop> shops = this.countByIcomeShopdao.countByIncomeShop(Integer.parseInt(number));
+        return shops;
 
     }
 }
