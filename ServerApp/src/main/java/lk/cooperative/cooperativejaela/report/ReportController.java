@@ -41,6 +41,9 @@ public class ReportController {
     @Autowired
     private CountByPostatusDao countbypostatusdao;
 
+    @Autowired
+    private CountByCategoryDao countbycategorydao;
+
     @GetMapping(path ="/countbyvehiclestatus",produces = "application/json")
     public List<CountByVehiclestatus> getvehiclestatus() {
 
@@ -170,6 +173,26 @@ public class ReportController {
         }
 
         return postatuss;
+    }
+
+    @GetMapping(path ="/countbycategory",produces = "application/json")
+    public List<CountByCategory> getcategory() {
+
+        List<CountByCategory> categorys = this.countbycategorydao.countByCategory();
+        long totalCount = 0;
+
+        for (CountByCategory countByCategory : categorys) {
+            totalCount += countByCategory.getCount();
+        }
+
+        for (CountByCategory countByCategory : categorys) {
+            long count = countByCategory.getCount();
+            double percentage = (double) count / totalCount * 100;
+            percentage = Math.round(percentage * 100.0) / 100.0;
+            countByCategory.setPercentage(percentage);
+        }
+
+        return categorys;
     }
 }
 
