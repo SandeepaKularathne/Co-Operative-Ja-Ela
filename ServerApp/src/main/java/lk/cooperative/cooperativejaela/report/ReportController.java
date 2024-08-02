@@ -44,6 +44,9 @@ public class ReportController {
     @Autowired
     private CountByCategoryDao countbycategorydao;
 
+    @Autowired
+    private CountByItemDao countbyitemdao;
+
     @GetMapping(path ="/countbyvehiclestatus",produces = "application/json")
     public List<CountByVehiclestatus> getvehiclestatus() {
 
@@ -193,6 +196,14 @@ public class ReportController {
         }
 
         return categorys;
+    }
+
+    @GetMapping(path ="/countbyitem",produces = "application/json")
+    public List<CountByItem>countbyitem(@RequestParam int id) {
+
+        List<CountByItem> items = this.countbyitemdao.countByItem(id);
+        return items;
+
     }
 }
 
